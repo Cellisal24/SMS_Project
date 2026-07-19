@@ -2,9 +2,9 @@
 
 
 use App\Http\Controllers\Admin\DashboardController;
-
 use App\Http\Controllers\Admin\GradeLevelController;
 use App\Http\Controllers\Admin\RoomController;
+use App\Http\Controllers\Admin\SubjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,7 +42,14 @@ Route::get('/rooms/{room}/edit', [RoomController::class, 'edit'])->name('rooms.e
 Route::put('/rooms/{room}', [RoomController::class, 'update'])->name('rooms.update');  // ទទួលទិន្នន័យកែប្រែទៅបច្ចុប្បន្នភាព (Update)
 Route::delete('/rooms/{room}', [RoomController::class, 'destroy'])->name('rooms.destroy'); // លុបទិន្នន័យ (Delete)
 
-
+//Subject Routes
+Route::get('/subjects', [SubjectController::class, 'index'])->name('admin.subjects.index');
+Route::get('/subjects/create', [SubjectController::class, 'create'])->name('admin.subjects.create');
+Route::post('/subjects', [SubjectController::class, 'store'])->name('admin.subjects.store');
+Route::get('/subjects/{subject}', [SubjectController::class, 'show'])->name('admin.subjects.show');
+Route::get('/subjects/{subject}/edit', [SubjectController::class, 'edit'])->name('admin.subjects.edit');
+Route::put('/subjects/{subject}', [SubjectController::class, 'update'])->name('admin.subjects.update');
+Route::delete('/subjects/{subject}', [SubjectController::class, 'destroy'])->name('admin.subjects.destroy');
 
 
 
@@ -53,3 +60,4 @@ Route::get('/dashboard-parent', [DashboardController::class, 'dashboardParent'])
 Route::get('/dashboard-teacher', [DashboardController::class, 'dashboardTeacher'])->name('dashboard-teacher');
 
 Route::get('/dashboard-student', [DashboardController::class, 'dashboardStudent'])->name('dashboard-student');
+
