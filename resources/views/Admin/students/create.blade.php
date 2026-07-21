@@ -97,8 +97,12 @@
         font-size: 1rem;
         border: 1.5px solid var(--neutral-300);
         border-radius: 0.5rem;
+<<<<<<< HEAD
         background-color: #ffffff;
         color: #1f2937;
+=======
+        background-color: #e4e7ec;
+>>>>>>> miracle-branch
         transition: all 0.2s ease;
         font-family: inherit;
     }
@@ -108,8 +112,12 @@
         outline: none;
         border-color: var(--primary-color);
         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+<<<<<<< HEAD
         background-color: #ffffff;
         color: #1f2937;
+=======
+        background-color: #f0f2f5;
+>>>>>>> miracle-branch
     }
 
     .form-control::placeholder {
@@ -329,6 +337,7 @@
         <div class="form-row">
             {{-- 💡 ប្ដូរ Class ID មកជា Select Dropdown វិញ --}}
             <div class="form-group">
+<<<<<<< HEAD
                 <label class="form-label">
                     ថ្នាក់
                     <span class="lang-note">(Class)</span>
@@ -345,6 +354,21 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+=======
+    <label class="form-label">Class</label>
+    <select name="class_id" class="form-select @error('class_id') is-invalid @enderror">
+        <option value="">-- Select Class --</option>
+        @foreach ($rooms as $room)
+    <option value="{{ $room->room_id }}" {{ old('class_id') == $room->room_id ? 'selected' : '' }}>
+        {{ $room->room_id }}
+    </option>
+@endforeach
+    </select>
+    @error('class_id')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+>>>>>>> miracle-branch
 
             <div class="form-group">
                 <label class="form-label">

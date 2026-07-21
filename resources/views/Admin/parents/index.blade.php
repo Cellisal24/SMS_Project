@@ -152,4 +152,27 @@
       </div>
 
       <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3 mt-3">
-        <p class="text-muted small mb-0">Showing {{
+        <p class="text-muted small mb-0">Showing {{ $parents->firstItem() ?? 0 }} to {{ $parents->lastItem() ?? 0 }} of {{ $parents->total() }} parents</p>
+        <nav aria-label="Parents pagination">
+          <ul class="pagination pagination-sm mb-0">
+            <li class="page-item {{ $parents->onFirstPage() ? 'disabled' : '' }}">
+              <a class="page-link" href="{{ $parents->previousPageUrl() ?: '#' }}" aria-label="Previous">Previous</a>
+            </li>
+
+            @foreach(range(1, $parents->lastPage()) as $page)
+              <li class="page-item {{ $parents->currentPage() == $page ? 'active' : '' }}">
+                <a class="page-link" href="{{ $parents->url($page) }}">{{ $page }}</a>
+              </li>
+            @endforeach
+
+            <li class="page-item {{ $parents->hasMorePages() ? '' : 'disabled' }}">
+              <a class="page-link" href="{{ $parents->nextPageUrl() ?: '#' }}" aria-label="Next">Next</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </section>
+  </div>
+</main>
+
+@include('Admin.include.footer')

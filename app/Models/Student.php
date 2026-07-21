@@ -17,6 +17,7 @@ class Student extends Model
 
     public function schoolClass() { return $this->belongsTo(SchoolClass::class, 'class_id', 'class_id'); }
     public function parents() { return $this->belongsToMany(ParentModel::class, 'student_parents', 'student_id', 'parent_id'); }
+    public function student_parents() { return $this->belongsToMany(StudentParent::class, 'student_parents', 'student_id', 'parent_id'); }
     public function attendances() { return $this->hasMany(Attendance::class, 'student_id', 'student_id'); }
     public function grades() { return $this->hasMany(Grade::class, 'student_id', 'student_id'); }
     public function payments() { return $this->hasMany(Payment::class, 'student_id', 'student_id'); }

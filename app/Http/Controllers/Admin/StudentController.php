@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ParentModel;
-use App\Models\SchoolClass;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
@@ -34,9 +33,8 @@ class StudentController extends Controller
     public function create()
     {
         $parents = ParentModel::orderBy('first_name')->get();
-        $classes = SchoolClass::orderBy('class_name')->get(); 
 
-        return view('admin.students.create', compact('parents', 'classes'));
+        return view('admin.students.create', compact('parents'));
     }
 
     public function store(Request $request)
@@ -47,25 +45,24 @@ class StudentController extends Controller
 
         $this->syncParents($student, $request);
 
-        // 💡 កែប្រែ៖ Redirect ទៅ index (ដក $student ចេញ)
         return redirect()
-            ->route('admin.students.index')
+            ->route('admin.students.show', $student)
             ->with('success', "Student {$student->fullName()} created successfully.");
     }
 
     public function show(Student $student)
     {
-        // 💡 កែប្រែ៖ ប្រសិនបើចុចមើល detail ឱ្យវា Redirect ទៅ index វិញ ឬ edit ទំព័រ
-        return redirect()->route('admin.students.index');
+        $student->load('schoolClass', 'parents');
+
+        return view('admin.students.show', compact('student'));
     }
 
     public function edit(Student $student)
     {
         $student->load('parents');
         $parents = ParentModel::orderBy('first_name')->get();
-        $classes = SchoolClass::orderBy('class_name')->get(); 
 
-        return view('admin.students.edit', compact('student', 'parents', 'classes'));
+        return view('admin.students.edit', compact('student', 'parents'));
     }
 
     public function update(Request $request, Student $student)
@@ -76,9 +73,8 @@ class StudentController extends Controller
 
         $this->syncParents($student, $request);
 
-        // 💡 កែប្រែ៖ Redirect ទៅ index ជំនួសឱ្យ show
         return redirect()
-            ->route('admin.students.index')
+            ->route('admin.students.show', $student)
             ->with('success', "Student {$student->fullName()} updated successfully.");
     }
 
@@ -99,7 +95,7 @@ class StudentController extends Controller
             'last_name'     => ['required', 'string', 'max:50'],
             'gender'        => ['nullable', 'in:M,F'],
             'date_of_birth' => ['nullable', 'date'],
-            'class_id'      => ['required', 'string', 'max:10', 'exists:classes,class_id'],
+            'class_id'      => ['nullable', 'string', 'max:10', 'exists:classes,class_id'],
             'parent_phone'  => ['nullable', 'string', 'max:20'],
             'status'        => ['required', 'in:active,inactive,graduated,transferred'],
         ]);
