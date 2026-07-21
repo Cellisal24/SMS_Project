@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ParentModel extends Model
 {
+     use HasFactory, \App\Models\Concerns\HasStudentLinks;
+     
     protected $table = 'parents';
     protected $primaryKey = 'parent_id';
     public $incrementing = false;

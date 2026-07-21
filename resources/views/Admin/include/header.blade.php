@@ -52,13 +52,13 @@
           <span class="nav-icon"><i class="bi bi-table" aria-hidden="true"></i></span>
           <span class="nav-text">Tables</span>
         </a>
-        <a class="nav-link" href="f.html">
+        <a class="nav-link" href="{{ route('admin.students.index') }}">
           <span class="nav-icon"><i class="bi bi-ui-checks-grid" aria-hidden="true"></i></span>
-          <span class="nav-text">Forms</span>
+          <span class="nav-text">Student</span>
         </a>
-        <a class="nav-link" href="co.html">
+        <a class="nav-link" href="{{ route('admin.parents.index') }}">
           <span class="nav-icon"><i class="bi bi-grid-3x3-gap" aria-hidden="true"></i></span>
-          <span class="nav-text">Components</span>
+          <span class="nav-text">Parent</span>
         </a>
         <a class="nav-link" href="alerts.html">
           <span class="nav-icon"><i class="bi bi-exclamation-triangle" aria-hidden="true"></i></span>
