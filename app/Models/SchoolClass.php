@@ -15,5 +15,10 @@ class SchoolClass extends Model
 
     public function gradeLevel() { return $this->belongsTo(GradeLevel::class, 'level_id', 'level_id'); }
     public function students() { return $this->hasMany(Student::class, 'class_id', 'class_id'); }
+    // ទំនាក់ទំនងទៅកាន់ Room
+    public function room()
+    {
+        return $this->belongsTo(Room::class, 'room_id', 'room_id');
+    }
     
 }

@@ -51,7 +51,17 @@ Route::get('/subjects/{subject}/edit', [SubjectController::class, 'edit'])->name
 Route::put('/subjects/{subject}', [SubjectController::class, 'update'])->name('admin.subjects.update');
 Route::delete('/subjects/{subject}', [SubjectController::class, 'destroy'])->name('admin.subjects.destroy');
 
+//SchoolClass
+use App\Http\Controllers\Admin\SchoolClassController;
 
+// School Classes Routes
+Route::get('/school-classes', [SchoolClassController::class, 'index'])->name('school-classes.index');
+Route::get('/school-classes/create', [SchoolClassController::class, 'create'])->name('school-classes.create');
+Route::post('/school-classes', [SchoolClassController::class, 'store'])->name('school-classes.store');
+Route::get('/school-classes/{schoolClass}', [SchoolClassController::class, 'show'])->name('school-classes.show');
+Route::get('/school-classes/{schoolClass}/edit', [SchoolClassController::class, 'edit'])->name('school-classes.edit');
+Route::put('/school-classes/{schoolClass}', [SchoolClassController::class, 'update'])->name('school-classes.update');
+Route::delete('/school-classes/{schoolClass}', [SchoolClassController::class, 'destroy'])->name('school-classes.destroy');
 
 
 
