@@ -60,17 +60,16 @@ class SubjectController extends Controller
     }
 
     // 5. ធ្វើបច្ចុប្បន្នភាព (Update) ទិន្នន័យដែលបានកែប្រែ
-    public function update(Request $request, $id)
+    public function update(Request $request, Subject $subject)
     {
-        $subject = Subject::findOrFail($id);
-
         $validated = $request->validate([
-            // បញ្ជាក់ប្រាប់ឲ្យ ignore ID និង Name របស់ខ្លួនឯង ដើម្បីកុំឲ្យទើស Unique Error
-            'subject_id'   => 'required|string|max:10|unique:subjects,subject_id,' . $subject->subject_id . ',subject_id',
+            'subject_id'   => 'nullable|string|max:10|unique:subjects,subject_id,' . $subject->subject_id . ',subject_id',
             'subject_name' => 'required|string|max:100|unique:subjects,subject_name,' . $subject->subject_id . ',subject_id',
             'department'   => 'nullable|string|max:50',
             'credit_hours' => 'nullable|integer|min:1|max:6',
         ]);
+
+        $validated['subject_id'] = $subject->subject_id;
 
         $subject->update($validated);
 

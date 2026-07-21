@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\GradeLevelController;
 use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\SubjectController;
+use App\Http\Controllers\Admin\TeacherController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,7 +52,14 @@ Route::get('/subjects/{subject}/edit', [SubjectController::class, 'edit'])->name
 Route::put('/subjects/{subject}', [SubjectController::class, 'update'])->name('admin.subjects.update');
 Route::delete('/subjects/{subject}', [SubjectController::class, 'destroy'])->name('admin.subjects.destroy');
 
-
+//Teacher Routes
+Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers.index');
+Route::get('/teachers/create', [TeacherController::class, 'create'])->name('teachers.create');
+Route::post('/teachers', [TeacherController::class, 'store'])->name('teachers.store');
+Route::get('/teachers/{teacher}', [TeacherController::class, 'show'])->name('teachers.show');
+Route::get('/teachers/{teacher}/edit', [TeacherController::class, 'edit'])->name('teachers.edit');
+Route::put('/teachers/{teacher}', [TeacherController::class, 'update'])->name('teachers.update');
+Route::delete('/teachers/{teacher}', [TeacherController::class, 'destroy'])->name('teachers.destroy');
 
 
 

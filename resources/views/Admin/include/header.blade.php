@@ -48,9 +48,9 @@
           <span class="nav-icon"><i class="bi bi-bar-chart-line" aria-hidden="true"></i></span>
           <span class="nav-text">Charts</span>
         </a>
-        <a class="nav-link" href="tables.html">
+        <a class="nav-link" href="{{ route('teachers.index') }}">
           <span class="nav-icon"><i class="bi bi-table" aria-hidden="true"></i></span>
-          <span class="nav-text">Tables</span>
+          <span class="nav-text">Teachers</span>
         </a>
         <a class="nav-link" href="f.html">
           <span class="nav-icon"><i class="bi bi-ui-checks-grid" aria-hidden="true"></i></span>
