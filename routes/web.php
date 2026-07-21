@@ -5,8 +5,9 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\GradeLevelController;
 use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\SubjectController;
+use App\Http\Controllers\Admin\TeacherController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Admin\SchoolClassController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,8 +52,9 @@ Route::get('/subjects/{subject}/edit', [SubjectController::class, 'edit'])->name
 Route::put('/subjects/{subject}', [SubjectController::class, 'update'])->name('admin.subjects.update');
 Route::delete('/subjects/{subject}', [SubjectController::class, 'destroy'])->name('admin.subjects.destroy');
 
+
 //SchoolClass
-use App\Http\Controllers\Admin\SchoolClassController;
+
 
 // School Classes Routes
 Route::get('/school-classes', [SchoolClassController::class, 'index'])->name('school-classes.index');
@@ -62,6 +64,15 @@ Route::get('/school-classes/{schoolClass}', [SchoolClassController::class, 'show
 Route::get('/school-classes/{schoolClass}/edit', [SchoolClassController::class, 'edit'])->name('school-classes.edit');
 Route::put('/school-classes/{schoolClass}', [SchoolClassController::class, 'update'])->name('school-classes.update');
 Route::delete('/school-classes/{schoolClass}', [SchoolClassController::class, 'destroy'])->name('school-classes.destroy');
+//Teacher Routes
+Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers.index');
+Route::get('/teachers/create', [TeacherController::class, 'create'])->name('teachers.create');
+Route::post('/teachers', [TeacherController::class, 'store'])->name('teachers.store');
+Route::get('/teachers/{teacher}', [TeacherController::class, 'show'])->name('teachers.show');
+Route::get('/teachers/{teacher}/edit', [TeacherController::class, 'edit'])->name('teachers.edit');
+Route::put('/teachers/{teacher}', [TeacherController::class, 'update'])->name('teachers.update');
+Route::delete('/teachers/{teacher}', [TeacherController::class, 'destroy'])->name('teachers.destroy');
+
 
 
 
