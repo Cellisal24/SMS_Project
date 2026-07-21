@@ -7,9 +7,10 @@ use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\TeacherController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\SchoolClassController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\ParentController;
+use App\Http\Controllers\Admin\SchoolClassController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes

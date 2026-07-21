@@ -28,7 +28,7 @@ class ParentController extends Controller
 
     public function create()
     {
-        return view('parents.create');
+        return view('admin.parents.create');
     }
 
     public function store(Request $request)

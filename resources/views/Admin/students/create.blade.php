@@ -89,6 +89,7 @@
         margin-left: 0.5rem;
     }
 
+    /* 💡 កែតម្រូវពណ៌ប្រអប់ Input ឱ្យភ្លឺច្បាស់លាស់ */
     .form-control,
     .form-select {
         width: 100%;
@@ -96,7 +97,8 @@
         font-size: 1rem;
         border: 1.5px solid var(--neutral-300);
         border-radius: 0.5rem;
-        background-color: #374151;
+        background-color: #ffffff;
+        color: #1f2937;
         transition: all 0.2s ease;
         font-family: inherit;
     }
@@ -106,7 +108,8 @@
         outline: none;
         border-color: var(--primary-color);
         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        background-color: #374151;
+        background-color: #ffffff;
+        color: #1f2937;
     }
 
     .form-control::placeholder {
@@ -193,7 +196,6 @@
         background-color: var(--neutral-300);
     }
 
-    /* Linked parents table */
     .parent-link-table {
         width: 100%;
         border-collapse: collapse;
@@ -221,6 +223,8 @@
         border: 1.5px solid var(--neutral-300);
         border-radius: 0.375rem;
         width: 100%;
+        background-color: #ffffff;
+        color: #1f2937;
     }
 
     @media (max-width: 640px) {
@@ -323,19 +327,20 @@
         </div>
 
         <div class="form-row">
+            {{-- 💡 ប្ដូរ Class ID មកជា Select Dropdown វិញ --}}
             <div class="form-group">
                 <label class="form-label">
                     ថ្នាក់
-                    <span class="lang-note">(Class ID)</span>
+                    <span class="lang-note">(Class)</span>
                 </label>
-                <input
-                    type="text"
-                    name="class_id"
-                    class="form-control @error('class_id') is-invalid @enderror"
-                    value="{{ old('class_id') }}"
-                    placeholder="ឧទាហរណ៍៖ C001"
-                    maxlength="10"
-                >
+                <select name="class_id" class="form-select @error('class_id') is-invalid @enderror">
+                    <option value="">-- ជ្រើសរើសថ្នាក់រៀន --</option>
+                    @foreach($classes as $class)
+                        <option value="{{ $class->class_id }}" {{ old('class_id') == $class->class_id ? 'selected' : '' }}>
+                            {{ $class->class_name }} ({{ $class->class_id }})
+                        </option>
+                    @endforeach
+                </select>
                 @error('class_id')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror

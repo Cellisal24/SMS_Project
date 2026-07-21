@@ -204,14 +204,6 @@
         background-color: var(--neutral-300);
     }
 
-    .form-control:disabled,
-    .form-select:disabled {
-        background-color: var(--neutral-100);
-        color: var(--neutral-600);
-        cursor: not-allowed;
-        border-color: var(--neutral-200);
-    }
-
     .parent-link-table {
         width: 100%;
         border-collapse: collapse;
@@ -263,6 +255,9 @@
 @php
     $linkedParentIds = $student->parents->pluck('parent_id')->toArray();
     $primaryParentId = optional($student->parents->firstWhere('pivot.is_primary', true))->parent_id;
+    
+    // បំលែង Date of birth ឱ្យមានសុវត្ថិភាព
+    $dobFormatted = $student->date_of_birth ? \Carbon\Carbon::parse($student->date_of_birth)->format('Y-m-d') : '';
 @endphp
 
 <div class="student-form-container">
@@ -320,7 +315,7 @@
                     ភេទ
                     <span class="lang-note">(Gender)</span>
                 </label>
-                <select name="gender" class="form-select @error('gender') is-invalid @enderror">
+                <select name="gender" class="form-select @error('gender') is-invalid @enderror" required>
                     <option value="">-- ជ្រើសរើសភេទ --</option>
                     <option value="M" {{ old('gender', $student->gender) == 'M' ? 'selected' : '' }}>ប្រុស (Male)</option>
                     <option value="F" {{ old('gender', $student->gender) == 'F' ? 'selected' : '' }}>ស្រី (Female)</option>
@@ -339,7 +334,8 @@
                     type="date"
                     name="date_of_birth"
                     class="form-control @error('date_of_birth') is-invalid @enderror"
-                    value="{{ old('date_of_birth', optional($student->date_of_birth)->format('Y-m-d')) }}"
+                    value="{{ old('date_of_birth', $dobFormatted) }}"
+                    required
                 >
                 @error('date_of_birth')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -350,16 +346,17 @@
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">
-                    ថ្នាក់
-                    <span class="lang-note">(Class ID)</span>
+                    ថ្នាក់រៀន
+                    <span class="lang-note">(Class)</span>
                 </label>
-                <input
-                    type="text"
-                    name="class_id"
-                    class="form-control @error('class_id') is-invalid @enderror"
-                    value="{{ old('class_id', $student->class_id) }}"
-                    maxlength="10"
-                >
+                <select name="class_id" class="form-select @error('class_id') is-invalid @enderror" required>
+                    <option value="">-- ជ្រើសរើសថ្នាក់រៀន --</option>
+                    @foreach($classes as $class)
+                        <option value="{{ $class->class_id }}" {{ old('class_id', $student->class_id) == $class->class_id ? 'selected' : '' }}>
+                            {{ $class->class_name }}
+                        </option>
+                    @endforeach
+                </select>
                 @error('class_id')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
