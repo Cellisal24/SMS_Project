@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\TeacherController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\SchoolClassController;
+use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Admin\ParentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -52,10 +54,14 @@ Route::get('/subjects/{subject}/edit', [SubjectController::class, 'edit'])->name
 Route::put('/subjects/{subject}', [SubjectController::class, 'update'])->name('admin.subjects.update');
 Route::delete('/subjects/{subject}', [SubjectController::class, 'destroy'])->name('admin.subjects.destroy');
 
-
-//SchoolClass
-
-
+// Students
+Route::get('/students', [StudentController::class, 'index'])->name('admin.students.index');
+Route::get('/students/create', [StudentController::class, 'create'])->name('admin.students.create');
+Route::post('/students', [StudentController::class, 'store'])->name('admin.students.store');
+Route::get('/students/{student}', [StudentController::class, 'show'])->name('admin.students.show');
+Route::get('/students/{student}/edit', [StudentController::class, 'edit'])->name('admin.students.edit');
+Route::put('/students/{student}', [StudentController::class, 'update'])->name('admin.students.update');
+Route::delete('/students/{student}', [StudentController::class, 'destroy'])->name('admin.students.destroy');
 // School Classes Routes
 Route::get('/school-classes', [SchoolClassController::class, 'index'])->name('school-classes.index');
 Route::get('/school-classes/create', [SchoolClassController::class, 'create'])->name('school-classes.create');
@@ -72,8 +78,14 @@ Route::get('/teachers/{teacher}', [TeacherController::class, 'show'])->name('tea
 Route::get('/teachers/{teacher}/edit', [TeacherController::class, 'edit'])->name('teachers.edit');
 Route::put('/teachers/{teacher}', [TeacherController::class, 'update'])->name('teachers.update');
 Route::delete('/teachers/{teacher}', [TeacherController::class, 'destroy'])->name('teachers.destroy');
-
-
+// Parents
+Route::get('/parents', [ParentController::class, 'index'])->name('admin.parents.index');
+Route::get('/parents/create', [ParentController::class, 'create'])->name('admin.parents.create');
+Route::post('/parents', [ParentController::class, 'store'])->name('admin.parents.store');
+Route::get('/parents/{parent}', [ParentController::class, 'show'])->name('admin.parents.show');
+Route::get('/parents/{parent}/edit', [ParentController::class, 'edit'])->name('admin.parents.edit');
+Route::put('/parents/{parent}', [ParentController::class, 'update'])->name('admin.parents.update');
+Route::delete('/parents/{parent}', [ParentController::class, 'destroy'])->name('admin.parents.destroy');
 
 
 Route::get('/dashboard-parent', [DashboardController::class, 'dashboardParent'])->name('dashboard-parent');
@@ -81,4 +93,6 @@ Route::get('/dashboard-parent', [DashboardController::class, 'dashboardParent'])
 Route::get('/dashboard-teacher', [DashboardController::class, 'dashboardTeacher'])->name('dashboard-teacher');
 
 Route::get('/dashboard-student', [DashboardController::class, 'dashboardStudent'])->name('dashboard-student');
+
+
 
