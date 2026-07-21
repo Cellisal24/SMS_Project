@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ParentModel;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use App\Models\Room;
 
 class StudentController extends Controller
 {
@@ -30,32 +31,26 @@ class StudentController extends Controller
         return view('admin.students.index', compact('students'));
     }
 
-    public function create()
-    {
-        $parents = ParentModel::orderBy('first_name')->get();
+   public function create()
+{
+    $parents = ParentModel::orderBy('first_name')->get();
+    $rooms = Room::orderBy('room_name')->get();
 
-        return view('admin.students.create', compact('parents'));
-    }
+    return view('admin.students.create', compact('parents', 'rooms'));
+}
 
-    public function store(Request $request)
-    {
-        $validated = $this->validateStudent($request);
+   public function store(Request $request)
+{
+    $validated = $this->validateStudent($request);
 
-        $student = Student::create($validated);
+    $student = Student::create($validated);
 
-        $this->syncParents($student, $request);
+    $this->syncParents($student, $request);
 
-        return redirect()
-            ->route('admin.students.show', $student)
-            ->with('success', "Student {$student->fullName()} created successfully.");
-    }
-
-    public function show(Student $student)
-    {
-        $student->load('schoolClass', 'parents');
-
-        return view('admin.students.show', compact('student'));
-    }
+    return redirect()
+        ->route('admin.students.index')
+        ->with('success', "Student {$student->fullName()} created successfully.");
+}
 
     public function edit(Student $student)
     {
@@ -66,17 +61,17 @@ class StudentController extends Controller
     }
 
     public function update(Request $request, Student $student)
-    {
-        $validated = $this->validateStudent($request, $student->student_id);
+{
+    $validated = $this->validateStudent($request, $student->student_id);
 
-        $student->update($validated);
+    $student->update($validated);
 
-        $this->syncParents($student, $request);
+    $this->syncParents($student, $request);
 
-        return redirect()
-            ->route('admin.students.show', $student)
-            ->with('success', "Student {$student->fullName()} updated successfully.");
-    }
+    return redirect()
+        ->route('admin.students.index')
+        ->with('success', "Student {$student->fullName()} updated successfully.");
+}
 
     public function destroy(Student $student)
     {
@@ -89,17 +84,17 @@ class StudentController extends Controller
     }
 
     private function validateStudent(Request $request, ?string $studentId = null): array
-    {
-        return $request->validate([
-            'first_name'    => ['required', 'string', 'max:50'],
-            'last_name'     => ['required', 'string', 'max:50'],
-            'gender'        => ['nullable', 'in:M,F'],
-            'date_of_birth' => ['nullable', 'date'],
-            'class_id'      => ['nullable', 'string', 'max:10', 'exists:classes,class_id'],
-            'parent_phone'  => ['nullable', 'string', 'max:20'],
-            'status'        => ['required', 'in:active,inactive,graduated,transferred'],
-        ]);
-    }
+{
+    return $request->validate([
+        'first_name'    => ['required', 'string', 'max:50'],
+        'last_name'     => ['required', 'string', 'max:50'],
+        'gender'        => ['nullable', 'in:M,F'],
+        'date_of_birth' => ['nullable', 'date'],
+        'class_id'      => ['nullable', 'string', 'max:10', 'exists:rooms,room_id'],
+        'parent_phone'  => ['nullable', 'string', 'max:20'],
+        'status'        => ['required', 'in:active,inactive,graduated,transferred'],
+    ]);
+}
 
     private function syncParents(Student $student, Request $request): void
     {

@@ -28,7 +28,7 @@ class ParentController extends Controller
 
     public function create()
     {
-        return view('parents.create');
+        return view('admin.parents.create');
     }
 
     public function store(Request $request)
@@ -38,16 +38,11 @@ class ParentController extends Controller
         $parent = ParentModel::create($validated);
 
         return redirect()
-            ->route('admin.parents.show', $parent)
+            ->route('admin.parents.index', $parent)
             ->with('success', "Parent {$parent->fullName()} created successfully.");
     }
 
-    public function show(ParentModel $parent)
-    {
-        $parent->load('students');
-
-        return view('admin.parents.show', compact('parent'));
-    }
+   
 
     public function edit(ParentModel $parent)
     {
@@ -61,7 +56,7 @@ class ParentController extends Controller
         $parent->update($validated);
 
         return redirect()
-            ->route('admin.parents.show', $parent)
+            ->route('admin.parents.index', $parent)
             ->with('success', "Parent {$parent->fullName()} updated successfully.");
     }
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\SubjectController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\ParentController;
+use App\Http\Controllers\Admin\StudentParentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,7 +58,6 @@ Route::delete('/subjects/{subject}', [SubjectController::class, 'destroy'])->nam
 Route::get('/students', [StudentController::class, 'index'])->name('admin.students.index');
 Route::get('/students/create', [StudentController::class, 'create'])->name('admin.students.create');
 Route::post('/students', [StudentController::class, 'store'])->name('admin.students.store');
-Route::get('/students/{student}', [StudentController::class, 'show'])->name('admin.students.show');
 Route::get('/students/{student}/edit', [StudentController::class, 'edit'])->name('admin.students.edit');
 Route::put('/students/{student}', [StudentController::class, 'update'])->name('admin.students.update');
 Route::delete('/students/{student}', [StudentController::class, 'destroy'])->name('admin.students.destroy');
@@ -66,10 +66,17 @@ Route::delete('/students/{student}', [StudentController::class, 'destroy'])->nam
 Route::get('/parents', [ParentController::class, 'index'])->name('admin.parents.index');
 Route::get('/parents/create', [ParentController::class, 'create'])->name('admin.parents.create');
 Route::post('/parents', [ParentController::class, 'store'])->name('admin.parents.store');
-Route::get('/parents/{parent}', [ParentController::class, 'show'])->name('admin.parents.show');
 Route::get('/parents/{parent}/edit', [ParentController::class, 'edit'])->name('admin.parents.edit');
 Route::put('/parents/{parent}', [ParentController::class, 'update'])->name('admin.parents.update');
 Route::delete('/parents/{parent}', [ParentController::class, 'destroy'])->name('admin.parents.destroy');
+
+//StudentParents
+Route::get('/student-parents', [StudentParentController::class, 'index'])->name('admin.student_parents.index');
+Route::get('/student-parents/create', [StudentParentController::class, 'create'])->name('admin.student_parents.create');
+Route::post('/student-parents', [StudentParentController::class, 'store'])->name('admin.student_parents.store');
+Route::get('/student-parents/{studentParent}/edit', [StudentParentController::class, 'edit'])->name('admin.student_parents.edit');
+Route::put('/student-parents/{studentParent}', [StudentParentController::class, 'update'])->name('admin.student_parents.update');
+Route::delete('/student-parents/{studentParent}', [StudentParentController::class, 'destroy'])->name('admin.student_parents.destroy');
 
 
 

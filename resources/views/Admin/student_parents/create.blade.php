@@ -3,8 +3,7 @@
 <style>
     :root {
         --primary-color: #2563eb;
-        --primary-light: #3b82f6;
-        --success-color: #16a34a;
+        --primary-dark: #1e40af;
         --danger-color: #dc2626;
         --neutral-200: #e5e7eb;
         --neutral-300: #d1d5db;
@@ -40,17 +39,6 @@
         font-weight: 500;
     }
 
-    .link-info-badge {
-        display: inline-block;
-        background-color: var(--primary-light);
-        color: white;
-        padding: 0.375rem 0.75rem;
-        border-radius: 0.375rem;
-        font-size: 0.875rem;
-        font-weight: 600;
-        margin-top: 0.75rem;
-    }
-
     .form-group {
         margin-bottom: 1.75rem;
     }
@@ -82,7 +70,7 @@
         font-size: 1rem;
         border: 1.5px solid var(--neutral-300);
         border-radius: 0.5rem;
-        background-color: #fff;
+        background-color: #374151;
         transition: all 0.2s ease;
         font-family: inherit;
     }
@@ -92,7 +80,7 @@
         outline: none;
         border-color: var(--primary-color);
         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        background-color: #fff;
+        background-color: #374151;
     }
 
     .form-select {
@@ -159,15 +147,15 @@
         justify-content: center;
     }
 
-    .btn-success {
-        background-color: var(--success-color);
+    .btn-primary {
+        background-color: var(--primary-color);
         color: white;
-        box-shadow: 0 2px 4px rgba(22, 163, 74, 0.2);
+        box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
     }
 
-    .btn-success:hover {
-        background-color: #15803d;
-        box-shadow: 0 4px 8px rgba(22, 163, 74, 0.3);
+    .btn-primary:hover {
+        background-color: var(--primary-dark);
+        box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
         transform: translateY(-1px);
     }
 
@@ -201,14 +189,12 @@
 
 <div class="link-form-container">
     <div class="link-form-header">
-        <h1>ធ្វើបច្ចុប្បន្នភាពការភ្ជាប់</h1>
-        <p class="subtitle">Edit student-parent link</p>
-        <span class="link-info-badge">ID: {{ $studentParent->id }}</span>
+        <h1>ភ្ជាប់សិស្ស និងឪពុកម្តាយ</h1>
+        <p class="subtitle">Link a student to a parent / guardian</p>
     </div>
 
-    <form action="{{ route('admin.student_parents.update', $studentParent->id) }}" method="POST">
+    <form action="{{ route('admin.student_parents.store') }}" method="POST">
         @csrf
-        @method('PUT')
 
         <div class="form-group">
             <label class="form-label">
@@ -218,7 +204,7 @@
             <select name="student_id" class="form-select @error('student_id') is-invalid @enderror" required>
                 <option value="">-- ជ្រើសរើសសិស្ស --</option>
                 @foreach ($students as $student)
-                    <option value="{{ $student->student_id }}" {{ old('student_id', $studentParent->student_id) == $student->student_id ? 'selected' : '' }}>
+                    <option value="{{ $student->student_id }}" {{ old('student_id') == $student->student_id ? 'selected' : '' }}>
                         {{ $student->fullName() }} ({{ $student->student_id }})
                     </option>
                 @endforeach
@@ -236,7 +222,7 @@
             <select name="parent_id" class="form-select @error('parent_id') is-invalid @enderror" required>
                 <option value="">-- ជ្រើសរើសឪពុកម្តាយ --</option>
                 @foreach ($parents as $parent)
-                    <option value="{{ $parent->parent_id }}" {{ old('parent_id', $studentParent->parent_id) == $parent->parent_id ? 'selected' : '' }}>
+                    <option value="{{ $parent->parent_id }}" {{ old('parent_id') == $parent->parent_id ? 'selected' : '' }}>
                         {{ $parent->fullName() }} ({{ $parent->parent_id }})
                     </option>
                 @endforeach
@@ -255,7 +241,7 @@
                 type="text"
                 name="relationship"
                 class="form-control @error('relationship') is-invalid @enderror"
-                value="{{ old('relationship', $studentParent->relationship) }}"
+                value="{{ old('relationship') }}"
                 placeholder="ឧទាហរណ៍៖ ម្តាយ, ឪពុក, អាណាព្យាបាល (Mother, Father, Guardian)"
                 maxlength="30"
             >
@@ -266,18 +252,18 @@
 
         <div class="form-group">
             <div class="form-check">
-                <input type="checkbox" name="is_primary" id="is_primary" value="1" {{ old('is_primary', $studentParent->is_primary) ? 'checked' : '' }}>
+                <input type="checkbox" name="is_primary" id="is_primary" value="1" {{ old('is_primary') ? 'checked' : '' }}>
                 <label class="form-label mb-0" for="is_primary" style="margin-bottom:0;">
                     ជាទំនាក់ទំនងចម្បង
                     <span class="lang-note">(Primary contact)</span>
                 </label>
             </div>
-            <span class="form-hint">ប្រសិនបើគូសធីកនេះ វានឹងលុបចោលទំនាក់ទំនងចម្បងចាស់ដោយស្វ័យប្រវត្តិ (Checking this automatically unmarks any other primary contact for this student)</span>
+            <span class="form-hint">ប្រសិនបើសិស្សនេះមានឪពុកម្តាយច្រើននាក់ បើគូសធីកនេះ វានឹងលុបចោលទំនាក់ទំនងចម្បងចាស់ដោយស្វ័យប្រវត្តិ (Checking this automatically unmarks any other primary contact for this student)</span>
         </div>
 
         <div class="btn-group-submit">
-            <button type="submit" class="btn btn-success">ធ្វើបច្ចុប្បន្នភាព</button>
-            <a href="{{ route('admin.student_parents.index') }}" class="btn btn-secondary">ត្រឡប់ក្រោយ</a>
+            <button type="submit" class="btn btn-primary">រក្សាទុក</button>
+            <a href="{{ route('admin.student_parents.index') }}" class="btn btn-secondary">បកក្រោយ</a>
         </div>
     </form>
 </div>

@@ -3,7 +3,8 @@
 <style>
     :root {
         --primary-color: #2563eb;
-        --primary-dark: #1e40af;
+        --primary-light: #3b82f6;
+        --success-color: #16a34a;
         --danger-color: #dc2626;
         --neutral-200: #e5e7eb;
         --neutral-300: #d1d5db;
@@ -39,6 +40,17 @@
         font-weight: 500;
     }
 
+    .parent-info-badge {
+        display: inline-block;
+        background-color: var(--primary-light);
+        color: white;
+        padding: 0.375rem 0.75rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-top: 0.75rem;
+    }
+
     .form-group {
         margin-bottom: 1.75rem;
     }
@@ -69,7 +81,7 @@
         font-size: 1rem;
         border: 1.5px solid var(--neutral-300);
         border-radius: 0.5rem;
-        background-color: #878c94;
+        background-color: #fff;
         transition: all 0.2s ease;
         font-family: inherit;
     }
@@ -78,7 +90,7 @@
         outline: none;
         border-color: var(--primary-color);
         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        background-color: #f3f5f8;
+        background-color: #fff;
     }
 
     .form-control::placeholder {
@@ -101,6 +113,13 @@
         color: var(--danger-color);
         margin-top: 0.375rem;
         font-weight: 500;
+    }
+
+    .form-hint {
+        font-size: 0.85rem;
+        color: var(--neutral-500);
+        margin-top: 0.375rem;
+        display: block;
     }
 
     .btn-group-submit {
@@ -126,15 +145,15 @@
         justify-content: center;
     }
 
-    .btn-primary {
-        background-color: var(--primary-color);
+    .btn-success {
+        background-color: var(--success-color);
         color: white;
-        box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+        box-shadow: 0 2px 4px rgba(22, 163, 74, 0.2);
     }
 
-    .btn-primary:hover {
-        background-color: var(--primary-dark);
-        box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+    .btn-success:hover {
+        background-color: #15803d;
+        box-shadow: 0 4px 8px rgba(22, 163, 74, 0.3);
         transform: translateY(-1px);
     }
 
@@ -168,12 +187,14 @@
 
 <div class="parent-form-container">
     <div class="parent-form-header">
-        <h1>បង្កើតឪពុកម្តាយថ្មី</h1>
-        <p class="subtitle">Create a new parent / guardian</p>
+        <h1>ធ្វើបច្ចុប្បន្នភាពឪពុកម្តាយ</h1>
+        <p class="subtitle">Edit parent / guardian information</p>
+        <span class="parent-info-badge">ID: {{ $parent->parent_id }}</span>
     </div>
 
-    <form action="{{ route('admin.parents.store') }}" method="POST">
+    <form action="{{ route('admin.parents.update', $parent->parent_id) }}" method="POST">
         @csrf
+        @method('PUT')
 
         <div class="form-group">
             <label class="form-label">
@@ -184,7 +205,7 @@
                 type="text"
                 name="first_name"
                 class="form-control @error('first_name') is-invalid @enderror"
-                value="{{ old('first_name') }}"
+                value="{{ old('first_name', $parent->first_name) }}"
                 required
                 maxlength="50"
             >
@@ -202,7 +223,7 @@
                 type="text"
                 name="last_name"
                 class="form-control @error('last_name') is-invalid @enderror"
-                value="{{ old('last_name') }}"
+                value="{{ old('last_name', $parent->last_name) }}"
                 required
                 maxlength="50"
             >
@@ -220,7 +241,7 @@
                 type="text"
                 name="phone"
                 class="form-control @error('phone') is-invalid @enderror"
-                value="{{ old('phone') }}"
+                value="{{ old('phone', $parent->phone) }}"
                 maxlength="20"
             >
             @error('phone')
@@ -237,7 +258,7 @@
                 type="email"
                 name="email"
                 class="form-control @error('email') is-invalid @enderror"
-                value="{{ old('email') }}"
+                value="{{ old('email', $parent->email) }}"
                 maxlength="100"
             >
             @error('email')
@@ -254,7 +275,7 @@
                 type="text"
                 name="national_id"
                 class="form-control @error('national_id') is-invalid @enderror"
-                value="{{ old('national_id') }}"
+                value="{{ old('national_id', $parent->national_id) }}"
                 maxlength="30"
             >
             @error('national_id')
@@ -262,9 +283,20 @@
             @enderror
         </div>
 
+        @if ($parent->students->count())
+            <div class="form-group">
+                <label class="form-label">កូនៗដែលបានភ្ជាប់ <span class="lang-note">(Linked children)</span></label>
+                <p class="form-hint">
+                    @foreach ($parent->students as $child)
+                        {{ $child->fullName() }}{{ $loop->last ? '' : ', ' }}
+                    @endforeach
+                </p>
+            </div>
+        @endif
+
         <div class="btn-group-submit">
-            <button type="submit" class="btn btn-primary">រក្សាទុក</button>
-            <a href="{{ route('admin.parents.index') }}" class="btn btn-secondary">បកក្រោយ</a>
+            <button type="submit" class="btn btn-success">ធ្វើបច្ចុប្បន្នភាព</button>
+            <a href="{{ route('admin.parents.index') }}" class="btn btn-secondary">ត្រឡប់ក្រោយ</a>
         </div>
     </form>
 </div>

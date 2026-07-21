@@ -60,9 +60,9 @@
           <span class="nav-icon"><i class="bi bi-grid-3x3-gap" aria-hidden="true"></i></span>
           <span class="nav-text">Parent</span>
         </a>
-        <a class="nav-link" href="alerts.html">
+        <a class="nav-link" href="{{ route('admin.student_parents.index') }}">
           <span class="nav-icon"><i class="bi bi-exclamation-triangle" aria-hidden="true"></i></span>
-          <span class="nav-text">Alerts</span>
+          <span class="nav-text">Student-Parent</span>
         </a>
         <a class="nav-link" href="modals.html">
           <span class="nav-icon"><i class="bi bi-window-stack" aria-hidden="true"></i></span>

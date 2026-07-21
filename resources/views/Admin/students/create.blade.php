@@ -96,7 +96,7 @@
         font-size: 1rem;
         border: 1.5px solid var(--neutral-300);
         border-radius: 0.5rem;
-        background-color: #374151;
+        background-color: #e4e7ec;
         transition: all 0.2s ease;
         font-family: inherit;
     }
@@ -106,7 +106,7 @@
         outline: none;
         border-color: var(--primary-color);
         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        background-color: #374151;
+        background-color: #f0f2f5;
     }
 
     .form-control::placeholder {
@@ -324,22 +324,19 @@
 
         <div class="form-row">
             <div class="form-group">
-                <label class="form-label">
-                    ថ្នាក់
-                    <span class="lang-note">(Class ID)</span>
-                </label>
-                <input
-                    type="text"
-                    name="class_id"
-                    class="form-control @error('class_id') is-invalid @enderror"
-                    value="{{ old('class_id') }}"
-                    placeholder="ឧទាហរណ៍៖ C001"
-                    maxlength="10"
-                >
-                @error('class_id')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
+    <label class="form-label">Class</label>
+    <select name="class_id" class="form-select @error('class_id') is-invalid @enderror">
+        <option value="">-- Select Class --</option>
+        @foreach ($rooms as $room)
+    <option value="{{ $room->room_id }}" {{ old('class_id') == $room->room_id ? 'selected' : '' }}>
+        {{ $room->room_id }}
+    </option>
+@endforeach
+    </select>
+    @error('class_id')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
 
             <div class="form-group">
                 <label class="form-label">
