@@ -312,8 +312,12 @@
                     type="date"
                     name="date_of_birth"
                     class="form-control @error('date_of_birth') is-invalid @enderror"
+<<<<<<< HEAD
                     value="{{ old('date_of_birth', $dobFormatted) }}"
                     required
+=======
+                    value="{{ old('date_of_birth', optional($student->date_of_birth)->format('Y-m-d')) }} required"
+>>>>>>> miracle-branch
                 >
                 @error('date_of_birth')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -323,6 +327,7 @@
 
         <div class="form-row">
             <div class="form-group">
+<<<<<<< HEAD
                 <label class="form-label">
                     ថ្នាក់រៀន
                     <span class="lang-note">(Class)</span>
@@ -340,6 +345,21 @@
                 @enderror
             </div>
 
+=======
+                    <label class="form-label">Class</label>
+                    <select name="class_id" class="form-select @error('class_id') is-invalid @enderror">
+                        <option value="">-- Select Class --</option>
+                        @foreach ($rooms as $room)
+                    <option value="{{ $room->room_id }}" {{ old('class_id', $student->class_id) == $room->room_id ? 'selected' : '' }}>
+                        {{ $room->room_id }}
+                    </option>
+                @endforeach
+                    </select>
+                    @error('class_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+>>>>>>> miracle-branch
             <div class="form-group">
                 <label class="form-label">
                     ស្ថានភាព
@@ -393,6 +413,7 @@
             @enderror
         </div>
 
+<<<<<<< HEAD
         <div class="form-group">
             <label class="form-label">
                 ទំនាក់ទំនង
@@ -421,6 +442,44 @@
             </div>
             <span class="form-hint">ប្រសិនបើគូសធីកនេះ វានឹងលុបចោលទំនាក់ទំនងចម្បងចាស់ដោយស្វ័យប្រវត្តិ (Checking this automatically unmarks any other primary contact for this student)</span>
         </div>
+=======
+        <table class="parent-link-table">
+            <thead>
+                <tr>
+                    <th style="width: 36px;"></th>
+                    <th>ឈ្មោះ (Name)</th>
+                    <th>ទំនាក់ទំនង (Relationship)</th>
+                    <th style="width: 90px;">ចម្បង (Primary)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($parents as $parent)
+                    @php
+                        $isLinked = in_array($parent->parent_id, $linkedParentIds);
+                        $pivotRelationship = $student->parents->firstWhere('parent_id', $parent->parent_id)?->pivot->relationship;
+                    @endphp
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="parent_ids[]" value="{{ $parent->parent_id }}" {{ $isLinked ? 'checked' : '' }}>
+                        </td>
+                        <td>{{ $parent->fullName() }} <span class="form-hint" style="display:inline;">({{ $parent->phone }})</span></td>
+                        <td>
+                            <input type="text" name="relationships[{{ $parent->parent_id }}]" value="{{ old('relationships.' . $parent->parent_id, $pivotRelationship) }} " placeholder="ឧ. ម្តាយ (Mother)">
+                        </td>
+                        <td style="text-align:center;">
+                            <input type="radio" name="primary_parent_id" value="{{ $parent->parent_id }}" {{ old('primary_parent_id', $primaryParentId) == $parent->parent_id ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" style="text-align:center; color: var(--neutral-500); padding: 1rem;">
+                            មិនទាន់មានឪពុកម្តាយក្នុងប្រព័ន្ធនៅឡើយទេ។
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+>>>>>>> miracle-branch
 
         <div class="btn-group-submit">
             <button type="submit" class="btn btn-success">ធ្វើបច្ចុប្បន្នភាព</button>
