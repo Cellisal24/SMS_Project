@@ -180,7 +180,6 @@
         background-color: var(--neutral-300);
     }
 
-<<<<<<< HEAD
     .parent-link-table {
         width: 100%;
         border-collapse: collapse;
@@ -209,14 +208,10 @@
         border-radius: 0.375rem;
         width: 100%;
     }
-
-=======
->>>>>>> miracle-branch
     @media (max-width: 640px) {
         .link-form-container {
             padding: 1.5rem;
         }
-
         .link-form-header h1 {
             font-size: 1.5rem;
         }
@@ -231,7 +226,6 @@
     }
 </style>
 
-<<<<<<< HEAD
 @php
     $linkedParentIds = $student->parents->pluck('parent_id')->toArray();
     $primaryParentId = optional($student->parents->firstWhere('pivot.is_primary', true))->parent_id;
@@ -245,20 +239,16 @@
         <h1>ធ្វើបច្ចុប្បន្នភាពសិស្ស</h1>
         <p class="subtitle">Edit student information</p>
         <span class="student-info-badge">ID: {{ $student->student_id }}</span>
-=======
 <div class="link-form-container">
     <div class="link-form-header">
         <h1>ធ្វើបច្ចុប្បន្នភាពការភ្ជាប់</h1>
         <p class="subtitle">Edit student-parent link</p>
         <span class="link-info-badge">ID: {{ $studentParent->id }}</span>
->>>>>>> miracle-branch
     </div>
 
     <form action="{{ route('admin.student_parents.update', $studentParent->id) }}" method="POST">
         @csrf
         @method('PUT')
-
-<<<<<<< HEAD
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">
@@ -367,8 +357,6 @@
             </div>
         </div>
 
-=======
->>>>>>> miracle-branch
         <div class="form-group">
             <label class="form-label">
                 សិស្ស
