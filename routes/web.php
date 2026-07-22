@@ -9,8 +9,6 @@ use App\Http\Controllers\Admin\TeacherController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\ParentController;
-use App\Http\Controllers\Admin\StudentParentController;
-
 use App\Http\Controllers\Admin\SchoolClassController;
 
 use App\Http\Controllers\Admin\StudentParentController;
@@ -98,10 +96,7 @@ Route::post('/student-parents', [StudentParentController::class, 'store'])->name
 Route::get('/student-parents/{studentParent}/edit', [StudentParentController::class, 'edit'])->name('admin.student_parents.edit');
 Route::put('/student-parents/{studentParent}', [StudentParentController::class, 'update'])->name('admin.student_parents.update');
 Route::delete('/student-parents/{studentParent}', [StudentParentController::class, 'destroy'])->name('admin.student_parents.destroy');
-<<<<<<< HEAD
-=======
 
->>>>>>> miracle-branch
 
 
 Route::get('/dashboard-parent', [DashboardController::class, 'dashboardParent'])->name('dashboard-parent');
