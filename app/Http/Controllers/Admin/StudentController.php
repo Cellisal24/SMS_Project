@@ -52,13 +52,14 @@ class StudentController extends Controller
         ->with('success', "Student {$student->fullName()} created successfully.");
 }
 
-    public function edit(Student $student)
-    {
-        $student->load('parents');
-        $parents = ParentModel::orderBy('first_name')->get();
+   public function edit(Student $student)
+{
+    $student->load('parents');
+    $parents = ParentModel::orderBy('first_name')->get();
+    $rooms = Room::orderBy('room_name')->get();
 
-        return view('admin.students.edit', compact('student', 'parents'));
-    }
+    return view('admin.students.edit', compact('student', 'parents', 'rooms'));
+}
 
     public function update(Request $request, Student $student)
 {
@@ -88,8 +89,8 @@ class StudentController extends Controller
     return $request->validate([
         'first_name'    => ['required', 'string', 'max:50'],
         'last_name'     => ['required', 'string', 'max:50'],
-        'gender'        => ['nullable', 'in:M,F'],
-        'date_of_birth' => ['nullable', 'date'],
+        'gender'        => ['required', 'in:M,F'],
+        'date_of_birth' => ['required', 'date'],
         'class_id'      => ['nullable', 'string', 'max:10', 'exists:rooms,room_id'],
         'parent_phone'  => ['nullable', 'string', 'max:20'],
         'status'        => ['required', 'in:active,inactive,graduated,transferred'],

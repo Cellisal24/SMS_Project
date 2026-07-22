@@ -314,7 +314,7 @@
                     type="date"
                     name="date_of_birth"
                     class="form-control @error('date_of_birth') is-invalid @enderror"
-                    value="{{ old('date_of_birth') }}"
+                    value="{{ old('date_of_birth') }}  required"
                 >
                 @error('date_of_birth')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -324,19 +324,19 @@
 
         <div class="form-row">
             <div class="form-group">
-    <label class="form-label">Class</label>
-    <select name="class_id" class="form-select @error('class_id') is-invalid @enderror">
-        <option value="">-- Select Class --</option>
-        @foreach ($rooms as $room)
-    <option value="{{ $room->room_id }}" {{ old('class_id') == $room->room_id ? 'selected' : '' }}>
-        {{ $room->room_id }}
-    </option>
-@endforeach
-    </select>
-    @error('class_id')
-        <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-</div>
+                    <label class="form-label">Class</label>
+                    <select name="class_id" class="form-select @error('class_id') is-invalid @enderror">
+                        <option value="">-- Select Class --</option>
+                        @foreach ($rooms as $room)
+                    <option value="{{ $room->room_id }}" {{ old('class_id') == $room->room_id ? 'selected' : '' }}>
+                        {{ $room->room_id }}
+                    </option>
+                @endforeach
+                    </select>
+                    @error('class_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
             <div class="form-group">
                 <label class="form-label">

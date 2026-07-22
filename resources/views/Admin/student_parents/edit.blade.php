@@ -13,19 +13,19 @@
         --neutral-700: #374151;
     }
 
-    .parent-form-container {
+    .link-form-container {
         max-width: 600px;
         margin: 0 auto;
         padding: 2rem;
     }
 
-    .parent-form-header {
+    .link-form-header {
         margin-bottom: 2.5rem;
         padding-bottom: 1.5rem;
         border-bottom: 2px solid var(--neutral-200);
     }
 
-    .parent-form-header h1 {
+    .link-form-header h1 {
         font-size: 2rem;
         font-weight: 700;
         color: var(--neutral-700);
@@ -33,14 +33,14 @@
         line-height: 1.2;
     }
 
-    .parent-form-header .subtitle {
+    .link-form-header .subtitle {
         font-size: 0.95rem;
         color: var(--neutral-500);
         margin-top: 0.5rem;
         font-weight: 500;
     }
 
-    .parent-info-badge {
+    .link-info-badge {
         display: inline-block;
         background-color: var(--primary-light);
         color: white;
@@ -75,7 +75,8 @@
         margin-left: 0.5rem;
     }
 
-    .form-control {
+    .form-control,
+    .form-select {
         width: 100%;
         padding: 0.75rem 1rem;
         font-size: 1rem;
@@ -86,25 +87,27 @@
         font-family: inherit;
     }
 
-    .form-control:focus {
+    .form-control:focus,
+    .form-select:focus {
         outline: none;
         border-color: var(--primary-color);
         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         background-color: #fff;
     }
 
-    .form-control::placeholder {
-        color: var(--neutral-400);
+    .form-select {
+        padding: 0.75rem 1rem;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234b5563' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        padding-right: 2.5rem;
     }
 
-    .form-control.is-invalid {
+    .form-control.is-invalid,
+    .form-select.is-invalid {
         border-color: var(--danger-color);
         background-color: rgba(220, 38, 38, 0.02);
-    }
-
-    .form-control.is-invalid:focus {
-        border-color: var(--danger-color);
-        box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
     }
 
     .invalid-feedback {
@@ -120,6 +123,17 @@
         color: var(--neutral-500);
         margin-top: 0.375rem;
         display: block;
+    }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .form-check input {
+        width: 1.1rem;
+        height: 1.1rem;
     }
 
     .btn-group-submit {
@@ -167,11 +181,11 @@
     }
 
     @media (max-width: 640px) {
-        .parent-form-container {
+        .link-form-container {
             padding: 1.5rem;
         }
 
-        .parent-form-header h1 {
+        .link-form-header h1 {
             font-size: 1.5rem;
         }
 
@@ -185,118 +199,85 @@
     }
 </style>
 
-<div class="parent-form-container">
-    <div class="parent-form-header">
-        <h1>ធ្វើបច្ចុប្បន្នភាពឪពុកម្តាយ</h1>
-        <p class="subtitle">Edit parent / guardian information</p>
-        <span class="parent-info-badge">ID: {{ $parent->parent_id }}</span>
+<div class="link-form-container">
+    <div class="link-form-header">
+        <h1>ធ្វើបច្ចុប្បន្នភាពការភ្ជាប់</h1>
+        <p class="subtitle">Edit student-parent link</p>
+        <span class="link-info-badge">ID: {{ $studentParent->id }}</span>
     </div>
 
-    <form action="{{ route('admin.parents.update', $parent->parent_id) }}" method="POST">
+    <form action="{{ route('admin.student_parents.update', $studentParent->id) }}" method="POST">
         @csrf
         @method('PUT')
 
         <div class="form-group">
             <label class="form-label">
-                នាមខ្លួន
-                <span class="lang-note">(First name)</span>
+                សិស្ស
+                <span class="lang-note">(Student)</span>
             </label>
-            <input
-                type="text"
-                name="first_name"
-                class="form-control @error('first_name') is-invalid @enderror"
-                value="{{ old('first_name', $parent->first_name) }}"
-                required
-                maxlength="50"
-            >
-            @error('first_name')
+            <select name="student_id" class="form-select @error('student_id') is-invalid @enderror" required>
+                <option value="">-- ជ្រើសរើសសិស្ស --</option>
+                @foreach ($students as $student)
+                    <option value="{{ $student->student_id }}" {{ old('student_id', $studentParent->student_id) == $student->student_id ? 'selected' : '' }}>
+                        {{ $student->fullName() }} ({{ $student->student_id }})
+                    </option>
+                @endforeach
+            </select>
+            @error('student_id')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
         <div class="form-group">
             <label class="form-label">
-                នាមត្រកូល
-                <span class="lang-note">(Last name)</span>
+                ឪពុកម្តាយ
+                <span class="lang-note">(Parent)</span>
             </label>
-            <input
-                type="text"
-                name="last_name"
-                class="form-control @error('last_name') is-invalid @enderror"
-                value="{{ old('last_name', $parent->last_name) }}"
-                required
-                maxlength="50"
-            >
-            @error('last_name')
+            <select name="parent_id" class="form-select @error('parent_id') is-invalid @enderror" required>
+                <option value="">-- ជ្រើសរើសឪពុកម្តាយ --</option>
+                @foreach ($parents as $parent)
+                    <option value="{{ $parent->parent_id }}" {{ old('parent_id', $studentParent->parent_id) == $parent->parent_id ? 'selected' : '' }}>
+                        {{ $parent->fullName() }} ({{ $parent->parent_id }})
+                    </option>
+                @endforeach
+            </select>
+            @error('parent_id')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
         <div class="form-group">
             <label class="form-label">
-                លេខទូរស័ព្ទ
-                <span class="lang-note">(Phone)</span>
+                ទំនាក់ទំនង
+                <span class="lang-note">(Relationship)</span>
             </label>
             <input
                 type="text"
-                name="phone"
-                class="form-control @error('phone') is-invalid @enderror"
-                value="{{ old('phone', $parent->phone) }}"
-                maxlength="20"
-            >
-            @error('phone')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <div class="form-group">
-            <label class="form-label">
-                អ៊ីមែល
-                <span class="lang-note">(Email)</span>
-            </label>
-            <input
-                type="email"
-                name="email"
-                class="form-control @error('email') is-invalid @enderror"
-                value="{{ old('email', $parent->email) }}"
-                maxlength="100"
-            >
-            @error('email')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <div class="form-group">
-            <label class="form-label">
-                អត្តសញ្ញាណប័ណ្ណ
-                <span class="lang-note">(National ID)</span>
-            </label>
-            <input
-                type="text"
-                name="national_id"
-                class="form-control @error('national_id') is-invalid @enderror"
-                value="{{ old('national_id', $parent->national_id) }}"
+                name="relationship"
+                class="form-control @error('relationship') is-invalid @enderror"
+                value="{{ old('relationship', $studentParent->relationship) }}"
+                placeholder="ឧទាហរណ៍៖ ម្តាយ, ឪពុក, អាណាព្យាបាល (Mother, Father, Guardian)"
                 maxlength="30"
             >
-            @error('national_id')
+            @error('relationship')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
-        @if ($parent->students->count())
-            <div class="form-group">
-                <label class="form-label">កូនៗដែលបានភ្ជាប់ <span class="lang-note">(Linked children)</span></label>
-                <p class="form-hint">
-                    @foreach ($parent->students as $child)
-                        {{ $child->fullName() }}{{ $loop->last ? '' : ', ' }}
-                    @endforeach
-                </p>
+        <div class="form-group">
+            <div class="form-check">
+                <input type="checkbox" name="is_primary" id="is_primary" value="1" {{ old('is_primary', $studentParent->is_primary) ? 'checked' : '' }}>
+                <label class="form-label mb-0" for="is_primary" style="margin-bottom:0;">
+                    ជាទំនាក់ទំនងចម្បង
+                    <span class="lang-note">(Primary contact)</span>
+                </label>
             </div>
-        @endif
+            <span class="form-hint">ប្រសិនបើគូសធីកនេះ វានឹងលុបចោលទំនាក់ទំនងចម្បងចាស់ដោយស្វ័យប្រវត្តិ (Checking this automatically unmarks any other primary contact for this student)</span>
+        </div>
 
         <div class="btn-group-submit">
             <button type="submit" class="btn btn-success">ធ្វើបច្ចុប្បន្នភាព</button>
-            <a href="{{ route('admin.parents.index') }}" class="btn btn-secondary">ត្រឡប់ក្រោយ</a>
+            <a href="{{ route('admin.student_parents.index') }}" class="btn btn-secondary">ត្រឡប់ក្រោយ</a>
         </div>
     </form>
 </div>
