@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ParentModel;
 use App\Models\Student;
 use Illuminate\Http\Request;
-use App\Models\Room;
+use App\Models\SchoolClass;
 
 class StudentController extends Controller
 {
@@ -34,9 +34,9 @@ class StudentController extends Controller
    public function create()
 {
     $parents = ParentModel::orderBy('first_name')->get();
-    $rooms = Room::orderBy('room_name')->get();
+    $classes = SchoolClass::orderBy('class_name')->get();
 
-    return view('admin.students.create', compact('parents', 'rooms'));
+    return view('admin.students.create', compact('parents', 'classes'));
 }
 
    public function store(Request $request)
@@ -56,9 +56,9 @@ class StudentController extends Controller
 {
     $student->load('parents');
     $parents = ParentModel::orderBy('first_name')->get();
-    $rooms = Room::orderBy('room_name')->get();
+    $classes = SchoolClass::orderBy('class_name')->get();
 
-    return view('admin.students.edit', compact('student', 'parents', 'rooms'));
+    return view('admin.students.edit', compact('student', 'parents', 'classes'));
 }
 
     public function update(Request $request, Student $student)
@@ -84,14 +84,14 @@ class StudentController extends Controller
             ->with('success', "Student {$name} deleted successfully.");
     }
 
-    private function validateStudent(Request $request, ?string $studentId = null): array
+   private function validateStudent(Request $request, ?string $studentId = null): array
 {
     return $request->validate([
         'first_name'    => ['required', 'string', 'max:50'],
         'last_name'     => ['required', 'string', 'max:50'],
         'gender'        => ['required', 'in:M,F'],
         'date_of_birth' => ['required', 'date'],
-        'class_id'      => ['nullable', 'string', 'max:10', 'exists:rooms,room_id'],
+        'class_id'      => ['nullable', 'string', 'max:10', 'exists:classes,class_id'],
         'parent_phone'  => ['nullable', 'string', 'max:20'],
         'status'        => ['required', 'in:active,inactive,graduated,transferred'],
     ]);

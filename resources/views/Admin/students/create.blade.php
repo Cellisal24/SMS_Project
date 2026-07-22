@@ -89,7 +89,6 @@
         margin-left: 0.5rem;
     }
 
-    /* 💡 កែតម្រូវពណ៌ប្រអប់ Input ឱ្យភ្លឺច្បាស់លាស់ */
     .form-control,
     .form-select {
         width: 100%;
@@ -97,16 +96,8 @@
         font-size: 1rem;
         border: 1.5px solid var(--neutral-300);
         border-radius: 0.5rem;
-<<<<<<< HEAD
-<<<<<<< HEAD
         background-color: #ffffff;
         color: #1f2937;
-=======
-        background-color: #e4e7ec;
->>>>>>> miracle-branch
-=======
-        background-color: #e4e7ec;
->>>>>>> miracle-branch
         transition: all 0.2s ease;
         font-family: inherit;
     }
@@ -116,16 +107,8 @@
         outline: none;
         border-color: var(--primary-color);
         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-<<<<<<< HEAD
-<<<<<<< HEAD
         background-color: #ffffff;
         color: #1f2937;
-=======
-        background-color: #f0f2f5;
->>>>>>> miracle-branch
-=======
-        background-color: #f0f2f5;
->>>>>>> miracle-branch
     }
 
     .form-control::placeholder {
@@ -334,7 +317,8 @@
                     type="date"
                     name="date_of_birth"
                     class="form-control @error('date_of_birth') is-invalid @enderror"
-                    value="{{ old('date_of_birth') }}  required"
+                    value="{{ old('date_of_birth') }}"
+                    required
                 >
                 @error('date_of_birth')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -343,19 +327,16 @@
         </div>
 
         <div class="form-row">
-            {{-- 💡 ប្ដូរ Class ID មកជា Select Dropdown វិញ --}}
             <div class="form-group">
-<<<<<<< HEAD
-<<<<<<< HEAD
                 <label class="form-label">
-                    ថ្នាក់
+                    ថ្នាក់រៀន
                     <span class="lang-note">(Class)</span>
                 </label>
                 <select name="class_id" class="form-select @error('class_id') is-invalid @enderror">
                     <option value="">-- ជ្រើសរើសថ្នាក់រៀន --</option>
-                    @foreach($classes as $class)
+                    @foreach ($classes as $class)
                         <option value="{{ $class->class_id }}" {{ old('class_id') == $class->class_id ? 'selected' : '' }}>
-                            {{ $class->class_name }} ({{ $class->class_id }})
+                            {{ $class->class_name }}
                         </option>
                     @endforeach
                 </select>
@@ -363,36 +344,6 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
-=======
-    <label class="form-label">Class</label>
-    <select name="class_id" class="form-select @error('class_id') is-invalid @enderror">
-        <option value="">-- Select Class --</option>
-        @foreach ($rooms as $room)
-    <option value="{{ $room->room_id }}" {{ old('class_id') == $room->room_id ? 'selected' : '' }}>
-        {{ $room->room_id }}
-    </option>
-@endforeach
-    </select>
-    @error('class_id')
-        <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-</div>
->>>>>>> miracle-branch
-=======
-                    <label class="form-label">Class</label>
-                    <select name="class_id" class="form-select @error('class_id') is-invalid @enderror">
-                        <option value="">-- Select Class --</option>
-                        @foreach ($rooms as $room)
-                    <option value="{{ $room->room_id }}" {{ old('class_id') == $room->room_id ? 'selected' : '' }}>
-                        {{ $room->room_id }}
-                    </option>
-                @endforeach
-                    </select>
-                    @error('class_id')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
->>>>>>> miracle-branch
 
             <div class="form-group">
                 <label class="form-label">

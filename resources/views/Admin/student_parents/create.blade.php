@@ -70,7 +70,7 @@
         font-size: 1rem;
         border: 1.5px solid var(--neutral-300);
         border-radius: 0.5rem;
-        background-color: #374151;
+        background-color: #f7f9fc;
         transition: all 0.2s ease;
         font-family: inherit;
     }
@@ -80,7 +80,7 @@
         outline: none;
         border-color: var(--primary-color);
         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        background-color: #374151;
+        background-color: #8fb5f1;
     }
 
     .form-select {

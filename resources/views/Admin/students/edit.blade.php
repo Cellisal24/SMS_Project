@@ -13,19 +13,19 @@
         --neutral-700: #374151;
     }
 
-    .link-form-container {
-        max-width: 600px;
+    .student-form-container {
+        max-width: 700px;
         margin: 0 auto;
         padding: 2rem;
     }
 
-    .link-form-header {
+    .student-form-header {
         margin-bottom: 2.5rem;
         padding-bottom: 1.5rem;
         border-bottom: 2px solid var(--neutral-200);
     }
 
-    .link-form-header h1 {
+    .student-form-header h1 {
         font-size: 2rem;
         font-weight: 700;
         color: var(--neutral-700);
@@ -33,14 +33,14 @@
         line-height: 1.2;
     }
 
-    .link-form-header .subtitle {
+    .student-form-header .subtitle {
         font-size: 0.95rem;
         color: var(--neutral-500);
         margin-top: 0.5rem;
         font-weight: 500;
     }
 
-    .link-info-badge {
+    .student-info-badge {
         display: inline-block;
         background-color: var(--primary-light);
         color: white;
@@ -49,6 +49,26 @@
         font-size: 0.875rem;
         font-weight: 600;
         margin-top: 0.75rem;
+    }
+
+    .form-section-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--neutral-700);
+        margin: 2rem 0 1rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--neutral-200);
+    }
+
+    .form-row {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .form-row .form-group {
+        flex: 1;
+        min-width: 200px;
     }
 
     .form-group {
@@ -125,17 +145,6 @@
         display: block;
     }
 
-    .form-check {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .form-check input {
-        width: 1.1rem;
-        height: 1.1rem;
-    }
-
     .btn-group-submit {
         display: flex;
         gap: 1rem;
@@ -208,11 +217,13 @@
         border-radius: 0.375rem;
         width: 100%;
     }
+
     @media (max-width: 640px) {
-        .link-form-container {
+        .student-form-container {
             padding: 1.5rem;
         }
-        .link-form-header h1 {
+
+        .student-form-header h1 {
             font-size: 1.5rem;
         }
 
@@ -229,8 +240,6 @@
 @php
     $linkedParentIds = $student->parents->pluck('parent_id')->toArray();
     $primaryParentId = optional($student->parents->firstWhere('pivot.is_primary', true))->parent_id;
-    
-    // បំលែង Date of birth ឱ្យមានសុវត្ថិភាព
     $dobFormatted = $student->date_of_birth ? \Carbon\Carbon::parse($student->date_of_birth)->format('Y-m-d') : '';
 @endphp
 
@@ -239,16 +248,12 @@
         <h1>ធ្វើបច្ចុប្បន្នភាពសិស្ស</h1>
         <p class="subtitle">Edit student information</p>
         <span class="student-info-badge">ID: {{ $student->student_id }}</span>
-<div class="link-form-container">
-    <div class="link-form-header">
-        <h1>ធ្វើបច្ចុប្បន្នភាពការភ្ជាប់</h1>
-        <p class="subtitle">Edit student-parent link</p>
-        <span class="link-info-badge">ID: {{ $studentParent->id }}</span>
     </div>
 
-    <form action="{{ route('admin.student_parents.update', $studentParent->id) }}" method="POST">
+    <form action="{{ route('admin.students.update', $student->student_id) }}" method="POST">
         @csrf
         @method('PUT')
+
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">
@@ -312,12 +317,8 @@
                     type="date"
                     name="date_of_birth"
                     class="form-control @error('date_of_birth') is-invalid @enderror"
-<<<<<<< HEAD
                     value="{{ old('date_of_birth', $dobFormatted) }}"
                     required
-=======
-                    value="{{ old('date_of_birth', optional($student->date_of_birth)->format('Y-m-d')) }} required"
->>>>>>> miracle-branch
                 >
                 @error('date_of_birth')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -327,14 +328,13 @@
 
         <div class="form-row">
             <div class="form-group">
-<<<<<<< HEAD
                 <label class="form-label">
                     ថ្នាក់រៀន
                     <span class="lang-note">(Class)</span>
                 </label>
-                <select name="class_id" class="form-select @error('class_id') is-invalid @enderror" required>
+                <select name="class_id" class="form-select @error('class_id') is-invalid @enderror">
                     <option value="">-- ជ្រើសរើសថ្នាក់រៀន --</option>
-                    @foreach($classes as $class)
+                    @foreach ($classes as $class)
                         <option value="{{ $class->class_id }}" {{ old('class_id', $student->class_id) == $class->class_id ? 'selected' : '' }}>
                             {{ $class->class_name }}
                         </option>
@@ -345,21 +345,6 @@
                 @enderror
             </div>
 
-=======
-                    <label class="form-label">Class</label>
-                    <select name="class_id" class="form-select @error('class_id') is-invalid @enderror">
-                        <option value="">-- Select Class --</option>
-                        @foreach ($rooms as $room)
-                    <option value="{{ $room->room_id }}" {{ old('class_id', $student->class_id) == $room->room_id ? 'selected' : '' }}>
-                        {{ $room->room_id }}
-                    </option>
-                @endforeach
-                    </select>
-                    @error('class_id')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
->>>>>>> miracle-branch
             <div class="form-group">
                 <label class="form-label">
                     ស្ថានភាព
@@ -379,70 +364,24 @@
 
         <div class="form-group">
             <label class="form-label">
-                សិស្ស
-                <span class="lang-note">(Student)</span>
-            </label>
-            <select name="student_id" class="form-select @error('student_id') is-invalid @enderror" required>
-                <option value="">-- ជ្រើសរើសសិស្ស --</option>
-                @foreach ($students as $student)
-                    <option value="{{ $student->student_id }}" {{ old('student_id', $studentParent->student_id) == $student->student_id ? 'selected' : '' }}>
-                        {{ $student->fullName() }} ({{ $student->student_id }})
-                    </option>
-                @endforeach
-            </select>
-            @error('student_id')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <div class="form-group">
-            <label class="form-label">
-                ឪពុកម្តាយ
-                <span class="lang-note">(Parent)</span>
-            </label>
-            <select name="parent_id" class="form-select @error('parent_id') is-invalid @enderror" required>
-                <option value="">-- ជ្រើសរើសឪពុកម្តាយ --</option>
-                @foreach ($parents as $parent)
-                    <option value="{{ $parent->parent_id }}" {{ old('parent_id', $studentParent->parent_id) == $parent->parent_id ? 'selected' : '' }}>
-                        {{ $parent->fullName() }} ({{ $parent->parent_id }})
-                    </option>
-                @endforeach
-            </select>
-            @error('parent_id')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-<<<<<<< HEAD
-        <div class="form-group">
-            <label class="form-label">
-                ទំនាក់ទំនង
-                <span class="lang-note">(Relationship)</span>
+                លេខទូរស័ព្ទឪពុកម្តាយ
+                <span class="lang-note">(Parent contact phone)</span>
             </label>
             <input
                 type="text"
-                name="relationship"
-                class="form-control @error('relationship') is-invalid @enderror"
-                value="{{ old('relationship', $studentParent->relationship) }}"
-                placeholder="ឧទាហរណ៍៖ ម្តាយ, ឪពុក, អាណាព្យាបាល (Mother, Father, Guardian)"
-                maxlength="30"
+                name="parent_phone"
+                class="form-control @error('parent_phone') is-invalid @enderror"
+                value="{{ old('parent_phone', $student->parent_phone) }}"
+                maxlength="20"
             >
-            @error('relationship')
+            @error('parent_phone')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
-        <div class="form-group">
-            <div class="form-check">
-                <input type="checkbox" name="is_primary" id="is_primary" value="1" {{ old('is_primary', $studentParent->is_primary) ? 'checked' : '' }}>
-                <label class="form-label mb-0" for="is_primary" style="margin-bottom:0;">
-                    ជាទំនាក់ទំនងចម្បង
-                    <span class="lang-note">(Primary contact)</span>
-                </label>
-            </div>
-            <span class="form-hint">ប្រសិនបើគូសធីកនេះ វានឹងលុបចោលទំនាក់ទំនងចម្បងចាស់ដោយស្វ័យប្រវត្តិ (Checking this automatically unmarks any other primary contact for this student)</span>
-        </div>
-=======
+        <div class="form-section-title">ភ្ជាប់ជាមួយឪពុកម្តាយ (Linked Parents)</div>
+        <p class="form-hint" style="margin-bottom: 1rem;">ជ្រើសរើសឪពុកម្តាយដែលភ្ជាប់ជាមួយសិស្សនេះ (Select which parents belong to this student)</p>
+
         <table class="parent-link-table">
             <thead>
                 <tr>
@@ -464,7 +403,7 @@
                         </td>
                         <td>{{ $parent->fullName() }} <span class="form-hint" style="display:inline;">({{ $parent->phone }})</span></td>
                         <td>
-                            <input type="text" name="relationships[{{ $parent->parent_id }}]" value="{{ old('relationships.' . $parent->parent_id, $pivotRelationship) }} " placeholder="ឧ. ម្តាយ (Mother)">
+                            <input type="text" name="relationships[{{ $parent->parent_id }}]" value="{{ old('relationships.' . $parent->parent_id, $pivotRelationship) }}" placeholder="ឧ. ម្តាយ (Mother)">
                         </td>
                         <td style="text-align:center;">
                             <input type="radio" name="primary_parent_id" value="{{ $parent->parent_id }}" {{ old('primary_parent_id', $primaryParentId) == $parent->parent_id ? 'checked' : '' }}>
@@ -479,11 +418,10 @@
                 @endforelse
             </tbody>
         </table>
->>>>>>> miracle-branch
 
         <div class="btn-group-submit">
             <button type="submit" class="btn btn-success">ធ្វើបច្ចុប្បន្នភាព</button>
-            <a href="{{ route('admin.student_parents.index') }}" class="btn btn-secondary">ត្រឡប់ក្រោយ</a>
+            <a href="{{ route('admin.students.index') }}" class="btn btn-secondary">ត្រឡប់ក្រោយ</a>
         </div>
     </form>
 </div>

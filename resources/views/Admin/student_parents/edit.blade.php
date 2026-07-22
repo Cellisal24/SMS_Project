@@ -13,31 +13,19 @@
         --neutral-700: #374151;
     }
 
-<<<<<<< HEAD
-    .parent-form-container {
-=======
     .link-form-container {
->>>>>>> miracle-branch
         max-width: 600px;
         margin: 0 auto;
         padding: 2rem;
     }
 
-<<<<<<< HEAD
-    .parent-form-header {
-=======
     .link-form-header {
->>>>>>> miracle-branch
         margin-bottom: 2.5rem;
         padding-bottom: 1.5rem;
         border-bottom: 2px solid var(--neutral-200);
     }
 
-<<<<<<< HEAD
-    .parent-form-header h1 {
-=======
     .link-form-header h1 {
->>>>>>> miracle-branch
         font-size: 2rem;
         font-weight: 700;
         color: var(--neutral-700);
@@ -45,22 +33,14 @@
         line-height: 1.2;
     }
 
-<<<<<<< HEAD
-    .parent-form-header .subtitle {
-=======
     .link-form-header .subtitle {
->>>>>>> miracle-branch
         font-size: 0.95rem;
         color: var(--neutral-500);
         margin-top: 0.5rem;
         font-weight: 500;
     }
 
-<<<<<<< HEAD
-    .parent-info-badge {
-=======
     .link-info-badge {
->>>>>>> miracle-branch
         display: inline-block;
         background-color: var(--primary-light);
         color: white;
@@ -95,12 +75,8 @@
         margin-left: 0.5rem;
     }
 
-<<<<<<< HEAD
-    .form-control {
-=======
     .form-control,
     .form-select {
->>>>>>> miracle-branch
         width: 100%;
         padding: 0.75rem 1rem;
         font-size: 1rem;
@@ -111,25 +87,14 @@
         font-family: inherit;
     }
 
-<<<<<<< HEAD
-    .form-control:focus {
-=======
     .form-control:focus,
     .form-select:focus {
->>>>>>> miracle-branch
         outline: none;
         border-color: var(--primary-color);
         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         background-color: #fff;
     }
 
-<<<<<<< HEAD
-    .form-control::placeholder {
-        color: var(--neutral-400);
-    }
-
-    .form-control.is-invalid {
-=======
     .form-select {
         padding: 0.75rem 1rem;
         appearance: none;
@@ -141,19 +106,10 @@
 
     .form-control.is-invalid,
     .form-select.is-invalid {
->>>>>>> miracle-branch
         border-color: var(--danger-color);
         background-color: rgba(220, 38, 38, 0.02);
     }
 
-<<<<<<< HEAD
-    .form-control.is-invalid:focus {
-        border-color: var(--danger-color);
-        box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
-    }
-
-=======
->>>>>>> miracle-branch
     .invalid-feedback {
         display: block;
         font-size: 0.875rem;
@@ -169,8 +125,6 @@
         display: block;
     }
 
-<<<<<<< HEAD
-=======
     .form-check {
         display: flex;
         align-items: center;
@@ -182,7 +136,6 @@
         height: 1.1rem;
     }
 
->>>>>>> miracle-branch
     .btn-group-submit {
         display: flex;
         gap: 1rem;
@@ -228,19 +181,11 @@
     }
 
     @media (max-width: 640px) {
-<<<<<<< HEAD
-        .parent-form-container {
-            padding: 1.5rem;
-        }
-
-        .parent-form-header h1 {
-=======
         .link-form-container {
             padding: 1.5rem;
         }
 
         .link-form-header h1 {
->>>>>>> miracle-branch
             font-size: 1.5rem;
         }
 
@@ -254,16 +199,6 @@
     }
 </style>
 
-<<<<<<< HEAD
-<div class="parent-form-container">
-    <div class="parent-form-header">
-        <h1>ធ្វើបច្ចុប្បន្នភាពឪពុកម្តាយ</h1>
-        <p class="subtitle">Edit parent / guardian information</p>
-        <span class="parent-info-badge">ID: {{ $parent->parent_id }}</span>
-    </div>
-
-    <form action="{{ route('admin.parents.update', $parent->parent_id) }}" method="POST">
-=======
 <div class="link-form-container">
     <div class="link-form-header">
         <h1>ធ្វើបច្ចុប្បន្នភាពការភ្ជាប់</h1>
@@ -272,26 +207,11 @@
     </div>
 
     <form action="{{ route('admin.student_parents.update', $studentParent->id) }}" method="POST">
->>>>>>> miracle-branch
         @csrf
         @method('PUT')
 
         <div class="form-group">
             <label class="form-label">
-<<<<<<< HEAD
-                នាមខ្លួន
-                <span class="lang-note">(First name)</span>
-            </label>
-            <input
-                type="text"
-                name="first_name"
-                class="form-control @error('first_name') is-invalid @enderror"
-                value="{{ old('first_name', $parent->first_name) }}"
-                required
-                maxlength="50"
-            >
-            @error('first_name')
-=======
                 សិស្ស
                 <span class="lang-note">(Student)</span>
             </label>
@@ -304,27 +224,12 @@
                 @endforeach
             </select>
             @error('student_id')
->>>>>>> miracle-branch
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
         <div class="form-group">
             <label class="form-label">
-<<<<<<< HEAD
-                នាមត្រកូល
-                <span class="lang-note">(Last name)</span>
-            </label>
-            <input
-                type="text"
-                name="last_name"
-                class="form-control @error('last_name') is-invalid @enderror"
-                value="{{ old('last_name', $parent->last_name) }}"
-                required
-                maxlength="50"
-            >
-            @error('last_name')
-=======
                 ឪពុកម្តាយ
                 <span class="lang-note">(Parent)</span>
             </label>
@@ -337,60 +242,12 @@
                 @endforeach
             </select>
             @error('parent_id')
->>>>>>> miracle-branch
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
         <div class="form-group">
             <label class="form-label">
-<<<<<<< HEAD
-                លេខទូរស័ព្ទ
-                <span class="lang-note">(Phone)</span>
-            </label>
-            <input
-                type="text"
-                name="phone"
-                class="form-control @error('phone') is-invalid @enderror"
-                value="{{ old('phone', $parent->phone) }}"
-                maxlength="20"
-            >
-            @error('phone')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <div class="form-group">
-            <label class="form-label">
-                អ៊ីមែល
-                <span class="lang-note">(Email)</span>
-            </label>
-            <input
-                type="email"
-                name="email"
-                class="form-control @error('email') is-invalid @enderror"
-                value="{{ old('email', $parent->email) }}"
-                maxlength="100"
-            >
-            @error('email')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <div class="form-group">
-            <label class="form-label">
-                អត្តសញ្ញាណប័ណ្ណ
-                <span class="lang-note">(National ID)</span>
-            </label>
-            <input
-                type="text"
-                name="national_id"
-                class="form-control @error('national_id') is-invalid @enderror"
-                value="{{ old('national_id', $parent->national_id) }}"
-                maxlength="30"
-            >
-            @error('national_id')
-=======
                 ទំនាក់ទំនង
                 <span class="lang-note">(Relationship)</span>
             </label>
@@ -403,27 +260,10 @@
                 maxlength="30"
             >
             @error('relationship')
->>>>>>> miracle-branch
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
-<<<<<<< HEAD
-        @if ($parent->students->count())
-            <div class="form-group">
-                <label class="form-label">កូនៗដែលបានភ្ជាប់ <span class="lang-note">(Linked children)</span></label>
-                <p class="form-hint">
-                    @foreach ($parent->students as $child)
-                        {{ $child->fullName() }}{{ $loop->last ? '' : ', ' }}
-                    @endforeach
-                </p>
-            </div>
-        @endif
-
-        <div class="btn-group-submit">
-            <button type="submit" class="btn btn-success">ធ្វើបច្ចុប្បន្នភាព</button>
-            <a href="{{ route('admin.parents.index') }}" class="btn btn-secondary">ត្រឡប់ក្រោយ</a>
-=======
         <div class="form-group">
             <div class="form-check">
                 <input type="checkbox" name="is_primary" id="is_primary" value="1" {{ old('is_primary', $studentParent->is_primary) ? 'checked' : '' }}>
@@ -438,7 +278,6 @@
         <div class="btn-group-submit">
             <button type="submit" class="btn btn-success">ធ្វើបច្ចុប្បន្នភាព</button>
             <a href="{{ route('admin.student_parents.index') }}" class="btn btn-secondary">ត្រឡប់ក្រោយ</a>
->>>>>>> miracle-branch
         </div>
     </form>
 </div>

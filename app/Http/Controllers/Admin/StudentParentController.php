@@ -44,8 +44,9 @@ class StudentParentController extends Controller
     public function store(Request $request)
     {
         $validated = $this->validateLink($request);
+        $validated['is_primary'] = $request->boolean('is_primary');
 
-        if ($validated['is_primary'] ?? false) {
+        if ($validated['is_primary']) {
             StudentParent::where('student_id', $validated['student_id'])->update(['is_primary' => false]);
         }
 
@@ -67,8 +68,9 @@ class StudentParentController extends Controller
     public function update(Request $request, StudentParent $studentParent)
     {
         $validated = $this->validateLink($request, $studentParent->id);
+        $validated['is_primary'] = $request->boolean('is_primary');
 
-        if ($validated['is_primary'] ?? false) {
+        if ($validated['is_primary']) {
             StudentParent::where('student_id', $validated['student_id'])
                 ->where('id', '!=', $studentParent->id)
                 ->update(['is_primary' => false]);
