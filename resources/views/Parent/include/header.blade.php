@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Parent dashboard">
-  <title>Dashboard | ParentHMD</title>
+  <title>Dashboard | ParentSMS</title>
 
   <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/vendors/bootstrap-icons/bootstrap-icons.css') }}">
@@ -20,7 +20,7 @@
         <a class="brand-mark" href="{{ route('parent.dashboard') }}" aria-label="ParentHMD dashboard">
           <span class="brand-icon"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i></span>
           <span class="brand-copy">
-            <span class="brand-title">ParentHMD</span>
+            <span class="brand-title">ParentSMS</span>
             <span class="brand-subtitle">Parent Panel</span>
           </span>
         </a>
@@ -57,11 +57,11 @@
         </a>
       </nav>
 
-      <div class="sidebar-user">
+      <!-- <div class="sidebar-user">
         <img class="avatar-img avatar-md sidebar-user-avatar" src="{{ asset('assets/images/avatar/avatar.jpg') }}" alt="{{ auth()->user()->username }}">
         <strong>{{ auth()->user()->username }}</strong>
         <small>Parent Workspace</small>
-      </div>
+      </div> -->
 
       <div class="sidebar-footer">
         <span class="status-dot"></span>
@@ -90,7 +90,7 @@
             <div class="dropdown">
               <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <img class="avatar-img avatar-sm" src="{{ asset('assets/images/avatar/avatar.jpg') }}" alt="{{ auth()->user()->username }}">
-                <span class="profile-name d-none d-sm-inline">{{ auth()->user()->username }}</span>
+                <span class=" d-none d-sm-inline">{{ auth()->user()->username }}</span>
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
                 <li><a class="dropdown-item" href="#">Profile</a></li>
