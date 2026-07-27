@@ -12,6 +12,16 @@ use App\Http\Controllers\Admin\ParentController;
 use App\Http\Controllers\Admin\SchoolClassController;
 
 use App\Http\Controllers\Admin\StudentParentController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\AdminAuthController;
+use App\Http\Controllers\Admin\AttendanceController;
+use App\Http\Controllers\Teacher\ScheduleController as TeacherScheduleController;
+use App\Http\Controllers\Teacher\GradeController as TeacherGradeController;
+use App\Http\Controllers\Admin\ScheduleController;
+use App\Http\Controllers\Student\ScheduleController as StudentScheduleController;
+use App\Http\Controllers\Admin\GradeController;
+use App\Http\Controllers\Student\GradeController as StudentGradeController;
+
 
 
 /*
@@ -29,81 +39,162 @@ Route::get('/', function () {
     return view('welcome');
 });
 //Admin Dashboard
-Route::get('/dashboard-admin', [DashboardController::class, 'dashboard'])->name('dashboard-admin');
-
-//Grade Level Routes
-Route::get('/grade-levels', [GradeLevelController::class, 'index'])->name('grade-levels.index');
-Route::get('/grade-levels/create', [GradeLevelController::class, 'create'])->name('grade-levels.create');
-Route::post('/grade-levels', [GradeLevelController::class, 'store'])->name('grade-levels.store');
-Route::get('/grade-levels/{gradeLevel}', [GradeLevelController::class, 'show'])->name('grade-levels.show');
-Route::get('/grade-levels/{gradeLevel}/edit', [GradeLevelController::class, 'edit'])->name('grade-levels.edit');
-Route::put('/grade-levels/{gradeLevel}', [GradeLevelController::class, 'update'])->name('grade-levels.update');
-Route::delete('/grade-levels/{gradeLevel}', [GradeLevelController::class, 'destroy'])->name('grade-levels.destroy');
-
-//Room Routes
-Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');          // បង្ហាញបញ្ជី និង Search/Filter
-Route::get('/rooms/create', [RoomController::class, 'create'])->name('rooms.create');   // បង្ហាញផ្ទាំងបង្កើតថ្មី
-Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');          // ទទួលទិន្នន័យទៅរក្សាទុក (Insert)
-Route::get('/rooms/{room}', [RoomController::class, 'show'])->name('rooms.show');      // បង្ហាញព័ត៌មានលម្អិតបន្ទប់មួយ
-Route::get('/rooms/{room}/edit', [RoomController::class, 'edit'])->name('rooms.edit'); // បង្ហាញផ្ទាំងកែប្រែទិន្នន័យ
-Route::put('/rooms/{room}', [RoomController::class, 'update'])->name('rooms.update');  // ទទួលទិន្នន័យកែប្រែទៅបច្ចុប្បន្នភាព (Update)
-Route::delete('/rooms/{room}', [RoomController::class, 'destroy'])->name('rooms.destroy'); // លុបទិន្នន័យ (Delete)
-
-//Subject Routes
-Route::get('/subjects', [SubjectController::class, 'index'])->name('admin.subjects.index');
-Route::get('/subjects/create', [SubjectController::class, 'create'])->name('admin.subjects.create');
-Route::post('/subjects', [SubjectController::class, 'store'])->name('admin.subjects.store');
-Route::get('/subjects/{subject}', [SubjectController::class, 'show'])->name('admin.subjects.show');
-Route::get('/subjects/{subject}/edit', [SubjectController::class, 'edit'])->name('admin.subjects.edit');
-Route::put('/subjects/{subject}', [SubjectController::class, 'update'])->name('admin.subjects.update');
-Route::delete('/subjects/{subject}', [SubjectController::class, 'destroy'])->name('admin.subjects.destroy');
-
-// Students
-Route::get('/students', [StudentController::class, 'index'])->name('admin.students.index');
-Route::get('/students/create', [StudentController::class, 'create'])->name('admin.students.create');
-Route::post('/students', [StudentController::class, 'store'])->name('admin.students.store');
-Route::get('/students/{student}/edit', [StudentController::class, 'edit'])->name('admin.students.edit');
-Route::put('/students/{student}', [StudentController::class, 'update'])->name('admin.students.update');
-Route::delete('/students/{student}', [StudentController::class, 'destroy'])->name('admin.students.destroy');
-// School Classes Routes
-Route::get('/school-classes', [SchoolClassController::class, 'index'])->name('school-classes.index');
-Route::get('/school-classes/create', [SchoolClassController::class, 'create'])->name('school-classes.create');
-Route::post('/school-classes', [SchoolClassController::class, 'store'])->name('school-classes.store');
-Route::get('/school-classes/{schoolClass}', [SchoolClassController::class, 'show'])->name('school-classes.show');
-Route::get('/school-classes/{schoolClass}/edit', [SchoolClassController::class, 'edit'])->name('school-classes.edit');
-Route::put('/school-classes/{schoolClass}', [SchoolClassController::class, 'update'])->name('school-classes.update');
-Route::delete('/school-classes/{schoolClass}', [SchoolClassController::class, 'destroy'])->name('school-classes.destroy');
-//Teacher Routes
-Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers.index');
-Route::get('/teachers/create', [TeacherController::class, 'create'])->name('teachers.create');
-Route::post('/teachers', [TeacherController::class, 'store'])->name('teachers.store');
-Route::get('/teachers/{teacher}', [TeacherController::class, 'show'])->name('teachers.show');
-Route::get('/teachers/{teacher}/edit', [TeacherController::class, 'edit'])->name('teachers.edit');
-Route::put('/teachers/{teacher}', [TeacherController::class, 'update'])->name('teachers.update');
-Route::delete('/teachers/{teacher}', [TeacherController::class, 'destroy'])->name('teachers.destroy');
-// Parents
-Route::get('/parents', [ParentController::class, 'index'])->name('admin.parents.index');
-Route::get('/parents/create', [ParentController::class, 'create'])->name('admin.parents.create');
-Route::post('/parents', [ParentController::class, 'store'])->name('admin.parents.store');
-Route::get('/parents/{parent}/edit', [ParentController::class, 'edit'])->name('admin.parents.edit');
-Route::put('/parents/{parent}', [ParentController::class, 'update'])->name('admin.parents.update');
-Route::delete('/parents/{parent}', [ParentController::class, 'destroy'])->name('admin.parents.destroy');
-
-//StudentParents
-Route::get('/student-parents', [StudentParentController::class, 'index'])->name('admin.student_parents.index');
-Route::get('/student-parents/create', [StudentParentController::class, 'create'])->name('admin.student_parents.create');
-Route::post('/student-parents', [StudentParentController::class, 'store'])->name('admin.student_parents.store');
-Route::get('/student-parents/{studentParent}/edit', [StudentParentController::class, 'edit'])->name('admin.student_parents.edit');
-Route::put('/student-parents/{studentParent}', [StudentParentController::class, 'update'])->name('admin.student_parents.update');
-Route::delete('/student-parents/{studentParent}', [StudentParentController::class, 'destroy'])->name('admin.student_parents.destroy');
 
 
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    // Grade Levels
+    Route::get('/grade-levels', [GradeLevelController::class, 'index'])->name('grade-levels.index');
+    Route::get('/grade-levels/create', [GradeLevelController::class, 'create'])->name('grade-levels.create');
+    Route::post('/grade-levels', [GradeLevelController::class, 'store'])->name('grade-levels.store');
+    Route::get('/grade-levels/{gradeLevel}', [GradeLevelController::class, 'show'])->name('grade-levels.show');
+    Route::get('/grade-levels/{gradeLevel}/edit', [GradeLevelController::class, 'edit'])->name('grade-levels.edit');
+    Route::put('/grade-levels/{gradeLevel}', [GradeLevelController::class, 'update'])->name('grade-levels.update');
+    Route::delete('/grade-levels/{gradeLevel}', [GradeLevelController::class, 'destroy'])->name('grade-levels.destroy');
 
-Route::get('/dashboard-parent', [DashboardController::class, 'dashboardParent'])->name('dashboard-parent');
+    // Rooms
+    Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
+    Route::get('/rooms/create', [RoomController::class, 'create'])->name('rooms.create');
+    Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
+    Route::get('/rooms/{room}', [RoomController::class, 'show'])->name('rooms.show');
+    Route::get('/rooms/{room}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
+    Route::put('/rooms/{room}', [RoomController::class, 'update'])->name('rooms.update');
+    Route::delete('/rooms/{room}', [RoomController::class, 'destroy'])->name('rooms.destroy');
 
-Route::get('/dashboard-teacher', [DashboardController::class, 'dashboardTeacher'])->name('dashboard-teacher');
+    // Subjects
+    Route::get('/subjects', [SubjectController::class, 'index'])->name('admin.subjects.index');
+    Route::get('/subjects/create', [SubjectController::class, 'create'])->name('admin.subjects.create');
+    Route::post('/subjects', [SubjectController::class, 'store'])->name('admin.subjects.store');
+    Route::get('/subjects/{subject}', [SubjectController::class, 'show'])->name('admin.subjects.show');
+    Route::get('/subjects/{subject}/edit', [SubjectController::class, 'edit'])->name('admin.subjects.edit');
+    Route::put('/subjects/{subject}', [SubjectController::class, 'update'])->name('admin.subjects.update');
+    Route::delete('/subjects/{subject}', [SubjectController::class, 'destroy'])->name('admin.subjects.destroy');
 
-Route::get('/dashboard-student', [DashboardController::class, 'dashboardStudent'])->name('dashboard-student');
+    // Students
+    Route::get('/students', [StudentController::class, 'index'])->name('admin.students.index');
+    Route::get('/students/create', [StudentController::class, 'create'])->name('admin.students.create');
+    Route::post('/students', [StudentController::class, 'store'])->name('admin.students.store');
+    Route::get('/students/{student}/edit', [StudentController::class, 'edit'])->name('admin.students.edit');
+    Route::put('/students/{student}', [StudentController::class, 'update'])->name('admin.students.update');
+    Route::delete('/students/{student}', [StudentController::class, 'destroy'])->name('admin.students.destroy');
 
+    // School Classes
+    Route::get('/school-classes', [SchoolClassController::class, 'index'])->name('school-classes.index');
+    Route::get('/school-classes/create', [SchoolClassController::class, 'create'])->name('school-classes.create');
+    Route::post('/school-classes', [SchoolClassController::class, 'store'])->name('school-classes.store');
+    Route::get('/school-classes/{schoolClass}', [SchoolClassController::class, 'show'])->name('school-classes.show');
+    Route::get('/school-classes/{schoolClass}/edit', [SchoolClassController::class, 'edit'])->name('school-classes.edit');
+    Route::put('/school-classes/{schoolClass}', [SchoolClassController::class, 'update'])->name('school-classes.update');
+    Route::delete('/school-classes/{schoolClass}', [SchoolClassController::class, 'destroy'])->name('school-classes.destroy');
+
+    // Teachers
+    Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers.index');
+    Route::get('/teachers/create', [TeacherController::class, 'create'])->name('teachers.create');
+    Route::post('/teachers', [TeacherController::class, 'store'])->name('teachers.store');
+    Route::get('/teachers/{teacher}', [TeacherController::class, 'show'])->name('teachers.show');
+    Route::get('/teachers/{teacher}/edit', [TeacherController::class, 'edit'])->name('teachers.edit');
+    Route::put('/teachers/{teacher}', [TeacherController::class, 'update'])->name('teachers.update');
+    Route::delete('/teachers/{teacher}', [TeacherController::class, 'destroy'])->name('teachers.destroy');
+
+    // Parents
+    Route::get('/parents', [ParentController::class, 'index'])->name('admin.parents.index');
+    Route::get('/parents/create', [ParentController::class, 'create'])->name('admin.parents.create');
+    Route::post('/parents', [ParentController::class, 'store'])->name('admin.parents.store');
+    Route::get('/parents/{parent}/edit', [ParentController::class, 'edit'])->name('admin.parents.edit');
+    Route::put('/parents/{parent}', [ParentController::class, 'update'])->name('admin.parents.update');
+    Route::delete('/parents/{parent}', [ParentController::class, 'destroy'])->name('admin.parents.destroy');
+
+    // Student-Parents
+    Route::get('/student-parents', [StudentParentController::class, 'index'])->name('admin.student_parents.index');
+    Route::get('/student-parents/create', [StudentParentController::class, 'create'])->name('admin.student_parents.create');
+    Route::post('/student-parents', [StudentParentController::class, 'store'])->name('admin.student_parents.store');
+    Route::get('/student-parents/{studentParent}/edit', [StudentParentController::class, 'edit'])->name('admin.student_parents.edit');
+    Route::put('/student-parents/{studentParent}', [StudentParentController::class, 'update'])->name('admin.student_parents.update');
+    Route::delete('/student-parents/{studentParent}', [StudentParentController::class, 'destroy'])->name('admin.student_parents.destroy');
+
+    // Schedules
+    Route::get('/schedules', [ScheduleController::class, 'index'])->name('admin.schedules.index');
+    Route::get('/schedules/create', [ScheduleController::class, 'create'])->name('admin.schedules.create');
+    Route::post('/schedules', [ScheduleController::class, 'store'])->name('admin.schedules.store');
+    Route::get('/schedules/{schedule}/edit', [ScheduleController::class, 'edit'])->name('admin.schedules.edit');
+    Route::put('/schedules/{schedule}', [ScheduleController::class, 'update'])->name('admin.schedules.update');
+    Route::delete('/schedules/{schedule}', [ScheduleController::class, 'destroy'])->name('admin.schedules.destroy');
+
+    //grades
+    Route::get('/grades', [GradeController::class, 'index'])->name('admin.grades.index');
+    Route::get('/grades/create', [GradeController::class, 'create'])->name('admin.grades.create');
+    Route::get('/grades/roster', [GradeController::class, 'roster'])->name('admin.grades.roster');
+    Route::post('/grades', [GradeController::class, 'store'])->name('admin.grades.store');
+    Route::get('/grades/{grade}/edit', [GradeController::class, 'edit'])->name('admin.grades.edit');
+    Route::put('/grades/{grade}', [GradeController::class, 'update'])->name('admin.grades.update');
+    Route::delete('/grades/{grade}', [GradeController::class, 'destroy'])->name('admin.grades.destroy');
+  
+});
+// Attendance
+Route::middleware(['auth', 'role:admin,teacher'])->group(function () {
+    Route::get('/attendance', [AttendanceController::class, 'index'])->name('admin.attendance.index');
+    Route::get('/attendance/create', [AttendanceController::class, 'create'])->name('admin.attendance.create');
+    Route::get('/attendance/roster', [AttendanceController::class, 'roster'])->name('admin.attendance.roster');
+    Route::post('/attendance', [AttendanceController::class, 'store'])->name('admin.attendance.store');
+    Route::get('/attendance/{attendance}/edit', [AttendanceController::class, 'edit'])->name('admin.attendance.edit');
+    Route::put('/attendance/{attendance}', [AttendanceController::class, 'update'])->name('admin.attendance.update');
+    Route::delete('/attendance/{attendance}', [AttendanceController::class, 'destroy'])->name('admin.attendance.destroy');
+});
+
+//teacher only
+Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->group(function () {
+    Route::get('/schedule', [TeacherScheduleController::class, 'index'])->name('teacher.schedule.index');
+
+    Route::get('/grades', [TeacherGradeController::class, 'index'])->name('teacher.grades.index');
+    Route::get('/grades/roster', [TeacherGradeController::class, 'roster'])->name('teacher.grades.roster');
+    Route::post('/grades', [TeacherGradeController::class, 'store'])->name('teacher.grades.store');
+});
+
+
+//student
+    Route::middleware(['auth', 'role:student'])->prefix('student')->group(function () {
+    
+    Route::get('/schedule', [StudentScheduleController::class, 'index'])->name('student.schedule.index');
+    Route::get('/grades', [StudentGradeController::class, 'index'])->name('student.grades.index');
+
+});
+
+
+
+//authentication routes
+// Public login — student / teacher / parent
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+
+    Route::get('/forgot-password', fn () => view('auth.forgot-password'))->name('password.request');
+});
+
+// Admin login — separate, not linked from the public page
+Route::middleware('guest')->prefix('admin')->group(function () {
+    Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
+    Route::post('/login', [AdminAuthController::class, 'login']);
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::get('/register', [AuthController::class, 'showRegister'])
+        ->middleware('role:admin')
+        ->name('register');
+    Route::post('/register', [AuthController::class, 'register'])
+        ->middleware('role:admin');
+
+    Route::get('/admin/dashboard', [DashboardController::class, 'dashboard'])
+        ->middleware('role:admin')->name('admin.dashboard');
+
+    Route::get('/teacher/dashboard', [DashboardController::class, 'dashboardTeacher'])
+        ->middleware('role:teacher')->name('teacher.dashboard');
+
+    Route::get('/student/dashboard', [DashboardController::class, 'dashboardStudent'])
+        ->middleware('role:student')->name('student.dashboard');
+
+    Route::get('/parent/dashboard', [DashboardController::class, 'dashboardParent'])
+        ->middleware('role:parent')->name('parent.dashboard');
+});
 
 

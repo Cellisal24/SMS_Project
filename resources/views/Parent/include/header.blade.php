@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="adminHMD professional admin dashboard template">
+  <meta name="description" content="Parent dashboard">
   <title>Dashboard | ParentHMD</title>
 
   <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
@@ -17,70 +17,50 @@
 
     <aside class="admin-sidebar" id="adminSidebar" aria-label="Main navigation">
       <div class="sidebar-header">
-        <a class="brand-mark" href="" aria-label="adminHMD dashboard">
+        <a class="brand-mark" href="{{ route('parent.dashboard') }}" aria-label="ParentHMD dashboard">
           <span class="brand-icon"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i></span>
           <span class="brand-copy">
             <span class="brand-title">ParentHMD</span>
-            <span class="brand-subtitle">Admin Template</span>
+            <span class="brand-subtitle">Parent Panel</span>
           </span>
         </a>
       </div>
 
       <nav class="sidebar-nav">
-        <a class="nav-link{{ request()->routeIs('dashboard') ? ' active' : '' }}" href="" aria-current="page">
+        <a class="nav-link{{ request()->routeIs('parent.dashboard') ? ' active' : '' }}" href="{{ route('parent.dashboard') }}" aria-current="page">
           <span class="nav-icon"><i class="bi bi-speedometer2" aria-hidden="true"></i></span>
           <span class="nav-text">Dashboard</span>
         </a>
-        <a class="nav-link" href="">
+        <a class="nav-link" href="#">
           <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
-          <span class="nav-text">Users</span>
+          <span class="nav-text">My Children</span>
         </a>
-        <a class="nav-link" href="">
-          <span class="nav-icon"><i class="bi bi-person-plus" aria-hidden="true"></i></span>
-          <span class="nav-text">Add User</span>
+        <a class="nav-link" href="#">
+          <span class="nav-icon"><i class="bi bi-clipboard-check" aria-hidden="true"></i></span>
+          <span class="nav-text">Attendance</span>
         </a>
-        <a class="nav-link" href="profile.html">
+        <a class="nav-link" href="#">
+          <span class="nav-icon"><i class="bi bi-journal-check" aria-hidden="true"></i></span>
+          <span class="nav-text">Grades</span>
+        </a>
+        <a class="nav-link" href="#">
+          <span class="nav-icon"><i class="bi bi-cash-coin" aria-hidden="true"></i></span>
+          <span class="nav-text">Payments</span>
+        </a>
+        <a class="nav-link" href="#">
           <span class="nav-icon"><i class="bi bi-person-badge" aria-hidden="true"></i></span>
           <span class="nav-text">Profile</span>
         </a>
-        <a class="nav-link" href="charts.html">
-          <span class="nav-icon"><i class="bi bi-bar-chart-line" aria-hidden="true"></i></span>
-          <span class="nav-text">Charts</span>
-        </a>
-        <a class="nav-link" href="tables.html">
-          <span class="nav-icon"><i class="bi bi-table" aria-hidden="true"></i></span>
-          <span class="nav-text">Tables</span>
-        </a>
-        <a class="nav-link" href="f.html">
-          <span class="nav-icon"><i class="bi bi-ui-checks-grid" aria-hidden="true"></i></span>
-          <span class="nav-text">Forms</span>
-        </a>
-        <a class="nav-link" href="co.html">
-          <span class="nav-icon"><i class="bi bi-grid-3x3-gap" aria-hidden="true"></i></span>
-          <span class="nav-text">Components</span>
-        </a>
-        <a class="nav-link" href="alerts.html">
-          <span class="nav-icon"><i class="bi bi-exclamation-triangle" aria-hidden="true"></i></span>
-          <span class="nav-text">Alerts</span>
-        </a>
-        <a class="nav-link" href="modals.html">
-          <span class="nav-icon"><i class="bi bi-window-stack" aria-hidden="true"></i></span>
-          <span class="nav-text">Modals</span>
-        </a>
-        <a class="nav-link" href="settings.html">
+        <a class="nav-link" href="#">
           <span class="nav-icon"><i class="bi bi-gear" aria-hidden="true"></i></span>
           <span class="nav-text">Settings</span>
-        </a>
-        <a class="nav-link" href="blank.html">
-          <span class="nav-icon"><i class="bi bi-file-earmark" aria-hidden="true"></i></span>
-          <span class="nav-text">Blank Page</span>
         </a>
       </nav>
 
       <div class="sidebar-user">
-        <img class="avatar-img avatar-md sidebar-user-avatar" src="../assets/images/avatar/avatar.jpg" alt="Admin Hasan">
-        <strong>Admin Hasan</strong>
-        <small>Active Workspace</small>
+        <img class="avatar-img avatar-md sidebar-user-avatar" src="{{ asset('assets/images/avatar/avatar.jpg') }}" alt="{{ auth()->user()->username }}">
+        <strong>{{ auth()->user()->username }}</strong>
+        <small>Parent Workspace</small>
       </div>
 
       <div class="sidebar-footer">
@@ -99,50 +79,31 @@
           </button>
 
           <form class="d-none d-md-flex ms-3 flex-grow-1" role="search">
-            <input class="form-control search-input" type="search" placeholder="Search users, orders, reports" aria-label="Search">
+            <input class="form-control search-input" type="search" placeholder="Search your children's records" aria-label="Search">
           </form>
 
           <div class="navbar-actions ms-auto">
             <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" title="Switch color theme">
               <i class="bi bi-moon-stars" data-theme-icon aria-hidden="true"></i>
             </button>
-            <div class="dropdown">
-              <button class="icon-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications">
-                <span class="notification-dot"></span>
-                <i class="bi bi-bell" aria-hidden="true"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-end notification-menu">
-                <div class="dropdown-header fw-bold text-body">Notifications</div>
-                <a class="dropdown-item" href="users.html">
-                  <span class="notification-title">New user registered</span>
-                  <span class="notification-time">4 minutes ago</span>
-                </a>
-                <a class="dropdown-item" href="charts.html">
-                  <span class="notification-title">Revenue target reached</span>
-                  <span class="notification-time">32 minutes ago</span>
-                </a>
-                <a class="dropdown-item" href="settings.html">
-                  <span class="notification-title">Security review completed</span>
-                  <span class="notification-time">1 hour ago</span>
-                </a>
-              </div>
-            </div>
 
             <div class="dropdown">
               <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="avatar-img avatar-sm" src="{{ asset('assets/images/avatar/avatar.jpg') }}" alt="name">
-                <span class="profile-name d-none d-sm-inline">name</span>
+                <img class="avatar-img avatar-sm" src="{{ asset('assets/images/avatar/avatar.jpg') }}" alt="{{ auth()->user()->username }}">
+                <span class="profile-name d-none d-sm-inline">{{ auth()->user()->username }}</span>
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="profile.html">Profile</a></li>
-                <li><a class="dropdown-item" href="settings.html">Account settings</a></li>
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li><a class="dropdown-item" href="#">Account settings</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="login.html">Sign out</a></li>
+                <li>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="dropdown-item">Sign out</button>
+                    </form>
+                </li>
               </ul>
             </div>
           </div>
         </div>
       </nav>
-
-
-     

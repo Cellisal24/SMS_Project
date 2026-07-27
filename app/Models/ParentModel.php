@@ -18,4 +18,8 @@ class ParentModel extends Model
     public function students() {
         return $this->belongsToMany(Student::class, 'student_parents', 'parent_id', 'student_id');
     }
+    public function studentLinks()
+{
+    return $this->hasMany(StudentParent::class, 'parent_id', 'parent_id');
+}
 }

@@ -28,7 +28,7 @@
       </div>
 
       <nav class="sidebar-nav">
-        <a class="nav-link{{ request()->routeIs('dashboard') ? ' active' : '' }}" href="{{ route('dashboard-admin') }}" aria-current="page">
+        <a class="nav-link{{ request()->routeIs('dashboard') ? ' active' : '' }}" href="{{ route('admin.dashboard') }}" aria-current="page">
           <span class="nav-icon"><i class="bi bi-speedometer2" aria-hidden="true"></i></span>
           <span class="nav-text">Dashboard</span>
         </a>
@@ -64,22 +64,22 @@
           <span class="nav-icon"><i class="bi bi-exclamation-triangle" aria-hidden="true"></i></span>
           <span class="nav-text">Student-Parent</span>
         </a>
-        <a class="nav-link" href="modals.html">
+        <a class="nav-link" href="{{ route('admin.attendance.index') }}">
           <span class="nav-icon"><i class="bi bi-window-stack" aria-hidden="true"></i></span>
-          <span class="nav-text">Modals</span>
+          <span class="nav-text">Attendance</span>
         </a>
-        <a class="nav-link" href="settings.html">
+        <a class="nav-link" href="{{ route('admin.schedules.index') }}">
           <span class="nav-icon"><i class="bi bi-gear" aria-hidden="true"></i></span>
-          <span class="nav-text">Settings</span>
+          <span class="nav-text">Schedules</span>
         </a>
-        <a class="nav-link" href="blank.html">
-          <span class="nav-icon"><i class="bi bi-file-earmark" aria-hidden="true"></i></span>
-          <span class="nav-text">Blank Page</span>
-        </a>
+       <a class="nav-link{{ request()->routeIs('admin.grades.*') ? ' active' : '' }}" href="{{ route('admin.grades.index') }}">
+        <span class="nav-icon"><i class="bi bi-file-earmark" aria-hidden="true"></i></span>
+        <span class="nav-text">Grades</span>
+      </a>
       </nav>
       <div class="sidebar-user">
-        <img class="avatar-img avatar-md sidebar-user-avatar" src="../assets/images/avatar/avatar.jpg" alt="Admin Hasan">
-        <strong>Admin Hasan</strong>
+        <img class="avatar-img avatar-md sidebar-user-avatar" src="../assets/images/avatar/avatar.jpg" alt="Admin">
+        <strong>{{ auth()->user()->username }}</strong>
         <small>Active Workspace</small>
       </div>
 
@@ -131,18 +131,20 @@
             <div class="dropdown">
               <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <img class="avatar-img avatar-sm" src="{{ asset('assets/images/avatar/avatar.jpg') }}" alt="name">
-                <span class="profile-name d-none d-sm-inline">name</span>
+                <span class="profile-name d-none d-sm-inline">{{ auth()->user()->username }}</span>
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
                 <li><a class="dropdown-item" href="profile.html">Profile</a></li>
                 <li><a class="dropdown-item" href="settings.html">Account settings</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="login.html">Sign out</a></li>
+                <li>
+                  <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="dropdown-item">Sign out</button>
+                  </form>
+                </li>
               </ul>
             </div>
           </div>
         </div>
       </nav>
-
-
-     

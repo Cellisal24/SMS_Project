@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('class_id', 10)->primary();
             $table->string('class_name', 30);
             $table->integer('level_id'); // Foreign Key
-            $table->string('room_id', 15)->nullable();
+            $table->string('room_id', 10)->nullable();
             $table->integer('academic_year');
             $table->timestamps();
 
