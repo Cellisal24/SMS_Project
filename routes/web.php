@@ -21,8 +21,11 @@ use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Student\ScheduleController as StudentScheduleController;
 use App\Http\Controllers\Admin\GradeController;
 use App\Http\Controllers\Student\GradeController as StudentGradeController;
-
-
+use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\ActivityLogController;
+use App\Http\Controllers\Admin\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -131,8 +134,41 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/grades/{grade}/edit', [GradeController::class, 'edit'])->name('admin.grades.edit');
     Route::put('/grades/{grade}', [GradeController::class, 'update'])->name('admin.grades.update');
     Route::delete('/grades/{grade}', [GradeController::class, 'destroy'])->name('admin.grades.destroy');
+
+    //payments
+    Route::get('/payments', [PaymentController::class, 'index'])->name('admin.payments.index');
+    Route::get('/payments/create', [PaymentController::class, 'create'])->name('admin.payments.create');
+    Route::post('/payments', [PaymentController::class, 'store'])->name('admin.payments.store');
+    Route::get('/payments/{payment}/edit', [PaymentController::class, 'edit'])->name('admin.payments.edit');
+    Route::put('/payments/{payment}', [PaymentController::class, 'update'])->name('admin.payments.update');
+    Route::delete('/payments/{payment}', [PaymentController::class, 'destroy'])->name('admin.payments.destroy');
+     
+    //notifications
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('admin.notifications.index');
+    Route::get('/notifications/create', [NotificationController::class, 'create'])->name('admin.notifications.create');
+    Route::post('/notifications', [NotificationController::class, 'store'])->name('admin.notifications.store');
+    Route::delete('/notifications/{notification}', [NotificationController::class, 'destroy'])->name('admin.notifications.destroy');
+    Route::post('/notifications/mark-read', [NotificationController::class, 'markRead'])->name('admin.notifications.mark-read');
+
+    //reports
+    Route::get('/reports', [ReportController::class, 'index'])->name('admin.reports.index');
+    Route::get('/reports/create', [ReportController::class, 'create'])->name('admin.reports.create');
+    Route::post('/reports', [ReportController::class, 'store'])->name('admin.reports.store');
+    Route::get('/reports/{report}/edit', [ReportController::class, 'edit'])->name('admin.reports.edit');
+    Route::put('/reports/{report}', [ReportController::class, 'update'])->name('admin.reports.update');
+    Route::delete('/reports/{report}', [ReportController::class, 'destroy'])->name('admin.reports.destroy');
   
-});
+    //activity logs
+    Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('admin.activity-logs.index');
+    Route::delete('/activity-logs/{activityLog}', [ActivityLogController::class, 'destroy'])->name('admin.activity-logs.destroy');
+    Route::post('/activity-logs/purge', [ActivityLogController::class, 'purge'])->name('admin.activity-logs.purge');
+
+    //profile & settings
+    Route::get('/profile', [ProfileController::class, 'show'])->name('admin.profile.show');
+    Route::get('/settings', [ProfileController::class, 'editSettings'])->name('admin.settings.edit');
+    Route::put('/settings/password', [ProfileController::class, 'updatePassword'])->name('admin.settings.password');
+
+    });
 // Attendance
 Route::middleware(['auth', 'role:admin,teacher'])->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('admin.attendance.index');

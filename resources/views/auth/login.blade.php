@@ -48,8 +48,8 @@
 
             <div class="role-tabs" role="tablist" aria-label="Login as">
                 <button type="button" class="role-tab is-active" data-role="student" data-label="STUDENT PANEL" data-field-label="ADMISSION NO. / EMAIL" data-placeholder="Enter admission number or email">Student</button>
-                <button type="button" class="role-tab" data-role="teacher" data-label="TEACHER PANEL" data-field-label="STAFF ID / EMAIL" data-placeholder="Enter staff ID or email">Teacher</button>
-                <button type="button" class="role-tab" data-role="parent" data-label="PARENT PANEL" data-field-label="WARD ENROLLMENT / EMAIL" data-placeholder="Enter enrollment number or email">Parent</button>
+                <button type="button" class="role-tab" data-role="teacher" data-label="TEACHER PANEL" data-field-label="Teacher Username" data-placeholder="Enter staff ID or email">Teacher</button>
+                <button type="button" class="role-tab" data-role="parent" data-label="PARENT PANEL" data-field-label="Parent Username" data-placeholder="Enter enrollment number or email">Parent</button>
             </div>
 
             @if ($errors->any())
@@ -64,7 +64,7 @@
                 {{-- UX hint only — the server always trusts the user's actual role column, never this field --}}
                 <input type="hidden" name="login_role_hint" id="loginRoleHint" value="student">
 
-                <label class="field-label" id="fieldLabel" for="username">ADMISSION NO. / EMAIL</label>
+                <label class="field-label" id="fieldLabel" for="username">Student Username</label>
                 <input type="text" class="field-input" id="username" name="username" placeholder="Enter admission number or email" value="{{ old('username') }}" required autofocus>
 
                 <label class="field-label mt-3" for="password">PASSWORD</label>

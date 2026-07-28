@@ -76,6 +76,22 @@
         <span class="nav-icon"><i class="bi bi-file-earmark" aria-hidden="true"></i></span>
         <span class="nav-text">Grades</span>
       </a>
+      <a class="nav-link" href="{{ route('admin.payments.index') }}">
+          <span class="nav-icon"><i class="bi bi-credit-card" aria-hidden="true"></i></span>
+          <span class="nav-text">Payment</span>
+        </a>
+       <a class="nav-link" href="{{ route('admin.notifications.index') }}">
+        <span class="nav-icon"><i class="bi bi-bell" aria-hidden="true"></i></span>
+        <span class="nav-text">Notifications</span>
+        <a class="nav-link{{ request()->routeIs('admin.reports.*') ? ' active' : '' }}" href="{{ route('admin.reports.index') }}">
+          <span class="nav-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>
+          <span class="nav-text">Reports</span>
+        </a>
+        <a class="nav-link{{ request()->routeIs('admin.activity-logs.*') ? ' active' : '' }}" href="{{ route('admin.activity-logs.index') }}">
+          <span class="nav-icon"><i class="bi bi-clock-history" aria-hidden="true"></i></span>
+          <span class="nav-text">Activity Logs</span>
+        </a>
+      </a>
       </nav>
       <!-- <div class="sidebar-user">
         <img class="avatar-img avatar-md sidebar-user-avatar" src="../assets/images/avatar/avatar.jpg" alt="Admin">
@@ -106,45 +122,53 @@
             <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" title="Switch color theme">
               <i class="bi bi-moon-stars" data-theme-icon aria-hidden="true"></i>
             </button>
-            <div class="dropdown">
-              <button class="icon-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications">
-                <span class="notification-dot"></span>
-                <i class="bi bi-bell" aria-hidden="true"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-end notification-menu">
-                <div class="dropdown-header fw-bold text-body">Notifications</div>
-                <a class="dropdown-item" href="users.html">
-                  <span class="notification-title">New user registered</span>
-                  <span class="notification-time">4 minutes ago</span>
-                </a>
-                <a class="dropdown-item" href="charts.html">
-                  <span class="notification-title">Revenue target reached</span>
-                  <span class="notification-time">32 minutes ago</span>
-                </a>
-                <a class="dropdown-item" href="settings.html">
-                  <span class="notification-title">Security review completed</span>
-                  <span class="notification-time">1 hour ago</span>
-                </a>
-              </div>
-            </div>
+          <div class="dropdown">
+  <button class="icon-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications">
+    @if ($navUnreadCount > 0)
+      <span class="notification-dot"></span>
+    @endif
+    <i class="bi bi-bell" aria-hidden="true"></i>
+  </button>
+  <div class="dropdown-menu dropdown-menu-end notification-menu">
+    <div class="dropdown-header fw-bold text-body d-flex justify-content-between align-items-center">
+      Notifications
+      @if ($navUnreadCount > 0)
+        <form method="POST" action="{{ route('admin.notifications.mark-read') }}">
+          @csrf
+          <button type="submit" class="btn btn-link btn-sm p-0">Mark all read</button>
+        </form>
+      @endif
+    </div>
+    @forelse ($navNotifications as $notif)
+      <a class="dropdown-item{{ $notif->read_at ? '' : ' fw-semibold' }}" href="{{ route('admin.notifications.index') }}">
+        <span class="notification-title">{{ $notif->title }}</span>
+        <span class="notification-time">{{ $notif->sent_at->diffForHumans() }}</span>
+      </a>
+    @empty
+      <div class="dropdown-item text-muted">No notifications.</div>
+    @endforelse
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item text-center small" href="{{ route('admin.notifications.index') }}">View all</a>
+  </div>
+</div>
 
-            <div class="dropdown">
-              <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="avatar-img avatar-sm" src="{{ asset('assets/images/avatar/avatar.jpg') }}" alt="name">
-                <span class=" d-none d-sm-inline">{{ auth()->user()->username }}</span>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="profile.html">Profile</a></li>
-                <li><a class="dropdown-item" href="settings.html">Account settings</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li>
-                  <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="dropdown-item">Sign out</button>
-                  </form>
-                </li>
-              </ul>
-            </div>
+<div class="dropdown">
+  <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <img class="avatar-img avatar-sm" src="{{ asset('assets/images/avatar/avatar.jpg') }}" alt="name">
+    <span class=" d-none d-sm-inline">{{ auth()->user()->username }}</span>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><a class="dropdown-item" href="{{ route('admin.profile.show') }}">Profile</a></li>
+    <li><a class="dropdown-item" href="{{ route('admin.settings.edit') }}">Account settings</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li>
+      <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit" class="dropdown-item">Sign out</button>
+      </form>
+    </li>
+  </ul>
+</div>
           </div>
         </div>
       </nav>
