@@ -7,7 +7,9 @@ use App\Models\ParentModel;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Models\SchoolClass;
-
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 class StudentController extends Controller
 {
     public function index(Request $request)
@@ -47,9 +49,21 @@ class StudentController extends Controller
 
     $this->syncParents($student, $request);
 
-    return redirect()
+    $account = $this->createLoginAccount($student);
+
+    $response = redirect()
         ->route('admin.students.index')
         ->with('success', "Student {$student->fullName()} created successfully.");
+
+    if ($account['created']) {
+        $response->with('reset_credentials', [
+            'name' => $student->fullName(),
+            'username' => $account['user']->username,
+            'password' => $account['plainPassword'],
+        ]);
+    }
+
+    return $response;
 }
 
    public function edit(Student $student)
@@ -113,4 +127,40 @@ class StudentController extends Controller
 
         $student->parents()->sync($syncData);
     }
+   private function createLoginAccount(Student $student): array
+{
+    $existing = User::where('student_id', $student->student_id)->first();
+
+    if ($existing) {
+        return ['user' => $existing, 'created' => false, 'plainPassword' => null];
+    }
+
+    $plainPassword = Str::password(10, symbols: false); // e.g. "aX7pQr2Zt9" — no symbols, easier to relay verbally/in writing
+
+    $user = User::create([
+        'username' => strtolower($student->student_id),
+        'password_hash' => Hash::make($plainPassword),
+        'student_id' => $student->student_id,
+        'role' => 'student',
+    ]);
+
+    return ['user' => $user, 'created' => true, 'plainPassword' => $plainPassword];
+}
+public function resetPassword(Student $student)
+{
+    $user = User::where('student_id', $student->student_id)->first();
+
+    if (! $user) {
+        return back()->with('error', "No login account exists yet for {$student->fullName()}.");
+    }
+
+    $plainPassword = Str::password(10, symbols: false);
+    $user->update(['password_hash' => Hash::make($plainPassword)]);
+
+    return back()->with('reset_credentials', [
+        'name' => $student->fullName(),
+        'username' => $user->username,
+        'password' => $plainPassword,
+    ]);
+}
 }

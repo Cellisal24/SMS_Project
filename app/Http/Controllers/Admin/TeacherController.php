@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class TeacherController extends Controller
 {
@@ -17,6 +20,25 @@ class TeacherController extends Controller
             default => 'O',
         };
     }
+    private function createLoginAccount(Teacher $teacher): array
+{
+    $existing = User::where('teacher_id', $teacher->teacher_id)->first();
+
+    if ($existing) {
+        return ['user' => $existing, 'created' => false, 'plainPassword' => null];
+    }
+
+    $plainPassword = Str::password(10, symbols: false);
+
+    $user = User::create([
+        'username' => strtolower($teacher->teacher_id),
+        'password_hash' => Hash::make($plainPassword),
+        'teacher_id' => $teacher->teacher_id,
+        'role' => 'teacher',
+    ]);
+
+    return ['user' => $user, 'created' => true, 'plainPassword' => $plainPassword];
+}
 
     // Display list with search & filter
     public function index(Request $request)
@@ -52,23 +74,35 @@ class TeacherController extends Controller
     }
 
     // Store new teacher
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'teacher_id'     => 'required|string|max:50|unique:teachers,teacher_id',
-            'first_name'     => 'required|string|max:100',
-            'last_name'      => 'required|string|max:100',
-            'gender'         => 'required|in:Male,Female,Other',
-            'email'          => 'required|email|unique:teachers,email',
-            'contact_number' => 'nullable|string|max:20',
+   public function store(Request $request)
+{
+    $validated = $request->validate([
+        'teacher_id'     => 'required|string|max:50|unique:teachers,teacher_id',
+        'first_name'     => 'required|string|max:100',
+        'last_name'      => 'required|string|max:100',
+        'gender'         => 'required|in:Male,Female,Other',
+        'email'          => 'required|email|unique:teachers,email',
+        'contact_number' => 'nullable|string|max:20',
+    ]);
+
+    $validated['gender'] = $this->normalizeGender($validated['gender']);
+
+    $teacher = Teacher::create($validated);
+
+    $account = $this->createLoginAccount($teacher);
+
+    $response = redirect()->route('teachers.index')->with('success', 'Teacher added successfully!');
+
+    if ($account['created']) {
+        $response->with('reset_credentials', [
+            'name' => "{$teacher->first_name} {$teacher->last_name}",
+            'username' => $account['user']->username,
+            'password' => $account['plainPassword'],
         ]);
-
-        $validated['gender'] = $this->normalizeGender($validated['gender']);
-
-        Teacher::create($validated);
-
-        return redirect()->route('teachers.index')->with('success', 'Teacher added successfully!');
     }
+
+    return $response;
+}
 
     public function show(Teacher $teacher)
     {
@@ -105,4 +139,21 @@ class TeacherController extends Controller
         $teacher->delete();
         return redirect()->route('teachers.index')->with('success', 'Teacher deleted successfully!');
     }
+    public function resetPassword(Teacher $teacher)
+{
+    $user = User::where('teacher_id', $teacher->teacher_id)->first();
+
+    if (! $user) {
+        return back()->with('error', "No login account exists yet for {$teacher->first_name} {$teacher->last_name}.");
+    }
+
+    $plainPassword = Str::password(10, symbols: false);
+    $user->update(['password_hash' => Hash::make($plainPassword)]);
+
+    return back()->with('reset_credentials', [
+        'name' => "{$teacher->first_name} {$teacher->last_name}",
+        'username' => $user->username,
+        'password' => $plainPassword,
+    ]);
+}
 }

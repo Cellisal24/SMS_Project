@@ -1,3 +1,60 @@
+@if (session('reset_credentials'))
+  @php $cred = session('reset_credentials'); @endphp
+  <div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-key" aria-hidden="true"></i> Password Reset</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="mb-2">New login for <strong>{{ $cred['name'] }}</strong>. Copy this now — it won't be shown again.</p>
+
+          <label class="form-label small text-muted">Username</label>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" id="credUsername" value="{{ $cred['username'] }}" readonly>
+            <button class="btn btn-outline-secondary copy-btn" type="button" data-target="credUsername">
+              <i class="bi bi-clipboard" aria-hidden="true"></i>
+            </button>
+          </div>
+
+          <label class="form-label small text-muted">Password</label>
+          <div class="input-group">
+            <input type="text" class="form-control" id="credPassword" value="{{ $cred['password'] }}" readonly>
+            <button class="btn btn-outline-secondary copy-btn" type="button" data-target="credPassword">
+              <i class="bi bi-clipboard" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const modal = new bootstrap.Modal(document.getElementById('resetPasswordModal'));
+      modal.show();
+
+      document.querySelectorAll('.copy-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const input = document.getElementById(btn.dataset.target);
+          navigator.clipboard.writeText(input.value).then(function () {
+            const icon = btn.querySelector('i');
+            icon.classList.remove('bi-clipboard');
+            icon.classList.add('bi-clipboard-check', 'text-success');
+            setTimeout(function () {
+              icon.classList.remove('bi-clipboard-check', 'text-success');
+              icon.classList.add('bi-clipboard');
+            }, 1500);
+          });
+        });
+      });
+    });
+  </script>
+@endif
 @include('Admin.include.header')
 
 <main class="dashboard-content">
@@ -136,6 +193,12 @@
                       <button type="submit" class="btn btn-light btn-sm text-danger border">
                         <i class="bi bi-trash"></i> លុប
                       </button>
+                    </form>
+                    <form method="POST" action="{{ route('admin.parents.reset-password', $parent->parent_id) }}" class="d-inline" onsubmit="return confirm('Generate a new password for {{ $parent->fullName() }}?');">
+                        @csrf
+                        <button type="submit" class="btn btn-light btn-sm text-warning" title="Reset password">
+                            <i class="bi bi-key" aria-hidden="true"></i>
+                        </button>
                     </form>
                   </div>
                 </td>

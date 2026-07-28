@@ -76,6 +76,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/students/{student}/edit', [StudentController::class, 'edit'])->name('admin.students.edit');
     Route::put('/students/{student}', [StudentController::class, 'update'])->name('admin.students.update');
     Route::delete('/students/{student}', [StudentController::class, 'destroy'])->name('admin.students.destroy');
+    Route::post('/students/{student}/reset-password', [StudentController::class, 'resetPassword'])->name('admin.students.reset-password');
 
     // School Classes
     Route::get('/school-classes', [SchoolClassController::class, 'index'])->name('school-classes.index');
@@ -94,6 +95,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/teachers/{teacher}/edit', [TeacherController::class, 'edit'])->name('teachers.edit');
     Route::put('/teachers/{teacher}', [TeacherController::class, 'update'])->name('teachers.update');
     Route::delete('/teachers/{teacher}', [TeacherController::class, 'destroy'])->name('teachers.destroy');
+    Route::post('/teachers/{teacher}/reset-password', [TeacherController::class, 'resetPassword'])->name('teachers.reset-password');
 
     // Parents
     Route::get('/parents', [ParentController::class, 'index'])->name('admin.parents.index');
@@ -102,6 +104,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/parents/{parent}/edit', [ParentController::class, 'edit'])->name('admin.parents.edit');
     Route::put('/parents/{parent}', [ParentController::class, 'update'])->name('admin.parents.update');
     Route::delete('/parents/{parent}', [ParentController::class, 'destroy'])->name('admin.parents.destroy');
+    Route::post('/parents/{parent}/reset-password', [ParentController::class, 'resetPassword'])->name('admin.parents.reset-password');
 
     // Student-Parents
     Route::get('/student-parents', [StudentParentController::class, 'index'])->name('admin.student_parents.index');
@@ -110,6 +113,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/student-parents/{studentParent}/edit', [StudentParentController::class, 'edit'])->name('admin.student_parents.edit');
     Route::put('/student-parents/{studentParent}', [StudentParentController::class, 'update'])->name('admin.student_parents.update');
     Route::delete('/student-parents/{studentParent}', [StudentParentController::class, 'destroy'])->name('admin.student_parents.destroy');
+
 
     // Schedules
     Route::get('/schedules', [ScheduleController::class, 'index'])->name('admin.schedules.index');

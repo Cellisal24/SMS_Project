@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ParentModel;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class ParentController extends Controller
 {
@@ -31,17 +34,38 @@ class ParentController extends Controller
         return view('admin.parents.create');
     }
 
-    public function store(Request $request)
-    {
-        $validated = $this->validateParent($request);
+   public function store(Request $request)
+{
+    $validated = $this->validateParent($request);
 
-        $parent = ParentModel::create($validated);
+    $parent = ParentModel::create($validated);
 
-        return redirect()
-            ->route('admin.parents.index', $parent)
-            ->with('success', "Parent {$parent->fullName()} created successfully.");
+    $account = $this->createLoginAccount($parent);
+
+    $response = redirect()
+        ->route('admin.parents.index', $parent)
+        ->with('success', "Parent {$parent->fullName()} created successfully.");
+
+    if ($account['created']) {
+        $response->with('reset_credentials', [
+            'name' => $parent->fullName(),
+            'username' => $account['user']->username,
+            'password' => $account['plainPassword'],
+        ]);
     }
 
+    return $response;
+}
+private function validateParent(Request $request): array
+{
+    return $request->validate([
+        'first_name'  => ['required', 'string', 'max:50'],
+        'last_name'   => ['required', 'string', 'max:50'],
+        'phone'       => ['nullable', 'string', 'max:20'],
+        'email'       => ['nullable', 'email', 'max:100'],
+        'national_id' => ['nullable', 'string', 'max:30'],
+    ]);
+}
    
 
     public function edit(ParentModel $parent)
@@ -70,14 +94,40 @@ class ParentController extends Controller
             ->with('success', "Parent {$name} deleted successfully.");
     }
 
-    private function validateParent(Request $request): array
-    {
-        return $request->validate([
-            'first_name'  => ['required', 'string', 'max:50'],
-            'last_name'   => ['required', 'string', 'max:50'],
-            'phone'       => ['nullable', 'string', 'max:20'],
-            'email'       => ['nullable', 'email', 'max:100'],
-            'national_id' => ['nullable', 'string', 'max:30'],
-        ]);
+   private function createLoginAccount(ParentModel $parent): array
+{
+    $existing = User::where('parent_id', $parent->parent_id)->first();
+
+    if ($existing) {
+        return ['user' => $existing, 'created' => false, 'plainPassword' => null];
     }
+
+    $plainPassword = Str::password(10, symbols: false);
+
+    $user = User::create([
+        'username' => strtolower($parent->parent_id),
+        'password_hash' => Hash::make($plainPassword),
+        'parent_id' => $parent->parent_id,
+        'role' => 'parent',
+    ]);
+
+    return ['user' => $user, 'created' => true, 'plainPassword' => $plainPassword];
 }
+public function resetPassword(ParentModel $parent)
+{
+    $user = User::where('parent_id', $parent->parent_id)->first();
+
+    if (! $user) {
+        return back()->with('error', "No login account exists yet for {$parent->fullName()}.");
+    }
+
+    $plainPassword = Str::password(10, symbols: false);
+    $user->update(['password_hash' => Hash::make($plainPassword)]);
+
+    return back()->with('reset_credentials', [
+        'name' => $parent->fullName(),
+        'username' => $user->username,
+        'password' => $plainPassword,
+    ]);
+}
+ }

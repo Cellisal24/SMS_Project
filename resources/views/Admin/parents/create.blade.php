@@ -69,7 +69,7 @@
         font-size: 1rem;
         border: 1.5px solid var(--neutral-300);
         border-radius: 0.5rem;
-        background-color: #878c94;
+        background-color: #f8fafc;
         transition: all 0.2s ease;
         font-family: inherit;
     }
