@@ -28,15 +28,15 @@
       </div>
 
       <nav class="sidebar-nav">
-        <a class="nav-link{{ request()->routeIs('dashboard') ? ' active' : '' }}" href="{{ route('admin.dashboard') }}" aria-current="page">
+        <a class="nav-link{{ request()->routeIs('admin.dashboard') ? ' active' : '' }}" href="{{ route('admin.dashboard') }}" aria-current="page">
           <span class="nav-icon"><i class="bi bi-speedometer2" aria-hidden="true"></i></span>
           <span class="nav-text">Dashboard</span>
         </a>
-        <a class="nav-link" href="{{ route('grade-levels.index') }}">
+        <a class="nav-link{{ request()->routeIs('grade-levels.*') ? ' active' : '' }}" href="{{ route('grade-levels.index') }}">
           <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
           <span class="nav-text">Grade Levels</span>
         </a>
-        <a class="nav-link" href="{{ route('rooms.index') }}">
+        <a class="nav-link{{ request()->routeIs('rooms.*') ? ' active' : '' }}" href="{{ route('rooms.index') }}">
           <span class="nav-icon"><i class="bi bi-person-plus" aria-hidden="true"></i></span>
           <span class="nav-text">Rooms</span>
         </a>
@@ -44,37 +44,45 @@
           <span class="nav-icon"><i class="bi bi-person-badge" aria-hidden="true"></i></span>
           <span class="nav-text">Subjects</span>
         </a>
-        <a class="nav-link" href="{{ route('school-classes.index') }}">
+        <a class="nav-link{{ request()->routeIs('school-classes.*') ? ' active' : '' }}" href="{{ route('school-classes.index') }}">
           <span class="nav-icon"><i class="bi bi-bar-chart-line" aria-hidden="true"></i></span>
           <span class="nav-text">Class</span>
         </a>
-        <a class="nav-link" href="{{ route('teachers.index') }}">
+        <a class="nav-link{{ request()->routeIs('teachers.*') ? ' active' : '' }}" href="{{ route('teachers.index') }}">
           <span class="nav-icon"><i class="bi bi-table" aria-hidden="true"></i></span>
           <span class="nav-text">Teachers</span>
         </a>
-        <a class="nav-link" href="{{ route('admin.students.index') }}">
+        <a class="nav-link{{ request()->routeIs('admin.students.*') ? ' active' : '' }}" href="{{ route('admin.students.index') }}">
           <span class="nav-icon"><i class="bi bi-ui-checks-grid" aria-hidden="true"></i></span>
           <span class="nav-text">Student</span>
         </a>
-        <a class="nav-link" href="{{ route('admin.parents.index') }}">
+        <a class="nav-link{{ request()->routeIs('admin.parents.*') ? ' active' : '' }}" href="{{ route('admin.parents.index') }}">
           <span class="nav-icon"><i class="bi bi-grid-3x3-gap" aria-hidden="true"></i></span>
           <span class="nav-text">Parent</span>
         </a>
-        <a class="nav-link" href="{{ route('admin.student_parents.index') }}">
+        <a class="nav-link{{ request()->routeIs('admin.student_parents.*') ? ' active' : '' }}" href="{{ route('admin.student_parents.index') }}">
           <span class="nav-icon"><i class="bi bi-exclamation-triangle" aria-hidden="true"></i></span>
           <span class="nav-text">Student-Parent</span>
         </a>
-        <a class="nav-link" href="{{ route('admin.attendance.index') }}">
+        <a class="nav-link{{ request()->routeIs('admin.attendance.*') ? ' active' : '' }}" href="{{ route('admin.attendance.index') }}">
           <span class="nav-icon"><i class="bi bi-window-stack" aria-hidden="true"></i></span>
           <span class="nav-text">Attendance</span>
         </a>
-        <a class="nav-link" href="{{ route('admin.schedules.index') }}">
+        <a class="nav-link{{ request()->routeIs('admin.schedules.*') ? ' active' : '' }}" href="{{ route('admin.schedules.index') }}">
           <span class="nav-icon"><i class="bi bi-gear" aria-hidden="true"></i></span>
           <span class="nav-text">Schedules</span>
         </a>
        <a class="nav-link{{ request()->routeIs('admin.grades.*') ? ' active' : '' }}" href="{{ route('admin.grades.index') }}">
         <span class="nav-icon"><i class="bi bi-file-earmark" aria-hidden="true"></i></span>
         <span class="nav-text">Grades</span>
+      </a>
+      <a class="nav-link{{ request()->routeIs('admin.exams.*') ? ' active' : '' }}" href="{{ route('admin.exams.index') }}">
+        <span class="nav-icon"><i class="bi bi-file-earmark" aria-hidden="true"></i></span>
+        <span class="nav-text">Exams</span>
+      </a>
+      <a class="nav-link{{ request()->routeIs('exam_results.*') ? ' active' : '' }}" href="{{ route('exam_results.index') }}">
+        <span class="nav-icon"><i class="bi bi-file-earmark" aria-hidden="true"></i></span>
+        <span class="nav-text">Exam Results</span>
       </a>
       </nav>
       <!-- <div class="sidebar-user">
