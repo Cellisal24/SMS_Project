@@ -106,6 +106,7 @@
                     <thead class="table-dark">
                         <tr>
                             <th>Teacher ID</th>
+                            <th>Photo</th>
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Gender</th>
@@ -118,6 +119,16 @@
                         @forelse($teachers as $teacher)
                             <tr>
                                 <td><strong>{{ $teacher->teacher_id }}</strong></td>
+                                 <td>
+                                    @if ($teacher->photo)
+                                        <img src="{{ asset('storage/' . $teacher->photo) }}" alt="{{ $teacher->first_name }}" class="rounded-circle" style="width:36px;height:36px;object-fit:cover;">
+                                    @else
+                                        <span class="avatar-placeholder rounded-circle bg-secondary text-white d-inline-flex align-items-center justify-content-center" style="width:36px;height:36px;">
+                                        {{ strtoupper(substr($teacher->first_name, 0, 1)) }}
+                                        </span>
+                                    @endif
+                                    {{ $teacher->first_name }} {{ $teacher->last_name }}
+                                    </td>
                                 <td>{{ $teacher->first_name }}</td>
                                 <td>{{ $teacher->last_name }}</td>
                                 <td>

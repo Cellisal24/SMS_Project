@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class ParentController extends Controller
 {
@@ -38,6 +39,10 @@ class ParentController extends Controller
 {
     $validated = $this->validateParent($request);
 
+    if ($request->hasFile('photo')) {
+        $validated['photo'] = $request->file('photo')->store('photos/parents', 'public');
+    }
+
     $parent = ParentModel::create($validated);
 
     $account = $this->createLoginAccount($parent);
@@ -58,12 +63,13 @@ class ParentController extends Controller
 }
 private function validateParent(Request $request): array
 {
-    return $request->validate([
+     return $request->validate([
         'first_name'  => ['required', 'string', 'max:50'],
         'last_name'   => ['required', 'string', 'max:50'],
         'phone'       => ['nullable', 'string', 'max:20'],
         'email'       => ['nullable', 'email', 'max:100'],
         'national_id' => ['nullable', 'string', 'max:30'],
+        'photo'       => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
     ]);
 }
    
@@ -73,16 +79,21 @@ private function validateParent(Request $request): array
         return view('admin.parents.edit', compact('parent'));
     }
 
-    public function update(Request $request, ParentModel $parent)
-    {
-        $validated = $this->validateParent($request);
+   public function update(Request $request, ParentModel $parent)
+{
+    $validated = $this->validateParent($request);
 
-        $parent->update($validated);
-
-        return redirect()
-            ->route('admin.parents.index', $parent)
-            ->with('success', "Parent {$parent->fullName()} updated successfully.");
+    if ($request->hasFile('photo')) {
+        if ($parent->photo) {
+            Storage::disk('public')->delete($parent->photo);
+        }
+        $validated['photo'] = $request->file('photo')->store('photos/parents', 'public');
     }
+
+    $parent->update($validated);
+
+    return redirect()->route('admin.parents.index', $parent)->with('success', "Parent {$parent->fullName()} updated successfully.");
+}
 
     public function destroy(ParentModel $parent)
     {

@@ -157,7 +157,8 @@
           <thead>
             <tr>
               <th scope="col" class="ps-3" style="width: 140px;">លេខសម្គាល់ (Student ID)</th>
-              <th scope="col">ឈ្មោះ (Name)</th>
+              <th scope="col">រូបថត (Photo)</th>
+              <th scope="col">ឈ្មោះ (Name)</th>              
               <th scope="col">ថ្នាក់ (Class)</th>
               <th scope="col">ភេទ (Gender)</th>
               <th scope="col">ស្ថានភាព (Status)</th>
@@ -169,6 +170,16 @@
               <tr>
                 <td class="ps-3 fw-bold text-secondary">
                   {{ $student->student_id }}
+                </td>
+                <td>
+                  @if ($student->photo)
+                    <img src="{{ asset('storage/' . $student->photo) }}" alt="{{ $student->first_name }}" class="rounded-circle" style="width:36px;height:36px;object-fit:cover;">
+                  @else
+                    <span class="avatar-placeholder rounded-circle bg-secondary text-white d-inline-flex align-items-center justify-content-center" style="width:36px;height:36px;">
+                      {{ strtoupper(substr($student->first_name, 0, 1)) }}
+                    </span>
+                  @endif
+                  {{ $student->first_name }} {{ $student->last_name }}
                 </td>
 
                 <td>

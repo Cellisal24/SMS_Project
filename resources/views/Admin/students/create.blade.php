@@ -251,7 +251,7 @@
         <p class="subtitle">Create a new student</p>
     </div>
 
-    <form action="{{ route('admin.students.store') }}" method="POST">
+    <form action="{{ route('admin.students.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="form-row">
@@ -361,6 +361,15 @@
                 @enderror
             </div>
         </div>
+        <div class="mb-3">
+        <label class="form-label" for="photo">រូបថត / Photo</label>
+        <input type="file" name="photo" id="photo" class="form-control" accept="image/*">
+        @if (isset($student) && $student->photo)
+        <img src="{{ asset('storage/' . $student->photo) }}" alt="Current photo" class="mt-2 rounded" style="width:80px;height:80px;object-fit:cover;">
+        <p class="text-muted small mt-1">Uploading a photo</p>
+        @endif
+    </div>
+
 
         <div class="form-group">
             <label class="form-label">

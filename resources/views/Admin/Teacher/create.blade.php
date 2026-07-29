@@ -3,14 +3,8 @@
 <div class="container my-4" style="max-width: 600px;">
     <h3>Add New Teacher</h3>
 
-    <form action="{{ route('teachers.store') }}" method="POST" class="mt-3">
-        @csrf
-
-        <div class="mb-3">
-            <label class="form-label">Teacher ID</label>
-            <input type="text" name="teacher_id" class="form-control @error('teacher_id') is-invalid @enderror" value="{{ old('teacher_id') }}" placeholder="e.g., TCH-2026-001" required>
-            @error('teacher_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
-        </div>
+    <form action="{{ route('teachers.store') }}" method="POST" class="mt-3" enctype="multipart/form-data">
+        @csrf       
 
         <div class="row">
             <div class="col-md-6 mb-3">
@@ -47,6 +41,15 @@
             <input type="text" name="contact_number" class="form-control @error('contact_number') is-invalid @enderror" value="{{ old('contact_number') }}">
             @error('contact_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
         </div>
+        <div class="mb-3">
+        <label class="form-label" for="photo">រូបថត / Photo</label>
+        <input type="file" name="photo" id="photo" class="form-control" accept="image/*">
+        @if (isset($teacher) && $teacher->photo)
+        <img src="{{ asset('storage/' . $teacher->photo) }}" alt="Current photo" class="mt-2 rounded" style="width:80px;height:80px;object-fit:cover;">
+        <p class="text-muted small mt-1">Uploading  a photo</p>
+        @endif
+    </div>
+
 
         <button type="submit" class="btn btn-success">Save Teacher</button>
         <a href="{{ route('teachers.index') }}" class="btn btn-secondary">Cancel</a>

@@ -13,7 +13,7 @@ class Student extends Model
     protected $primaryKey = 'student_id';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['student_id', 'first_name', 'last_name', 'gender', 'date_of_birth', 'class_id', 'parent_phone', 'status'];
+    protected $fillable = ['student_id', 'first_name', 'last_name', 'gender', 'date_of_birth', 'class_id', 'parent_phone', 'status','photo',];
 
     public function schoolClass() { return $this->belongsTo(SchoolClass::class, 'class_id', 'class_id'); }
     public function parents() { return $this->belongsToMany(ParentModel::class, 'student_parents', 'student_id', 'parent_id'); }

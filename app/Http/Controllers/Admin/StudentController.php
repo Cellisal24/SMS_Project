@@ -10,6 +10,7 @@ use App\Models\SchoolClass;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 class StudentController extends Controller
 {
     public function index(Request $request)
@@ -45,6 +46,10 @@ class StudentController extends Controller
 {
     $validated = $this->validateStudent($request);
 
+    if ($request->hasFile('photo')) {
+        $validated['photo'] = $request->file('photo')->store('photos/students', 'public');
+    }
+
     $student = Student::create($validated);
 
     $this->syncParents($student, $request);
@@ -79,6 +84,13 @@ class StudentController extends Controller
 {
     $validated = $this->validateStudent($request, $student->student_id);
 
+    if ($request->hasFile('photo')) {
+        if ($student->photo) {
+            Storage::disk('public')->delete($student->photo);
+        }
+        $validated['photo'] = $request->file('photo')->store('photos/students', 'public');
+    }
+
     $student->update($validated);
 
     $this->syncParents($student, $request);
@@ -89,16 +101,19 @@ class StudentController extends Controller
 }
 
     public function destroy(Student $student)
-    {
-        $name = $student->fullName();
-        $student->delete();
+{
+    $name = $student->fullName();
 
-        return redirect()
-            ->route('admin.students.index')
-            ->with('success', "Student {$name} deleted successfully.");
+    if ($student->photo) {
+        Storage::disk('public')->delete($student->photo);
     }
 
-   private function validateStudent(Request $request, ?string $studentId = null): array
+    $student->delete();
+
+    return redirect()->route('admin.students.index')->with('success', "Student {$name} deleted successfully.");
+}
+
+  private function validateStudent(Request $request, ?string $studentId = null): array
 {
     return $request->validate([
         'first_name'    => ['required', 'string', 'max:50'],
@@ -108,6 +123,7 @@ class StudentController extends Controller
         'class_id'      => ['nullable', 'string', 'max:10', 'exists:classes,class_id'],
         'parent_phone'  => ['nullable', 'string', 'max:20'],
         'status'        => ['required', 'in:active,inactive,graduated,transferred'],
+        'photo'         => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
     ]);
 }
 

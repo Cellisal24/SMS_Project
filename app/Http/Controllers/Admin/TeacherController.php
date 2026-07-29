@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class TeacherController extends Controller
 {
@@ -76,16 +77,20 @@ class TeacherController extends Controller
     // Store new teacher
    public function store(Request $request)
 {
-    $validated = $request->validate([
-        'teacher_id'     => 'required|string|max:50|unique:teachers,teacher_id',
+     $validated = $request->validate([
         'first_name'     => 'required|string|max:100',
         'last_name'      => 'required|string|max:100',
         'gender'         => 'required|in:Male,Female,Other',
         'email'          => 'required|email|unique:teachers,email',
         'contact_number' => 'nullable|string|max:20',
+        'photo'          => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
     ]);
 
     $validated['gender'] = $this->normalizeGender($validated['gender']);
+
+    if ($request->hasFile('photo')) {
+        $validated['photo'] = $request->file('photo')->store('photos/teachers', 'public');
+    }
 
     $teacher = Teacher::create($validated);
 
@@ -119,18 +124,26 @@ class TeacherController extends Controller
     public function update(Request $request, Teacher $teacher)
     {
         $validated = $request->validate([
-            'first_name'     => 'required|string|max:100',
-            'last_name'      => 'required|string|max:100',
-            'gender'         => 'required|in:Male,Female,Other',
-            'email'          => 'required|email|unique:teachers,email,' . $teacher->teacher_id . ',teacher_id',
-            'contact_number' => 'nullable|string|max:20',
-        ]);
+        'first_name'     => 'required|string|max:100',
+        'last_name'      => 'required|string|max:100',
+        'gender'         => 'required|in:Male,Female,Other',
+        'email'          => 'required|email|unique:teachers,email,' . $teacher->teacher_id . ',teacher_id',
+        'contact_number' => 'nullable|string|max:20',
+        'photo'          => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+    ]);
 
-        $validated['gender'] = $this->normalizeGender($validated['gender']);
+    $validated['gender'] = $this->normalizeGender($validated['gender']);
 
-        $teacher->update($validated);
+    if ($request->hasFile('photo')) {
+        if ($teacher->photo) {
+            Storage::disk('public')->delete($teacher->photo);
+        }
+        $validated['photo'] = $request->file('photo')->store('photos/teachers', 'public');
+    }
 
-        return redirect()->route('teachers.index')->with('success', 'Teacher updated successfully!');
+    $teacher->update($validated);
+
+    return redirect()->route('teachers.index')->with('success', 'Teacher updated successfully!');
     }
 
     // Delete teacher

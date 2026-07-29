@@ -2,7 +2,7 @@
 <div class="container my-4" style="max-width: 600px;">
     <h3>Edit Teacher: {{ $teacher->teacher_id }}</h3>
 
-    <form action="{{ route('teachers.update', $teacher->teacher_id) }}" method="POST" class="mt-3">
+    <form action="{{ route('teachers.update', $teacher->teacher_id) }}" method="POST" class="mt-3" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -45,6 +45,14 @@
             <label class="form-label">Contact Number</label>
             <input type="text" name="contact_number" class="form-control @error('contact_number') is-invalid @enderror" value="{{ old('contact_number', $teacher->contact_number) }}">
             @error('contact_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        </div>
+         <div class="mb-3">
+        <label class="form-label" for="photo">រូបថត / Photo</label>
+        <input type="file" name="photo" id="photo" class="form-control" accept="image/*">
+        @if (isset($teacher) && $teacher->photo)
+        <img src="{{ asset('storage/' . $teacher->photo) }}" alt="Current photo" class="mt-2 rounded" style="width:80px;height:80px;object-fit:cover;">
+        <p class="text-muted small mt-1">Uploading a new photo replaces this one.</p>
+        @endif
         </div>
 
         <button type="submit" class="btn btn-primary">Update Teacher</button>

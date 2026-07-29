@@ -192,7 +192,7 @@
         <span class="parent-info-badge">ID: {{ $parent->parent_id }}</span>
     </div>
 
-    <form action="{{ route('admin.parents.update', $parent->parent_id) }}" method="POST">
+    <form action="{{ route('admin.parents.update', $parent->parent_id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -282,6 +282,14 @@
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
+        <div class="mb-3">
+        <label class="form-label" for="photo">រូបថត / Photo</label>
+        <input type="file" name="photo" id="photo" class="form-control" accept="image/*">
+        @if (isset($parent) && $parent->photo)
+        <img src="{{ asset('storage/' . $parent->photo) }}" alt="Current photo" class="mt-2 rounded" style="width:80px;height:80px;object-fit:cover;">
+        <p class="text-muted small mt-1">Uploading a new photo replaces this one.</p>
+        @endif
+    </div>
 
         @if ($parent->students->count())
             <div class="form-group">
