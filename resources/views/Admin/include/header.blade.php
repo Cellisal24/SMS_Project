@@ -80,7 +80,7 @@
           <span class="nav-icon"><i class="bi bi-credit-card" aria-hidden="true"></i></span>
           <span class="nav-text">Payment</span>
         </a>
-       <a class="nav-link" href="{{ route('admin.notifications.index') }}">
+       <a class="nav-link{{ request()->routeIs('admin.notifications.*') ? ' active' : '' }}" href="{{ route('admin.notifications.index') }}">
         <span class="nav-icon"><i class="bi bi-bell" aria-hidden="true"></i></span>
         <span class="nav-text">Notifications</span>
       </a>

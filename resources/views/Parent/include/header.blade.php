@@ -86,6 +86,15 @@
             <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" title="Switch color theme">
               <i class="bi bi-moon-stars" data-theme-icon aria-hidden="true"></i>
             </button>
+             @php $notif = \App\Http\Controllers\AllNotificationController::forHeader(); @endphp
+         
+           <button type="button" class="icon-button position-relative" aria-label="Notifications" onclick="window.location.href='{{ route('notifications.index') }}'">
+            @if ($notif['unreadCount'] > 0)
+              <span class="notification-dot"></span>
+            @endif
+            <i class="bi bi-bell" aria-hidden="true"></i>
+          </button>
+        
 
             <div class="dropdown">
               <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">

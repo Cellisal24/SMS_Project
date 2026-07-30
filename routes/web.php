@@ -28,6 +28,11 @@ use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Student\ProfileController as StudentProfileController;
+use App\Http\Controllers\Teacher\ProfileController as TeacherProfileController;
+use App\Http\Controllers\Teacher\StudentController as TeacherStudentController;
+use App\Http\Controllers\Teacher\ExamResultController as TeacherExamResultController;
+use App\Http\Controllers\AllNotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -145,13 +150,12 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/payments/{payment}', [PaymentController::class, 'update'])->name('admin.payments.update');
     Route::delete('/payments/{payment}', [PaymentController::class, 'destroy'])->name('admin.payments.destroy');
      
-    //notifications
-    Route::get('/notifications', [NotificationController::class, 'index'])->name('admin.notifications.index');
-    Route::get('/notifications/create', [NotificationController::class, 'create'])->name('admin.notifications.create');
-    Route::post('/notifications', [NotificationController::class, 'store'])->name('admin.notifications.store');
-    Route::delete('/notifications/{notification}', [NotificationController::class, 'destroy'])->name('admin.notifications.destroy');
-    Route::post('/notifications/mark-read', [NotificationController::class, 'markRead'])->name('admin.notifications.mark-read');
-
+   //notifications
+    Route::get('/admin/notifications', [NotificationController::class, 'index'])->name('admin.notifications.index');
+    Route::get('/admin/notifications/create', [NotificationController::class, 'create'])->name('admin.notifications.create');
+    Route::post('/admin/notifications', [NotificationController::class, 'store'])->name('admin.notifications.store');
+    Route::delete('/admin/notifications/{notification}', [NotificationController::class, 'destroy'])->name('admin.notifications.destroy');
+    Route::post('/admin/notifications/mark-read', [NotificationController::class, 'markRead'])->name('admin.notifications.mark-read');
     //reports
     Route::get('/reports', [ReportController::class, 'index'])->name('admin.reports.index');
     Route::get('/reports/create', [ReportController::class, 'create'])->name('admin.reports.create');
@@ -224,7 +228,16 @@ Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->group(function (
     Route::get('/grades', [TeacherGradeController::class, 'index'])->name('teacher.grades.index');
     Route::get('/grades/roster', [TeacherGradeController::class, 'roster'])->name('teacher.grades.roster');
     Route::post('/grades', [TeacherGradeController::class, 'store'])->name('teacher.grades.store');
-});
+
+    Route::get('/profile', [TeacherProfileController::class, 'show'])->name('teacher.profile.show');
+    Route::get('/settings', [TeacherProfileController::class, 'editSettings'])->name('teacher.settings.edit');
+    Route::put('/settings/password', [TeacherProfileController::class, 'updatePassword'])->name('teacher.settings.password');
+    Route::get('/students', [TeacherStudentController::class, 'index'])->name('teacher.students.index');
+     Route::get('/exam-results', [TeacherExamResultController::class, 'index'])->name('teacher.exam-results.index');
+    Route::get('/exam-results/create', [TeacherExamResultController::class, 'create'])->name('teacher.exam-results.create');
+    Route::get('/exam-results/roster', [TeacherExamResultController::class, 'roster'])->name('teacher.exam-results.roster');
+    Route::post('/exam-results', [TeacherExamResultController::class, 'store'])->name('teacher.exam-results.store');
+    });
 
 
 //student
@@ -233,11 +246,18 @@ Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->group(function (
     Route::get('/schedule', [StudentScheduleController::class, 'index'])->name('student.schedule.index');
     Route::get('/grades', [StudentGradeController::class, 'index'])->name('student.grades.index');
 
+    Route::get('/profile', [StudentProfileController::class, 'show'])->name('student.profile.show');
+    Route::get('/settings', [StudentProfileController::class, 'editSettings'])->name('student.settings.edit');
+    Route::put('/settings/password', [StudentProfileController::class, 'updatePassword'])->name('student.settings.password');
+
+});
+//noti
+Route::middleware('auth')->group(function () {
+    Route::get('/notifications', [AllNotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/{notification}/read', [AllNotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/notifications/read-all', [AllNotificationController::class, 'markAllRead'])->name('notifications.read-all');
 });
 
-
-
-//authentication routes
 // Public login — student / teacher / parent
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

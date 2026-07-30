@@ -47,11 +47,11 @@
           <span class="nav-icon"><i class="bi bi-file-text" aria-hidden="true"></i></span>
           <span class="nav-text">Exams</span>
         </a>
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('student.profile.show') }}">
           <span class="nav-icon"><i class="bi bi-person-badge" aria-hidden="true"></i></span>
           <span class="nav-text">Profile</span>
         </a>
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('student.settings.edit') }}">
           <span class="nav-icon"><i class="bi bi-gear" aria-hidden="true"></i></span>
           <span class="nav-text">Settings</span>
         </a>
@@ -86,15 +86,27 @@
             <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" title="Switch color theme">
               <i class="bi bi-moon-stars" data-theme-icon aria-hidden="true"></i>
             </button>
+               @php $notif = \App\Http\Controllers\AllNotificationController::forHeader(); @endphp
+          
+           <button type="button" class="icon-button position-relative" aria-label="Notifications" onclick="window.location.href='{{ route('notifications.index') }}'">
+            @if ($notif['unreadCount'] > 0)
+              <span class="notification-dot"></span>
+            @endif
+            <i class="bi bi-bell" aria-hidden="true"></i>
+          </button>
 
-            <div class="dropdown">
+             <div class="dropdown">
               <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="avatar-img avatar-sm" src="{{ asset('assets/images/avatar/avatar.jpg') }}" alt="{{ auth()->user()->username }}">
+                @if (auth()->user()->student && auth()->user()->student->photo)
+                  <img class="avatar-img avatar-sm" src="{{ asset('storage/' . auth()->user()->student->photo) }}" alt="{{ auth()->user()->username }}">
+                @else
+                  <img class="avatar-img avatar-sm" src="{{ asset('assets/images/avatar/avatar.jpg') }}" alt="{{ auth()->user()->username }}">
+                @endif
                 <span class=" d-none d-sm-inline">{{ auth()->user()->username }}</span>
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li><a class="dropdown-item" href="#">Account settings</a></li>
+                <li><a class="dropdown-item" href="{{ route('student.profile.show') }}">Profile</a></li>
+                <li><a class="dropdown-item" href="{{ route('student.settings.edit') }}">Account settings</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li>
                     <form method="POST" action="{{ route('logout') }}">
@@ -103,7 +115,6 @@
                     </form>
                 </li>
               </ul>
-            </div>
           </div>
         </div>
       </nav>

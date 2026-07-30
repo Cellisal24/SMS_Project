@@ -43,15 +43,19 @@
         <span class="nav-icon"><i class="bi bi-journal-check" aria-hidden="true"></i></span>
         <span class="nav-text">Grades</span>
       </a>
-        <a class="nav-link" href="#">
-          <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
-          <span class="nav-text">My Students</span>
-        </a>
-        <a class="nav-link" href="#">
+        <a class="nav-link{{ request()->routeIs('teacher.students.*') ? ' active' : '' }}" href="{{ route('teacher.students.index') }}">
+        <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
+        <span class="nav-text">My Students</span>
+      </a>
+      <a class="nav-link{{ request()->routeIs('teacher.exam-results.*') ? ' active' : '' }}" href="{{ route('teacher.exam-results.index') }}">
+      <span class="nav-icon"><i class="bi bi-file-earmark-check" aria-hidden="true"></i></span>
+      <span class="nav-text">Exam Results</span>
+    </a>
+        <a class="nav-link" href="{{ route('teacher.profile.show') }}">
           <span class="nav-icon"><i class="bi bi-person-badge" aria-hidden="true"></i></span>
           <span class="nav-text">Profile</span>
         </a>
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('teacher.settings.edit') }}">
           <span class="nav-icon"><i class="bi bi-gear" aria-hidden="true"></i></span>
           <span class="nav-text">Settings</span>
         </a>
@@ -85,15 +89,28 @@
             <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" title="Switch color theme">
               <i class="bi bi-moon-stars" data-theme-icon aria-hidden="true"></i>
             </button>
+            @php $notif = \App\Http\Controllers\AllNotificationController::forHeader(); @endphp
+         
+           <button type="button" class="icon-button position-relative" aria-label="Notifications" onclick="window.location.href='{{ route('notifications.index') }}'">
+            @if ($notif['unreadCount'] > 0)
+              <span class="notification-dot"></span>
+            @endif
+            <i class="bi bi-bell" aria-hidden="true"></i>
+          </button>
+          
 
-            <div class="dropdown">
+             <div class="dropdown">
               <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="avatar-img avatar-sm" src="{{ asset('assets/images/avatar/avatar.jpg') }}" alt="{{ auth()->user()->username }}">
+                @if (auth()->user()->teacher && auth()->user()->teacher->photo)
+                  <img class="avatar-img avatar-sm" src="{{ asset('storage/' . auth()->user()->teacher->photo) }}" alt="{{ auth()->user()->username }}">
+                @else
+                  <img class="avatar-img avatar-sm" src="{{ asset('assets/images/avatar/avatar.jpg') }}" alt="{{ auth()->user()->username }}">
+                @endif
                 <span class=" d-none d-sm-inline">{{ auth()->user()->username }}</span>
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li><a class="dropdown-item" href="#">Account settings</a></li>
+                <li><a class="dropdown-item" href="{{ route('teacher.profile.show') }}">Profile</a></li>
+                <li><a class="dropdown-item" href="{{ route('teacher.settings.edit') }}">Account settings</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li>
                     <form method="POST" action="{{ route('logout') }}">
@@ -103,6 +120,7 @@
                 </li>
               </ul>
             </div>
+
           </div>
         </div>
       </nav>
