@@ -15,6 +15,8 @@ use App\Http\Controllers\Admin\StudentParentController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Admin\AttendanceController;
+use App\Http\Controllers\Admin\ExamController;
+use App\Http\Controllers\Admin\ExamResultController;
 use App\Http\Controllers\Teacher\ScheduleController as TeacherScheduleController;
 use App\Http\Controllers\Teacher\GradeController as TeacherGradeController;
 use App\Http\Controllers\Admin\ScheduleController;
@@ -168,7 +170,42 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/settings', [ProfileController::class, 'editSettings'])->name('admin.settings.edit');
     Route::put('/settings/password', [ProfileController::class, 'updatePassword'])->name('admin.settings.password');
 
-    });
+     Route::get('/exams', [ExamController::class, 'index'])
+            ->name('admin.exams.index');
+
+        // Create Exam Form
+        Route::get('/exams/create', [ExamController::class, 'create'])
+            ->name('admin.exams.create');
+
+        // Save Exam
+        Route::post('/exams', [ExamController::class, 'store'])
+            ->name('admin.exams.store');
+
+        // Show Exam Detail (Optional)
+        Route::get('/exams/{exam}', [ExamController::class, 'show'])
+            ->name('admin.exams.show');
+
+        // Edit Exam
+        Route::get('/exams/{exam}/edit', [ExamController::class, 'edit'])
+            ->name('admin.exams.edit');
+
+        // Update Exam
+        Route::put('/exams/{exam}', [ExamController::class, 'update'])
+            ->name('admin.exams.update');
+
+        // Delete Exam
+        Route::delete('/exams/{exam}', [ExamController::class, 'destroy'])
+            ->name('admin.exams.destroy');
+
+    // Exam Results List & Actions
+    Route::get('exam-results', [ExamResultController::class, 'index'])->name('exam_results.index');
+    Route::delete('exam-results/{examResult}', [ExamResultController::class, 'destroy'])->name('exam_results.destroy');
+
+    // Enter Scores Routes
+    Route::get('exams/{exam}/scores', [ExamResultController::class, 'enterScores'])->name('admin.exams.scores.enter');
+    Route::post('exams/{exam}/scores', [ExamResultController::class, 'storeScores'])->name('admin.exams.scores.store');
+});
+
 // Attendance
 Route::middleware(['auth', 'role:admin,teacher'])->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('admin.attendance.index');
@@ -210,6 +247,8 @@ Route::middleware('guest')->group(function () {
 });
 
 // Admin login — separate, not linked from the public page
+// Support case variants so /Admin/login does not return 404 on Windows or manual URL entry.
+Route::redirect('/Admin/login', '/admin/login');
 Route::middleware('guest')->prefix('admin')->group(function () {
     Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
     Route::post('/login', [AdminAuthController::class, 'login']);
