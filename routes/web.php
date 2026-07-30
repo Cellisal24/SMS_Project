@@ -33,7 +33,8 @@ use App\Http\Controllers\Teacher\ProfileController as TeacherProfileController;
 use App\Http\Controllers\Teacher\StudentController as TeacherStudentController;
 use App\Http\Controllers\Teacher\ExamResultController as TeacherExamResultController;
 use App\Http\Controllers\AllNotificationController;
-
+use App\Http\Controllers\Student\AttendanceController as StudentAttendanceController;
+use App\Http\Controllers\Student\ExamController as StudentExamController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -249,7 +250,14 @@ Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->group(function (
     Route::get('/profile', [StudentProfileController::class, 'show'])->name('student.profile.show');
     Route::get('/settings', [StudentProfileController::class, 'editSettings'])->name('student.settings.edit');
     Route::put('/settings/password', [StudentProfileController::class, 'updatePassword'])->name('student.settings.password');
+    Route::get('/schedule', [StudentScheduleController::class, 'index'])->name('student.schedule.index');
+    Route::get('/grades', [StudentGradeController::class, 'index'])->name('student.grades.index');
+    Route::get('/attendance', [StudentAttendanceController::class, 'index'])->name('student.attendance.index');
+    Route::get('/exams', [StudentExamController::class, 'index'])->name('student.exams.index');
 
+    Route::get('/profile', [StudentProfileController::class, 'show'])->name('student.profile.show');
+    Route::get('/settings', [StudentProfileController::class, 'editSettings'])->name('student.settings.edit');
+    Route::put('/settings/password', [StudentProfileController::class, 'updatePassword'])->name('student.settings.password');
 });
 //noti
 Route::middleware('auth')->group(function () {

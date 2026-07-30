@@ -35,7 +35,7 @@
           <span class="nav-icon"><i class="bi bi-calendar3" aria-hidden="true"></i></span>
           <span class="nav-text">My Schedule</span>
         </a>
-        <a class="nav-link" href="#">
+        <a class="nav-link{{ request()->routeIs('student.attendance.*') ? ' active' : '' }}" href="{{ route('student.attendance.index') }}">
           <span class="nav-icon"><i class="bi bi-clipboard-check" aria-hidden="true"></i></span>
           <span class="nav-text">My Attendance</span>
         </a>
@@ -43,7 +43,7 @@
           <span class="nav-icon"><i class="bi bi-journal-check" aria-hidden="true"></i></span>
           <span class="nav-text">My Grades</span>
         </a>
-        <a class="nav-link" href="#">
+        <a class="nav-link{{ request()->routeIs('student.exams.*') ? ' active' : '' }}" href="{{ route('student.exams.index') }}">
           <span class="nav-icon"><i class="bi bi-file-text" aria-hidden="true"></i></span>
           <span class="nav-text">Exams</span>
         </a>
