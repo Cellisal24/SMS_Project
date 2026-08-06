@@ -67,7 +67,7 @@
               <th>សិស្ស / Student</th>
               <th>ថ្នាក់ / Class</th>
               <th>ឆមាស / Semester</th>
-              <th>ឆំនាំ / Year</th>
+              <th>ឆ្នាំ / Year</th>
               <th>មធ្យមភាគ / Average</th>
               <th>ចំណាត់ថ្នាក់ / Rank</th>
               <th>វត្តមាន / Attendance</th>

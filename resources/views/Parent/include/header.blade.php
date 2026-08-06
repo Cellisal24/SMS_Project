@@ -31,19 +31,19 @@
           <span class="nav-icon"><i class="bi bi-speedometer2" aria-hidden="true"></i></span>
           <span class="nav-text">Dashboard</span>
         </a>
-        <a class="nav-link" href="#">
-          <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
-          <span class="nav-text">My Children</span>
-        </a>
-        <a class="nav-link" href="#">
+        <a class="nav-link{{ request()->routeIs('parent.children.*') ? ' active' : '' }}" href="{{ route('parent.children.index') }}">
+        <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
+        <span class="nav-text">My Children</span>
+      </a>
+        <a class="nav-link{{ request()->routeIs('parent.attendance.*') ? ' active' : '' }}" href="{{ route('parent.attendance.index') }}">
           <span class="nav-icon"><i class="bi bi-clipboard-check" aria-hidden="true"></i></span>
           <span class="nav-text">Attendance</span>
         </a>
-        <a class="nav-link" href="#">
+        <a class="nav-link{{ request()->routeIs('parent.grades.*') ? ' active' : '' }}" href="{{ route('parent.grades.index') }}">
           <span class="nav-icon"><i class="bi bi-journal-check" aria-hidden="true"></i></span>
           <span class="nav-text">Grades</span>
         </a>
-        <a class="nav-link" href="#">
+        <a class="nav-link{{ request()->routeIs('parent.payments.*') ? ' active' : '' }}" href="{{ route('parent.payments.index') }}">
           <span class="nav-icon"><i class="bi bi-cash-coin" aria-hidden="true"></i></span>
           <span class="nav-text">Payments</span>
         </a>

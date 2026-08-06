@@ -35,7 +35,7 @@
         <div class="login-form-panel">
             <div class="login-domain">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 007.07 0l2.83-2.83a5 5 0 00-7.07-7.07l-1.5 1.5M14 11a5 5 0 00-7.07 0l-2.83 2.83a5 5 0 007.07 7.07l1.5-1.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-                <span>{{ config('app.school_domain', 'www.yourschool.edu') }}</span>
+                <span>{{ config('app.school_domain', 'www.SMSschool.edu') }}</span>
             </div>
 
             <div class="login-brand text-center">
@@ -47,9 +47,9 @@
             </div>
 
             <div class="role-tabs" role="tablist" aria-label="Login as">
-                <button type="button" class="role-tab is-active" data-role="student" data-label="STUDENT PANEL" data-field-label="ADMISSION NO. / EMAIL" data-placeholder="Enter admission number or email">Student</button>
-                <button type="button" class="role-tab" data-role="teacher" data-label="TEACHER PANEL" data-field-label="Teacher Username" data-placeholder="Enter staff ID or email">Teacher</button>
-                <button type="button" class="role-tab" data-role="parent" data-label="PARENT PANEL" data-field-label="Parent Username" data-placeholder="Enter enrollment number or email">Parent</button>
+                <button type="button" class="role-tab is-active" data-role="student" data-label="STUDENT PANEL" data-field-label="Student Username" data-placeholder="Enter Username">Student</button>
+                <button type="button" class="role-tab" data-role="teacher" data-label="TEACHER PANEL" data-field-label="Teacher Username" data-placeholder="Enter Username">Teacher</button>
+                <button type="button" class="role-tab" data-role="parent" data-label="PARENT PANEL" data-field-label="Parent Username" data-placeholder="Enter Username">Parent</button>
             </div>
 
             @if ($errors->any())
@@ -65,7 +65,7 @@
                 <input type="hidden" name="login_role_hint" id="loginRoleHint" value="student">
 
                 <label class="field-label" id="fieldLabel" for="username">Student Username</label>
-                <input type="text" class="field-input" id="username" name="username" placeholder="Enter admission number or email" value="{{ old('username') }}" required autofocus>
+                <input type="text" class="field-input" id="username" name="username" placeholder="Enter Username" value="{{ old('username') }}" required autofocus>
 
                 <label class="field-label mt-3" for="password">PASSWORD</label>
                 <div class="password-wrap">

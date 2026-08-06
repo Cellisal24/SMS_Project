@@ -11,17 +11,82 @@ use App\Models\Grade;
 use App\Models\Exam;
 use App\Models\StudentParent;
 use App\Models\Payment;
+use App\Models\ActivityLog;
+use App\Models\Student;
+use App\Models\Teacher;
+use App\Models\SchoolClass;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
     public function dashboard()
-    {
-        $subjectCount = Subject::count();
-        $recentSubjects = Subject::latest('created_at')->take(5)->get();
+{
+    $studentCount = Student::count();
+    $activeStudentCount = Student::where('status', 'active')->count();
+    $teacherCount = Teacher::count();
+    $classCount = SchoolClass::count();
 
-        return view('Admin.dashboard', compact('subjectCount', 'recentSubjects'));
+    $outstandingTotal = Payment::whereColumn('amount_paid', '<', 'total_fee')
+        ->get()
+        ->sum(fn ($p) => $p->total_fee - $p->amount_paid);
+
+    $studentGrowth = $this->percentChangeThisMonth(Student::class);
+
+    // Payments collected per month, last 6 months — used for the chart.
+    $months = collect(range(5, 0))->map(fn ($i) => now()->subMonths($i)->startOfMonth());
+
+    $monthlyCollected = $months->map(function ($month) {
+        $total = Payment::whereYear('payment_date', $month->year)
+            ->whereMonth('payment_date', $month->month)
+            ->sum('amount_paid');
+
+        return ['label' => $month->format('M'), 'total' => (float) $total];
+    });
+
+    $maxCollected = max(1, $monthlyCollected->max('total'));
+
+    $recentActivity = ActivityLog::with('user')
+        ->latest('created_at')
+        ->take(5)
+        ->get();
+
+    $recentUsers = User::latest('created_at')->take(5)->get();
+
+    return view('Admin.dashboard', compact(
+        'studentCount',
+        'activeStudentCount',
+        'teacherCount',
+        'classCount',
+        'outstandingTotal',
+        'studentGrowth',
+        'monthlyCollected',
+        'maxCollected',
+        'recentActivity',
+        'recentUsers',
+    ));
+}
+
+/**
+ * Percent change in new rows created this calendar month vs last month.
+ */
+private function percentChangeThisMonth(string $modelClass): ?float
+{
+    $thisMonth = $modelClass::whereYear('created_at', now()->year)
+        ->whereMonth('created_at', now()->month)
+        ->count();
+
+    $lastMonthDate = now()->subMonth();
+    $lastMonth = $modelClass::whereYear('created_at', $lastMonthDate->year)
+        ->whereMonth('created_at', $lastMonthDate->month)
+        ->count();
+
+    if ($lastMonth === 0) {
+        return null;
     }
-   public function dashboardParent()
+
+    return round((($thisMonth - $lastMonth) / $lastMonth) * 100, 1);
+}
+public function dashboardParent()
 {
     $parent = auth()->user()->parentProfile()->firstOrFail();
 
@@ -36,22 +101,15 @@ class DashboardController extends Controller
                 ->groupBy('status')
                 ->pluck('total', 'status');
 
-            $recentGrades = Grade::where('student_id', $student->student_id)
-                ->with('subject')
-                ->latest('grade_id')
-                ->take(3)
-                ->get();
-
-            $outstandingPayments = Payment::where('student_id', $student->student_id)
-                ->whereColumn('amount_paid', '<', 'total_fee')
-                ->get();
+            $outstandingBalance = Payment::where('student_id', $student->student_id)
+                ->get()
+                ->sum(fn ($p) => $p->total_fee - ($p->discount ?? 0) - $p->amount_paid);
 
             return [
                 'student' => $student,
                 'is_primary' => $link->is_primary,
                 'attendance' => $attendanceSummary,
-                'grades' => $recentGrades,
-                'payments' => $outstandingPayments,
+                'outstanding_balance' => $outstandingBalance,
             ];
         });
 

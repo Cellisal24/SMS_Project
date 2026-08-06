@@ -35,6 +35,12 @@ use App\Http\Controllers\Teacher\ExamResultController as TeacherExamResultContro
 use App\Http\Controllers\AllNotificationController;
 use App\Http\Controllers\Student\AttendanceController as StudentAttendanceController;
 use App\Http\Controllers\Student\ExamController as StudentExamController;
+use App\Http\Controllers\Parent\ChildController;
+use App\Http\Controllers\Parent\AttendanceController as ParentAttendanceController;
+use App\Http\Controllers\Parent\GradeController as ParentGradeController;
+use App\Http\Controllers\Parent\PaymentController as ParentPaymentController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -258,6 +264,17 @@ Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->group(function (
     Route::get('/profile', [StudentProfileController::class, 'show'])->name('student.profile.show');
     Route::get('/settings', [StudentProfileController::class, 'editSettings'])->name('student.settings.edit');
     Route::put('/settings/password', [StudentProfileController::class, 'updatePassword'])->name('student.settings.password');
+});
+
+//parent
+
+
+Route::middleware(['auth', 'role:parent'])->prefix('parent')->group(function () {
+    Route::get('/children', [ChildController::class, 'index'])->name('parent.children.index');
+    Route::get('/children/{student}', [ChildController::class, 'show'])->name('parent.children.show');
+    Route::get('/attendance', [ParentAttendanceController::class, 'index'])->name('parent.attendance.index');
+    Route::get('/grades', [ParentGradeController::class, 'index'])->name('parent.grades.index');
+    Route::get('/payments', [ParentPaymentController::class, 'index'])->name('parent.payments.index');
 });
 //noti
 Route::middleware('auth')->group(function () {
