@@ -53,7 +53,7 @@ use App\Http\Controllers\Parent\PaymentController as ParentPaymentController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 //Admin Dashboard
 
