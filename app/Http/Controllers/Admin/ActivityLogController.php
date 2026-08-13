@@ -44,7 +44,7 @@ class ActivityLogController extends Controller
         $actions = ActivityLog::select('action')->distinct()->orderBy('action')->pluck('action');
         $tables = ActivityLog::select('table_name')->distinct()->orderBy('table_name')->pluck('table_name');
 
-        return view('Admin.activity_logs.index', compact('logs', 'actions', 'tables'));
+        return view('admin.activity_logs.index', compact('logs', 'actions', 'tables'));
     }
 
     public function destroy(ActivityLog $activityLog)

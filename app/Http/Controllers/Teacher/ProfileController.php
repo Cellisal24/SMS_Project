@@ -13,12 +13,12 @@ class ProfileController extends Controller
     {
         $teacher = Auth::user()->teacher()->firstOrFail();
 
-        return view('Teacher.profile.show', compact('teacher'));
+        return view('teacher.profile.show', compact('teacher'));
     }
 
     public function editSettings()
     {
-        return view('Teacher.profile.settings');
+        return view('teacher.profile.settings');
     }
 
     public function updatePassword(Request $request)

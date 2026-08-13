@@ -40,6 +40,6 @@ class StudentController extends Controller
             ->filter()
             ->unique('class_id');
 
-        return view('Teacher.students.index', compact('students', 'classes'));
+        return view('teacher.students.index', compact('students', 'classes'));
     }
 }

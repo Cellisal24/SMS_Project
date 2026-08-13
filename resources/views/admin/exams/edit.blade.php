@@ -1,4 +1,4 @@
-@include('Admin.include.header')
+@include('admin.include.header')
 
 <style>
     .form-container { max-width: 700px; margin: 0 auto; padding: 2rem; }
@@ -86,4 +86,4 @@
     </form>
 </div>
 
-@include('Admin.include.footer')
+@include('admin.include.footer')

@@ -1,4 +1,4 @@
-@include('Admin.include.header')
+@include('admin.include.header')
 
 <style>
     :root {
@@ -434,4 +434,4 @@
     </form>
 </div>
 
-@include('Admin.include.footer')
+@include('admin.include.footer')

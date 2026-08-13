@@ -28,13 +28,13 @@ class SubjectController extends Controller
 
         $subjects = $query->orderBy('subject_id', 'asc')->paginate(10)->withQueryString();
         
-        return view('Admin.Subject.index', compact('subjects'));
+        return view('admin.subject.index', compact('subjects'));
     }
 
     // 2. បង្ហាញ Form សម្រាប់បង្កើតមុខវិជ្ជាថ្មី
     public function create()
     {
-        return view('Admin.Subject.create');
+        return view('admin.subject.create');
     }
 
     // 3. ទទួលទិន្នន័យពី Form រួចរក្សាទុកចូល Database
@@ -56,7 +56,7 @@ class SubjectController extends Controller
     public function edit($id)
     {
         $subject = Subject::findOrFail($id); 
-        return view('Admin.Subject.edit', compact('subject'));
+        return view('admin.subject.edit', compact('subject'));
     }
 
     // 5. ធ្វើបច្ចុប្បន្នភាព (Update) ទិន្នន័យដែលបានកែប្រែ
@@ -85,3 +85,5 @@ class SubjectController extends Controller
         return redirect()->route('admin.subjects.index')->with('success', 'បានលុបមុខវិជ្ជាចេញដោយជោគជ័យ!');
     }
 }
+
+

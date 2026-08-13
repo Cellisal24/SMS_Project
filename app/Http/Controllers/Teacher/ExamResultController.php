@@ -40,7 +40,7 @@ class ExamResultController extends Controller
 
         $exams = Exam::whereIn('exam_id', $examIds)->with(['subject', 'schoolClass'])->orderBy('exam_date', 'desc')->get();
 
-        return view('Teacher.exam_results.index', compact('results', 'exams'));
+        return view('teacher.exam_results.index', compact('results', 'exams'));
     }
 
     public function create()
@@ -60,7 +60,7 @@ class ExamResultController extends Controller
             }
         })->with(['subject', 'schoolClass'])->orderBy('exam_date', 'desc')->get();
 
-        return view('Teacher.exam_results.create', compact('exams'));
+        return view('teacher.exam_results.create', compact('exams'));
     }
 
     public function roster(Request $request)

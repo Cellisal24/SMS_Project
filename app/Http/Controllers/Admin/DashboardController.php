@@ -52,7 +52,7 @@ class DashboardController extends Controller
 
     $recentUsers = User::latest('created_at')->take(5)->get();
 
-    return view('Admin.dashboard', compact(
+    return view('admin.dashboard', compact(
         'studentCount',
         'activeStudentCount',
         'teacherCount',
@@ -113,7 +113,7 @@ public function dashboardParent()
             ];
         });
 
-    return view('Parent.dashboard-parent', compact('parent', 'children'));
+    return view('parent.dashboard-parent', compact('parent', 'children'));
 }
     public function dashboardTeacher()
 {
@@ -146,7 +146,7 @@ public function dashboardParent()
         ->whereNull('final_score')
         ->count();
 
-    return view('Teacher.dashboardTeacher', compact(
+    return view('teacher.dashboardTeacher', compact(
         'teacher', 'todaySchedule', 'classCount', 'subjectCount', 'recentAttendance', 'pendingGrading'
     ));
 }
@@ -178,8 +178,9 @@ public function dashboardParent()
         ->take(5)
         ->get();
 
-    return view('Student.dashboardStudent', compact(
+    return view('student.dashboardStudent', compact(
         'student', 'todaySchedule', 'attendanceSummary', 'recentGrades', 'upcomingExams'
     ));
 }
 }
+

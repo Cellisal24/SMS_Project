@@ -28,6 +28,6 @@ class PaymentController extends Controller
 
         $payments = $query->orderByDesc('payment_date')->paginate(20)->withQueryString();
 
-        return view('Parent.payments.index', compact('payments', 'myChildren'));
+        return view('parent.payments.index', compact('payments', 'myChildren'));
     }
 }

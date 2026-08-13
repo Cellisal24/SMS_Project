@@ -65,13 +65,13 @@ class TeacherController extends Controller
             ->paginate(10)
             ->withQueryString(); // Keeps search & filter params in pagination links
 
-        return view('Admin.Teacher.index', compact('teachers', 'search', 'gender'));
+        return view('admin.teacher.index', compact('teachers', 'search', 'gender'));
     }
 
     // Show create form
     public function create()
     {
-        return view('Admin.Teacher.create');
+        return view('admin.teacher.create');
     }
 
     // Store new teacher
@@ -111,13 +111,13 @@ class TeacherController extends Controller
 
     public function show(Teacher $teacher)
     {
-        return view('Admin.Teacher.show', compact('teacher'));
+        return view('admin.teacher.show', compact('teacher'));
     }
 
     // Show edit form
     public function edit(Teacher $teacher)
     {
-        return view('Admin.Teacher.edit', compact('teacher'));
+        return view('admin.teacher.edit', compact('teacher'));
     }
 
     // Update teacher details
@@ -170,3 +170,4 @@ class TeacherController extends Controller
     ]);
 }
 }
+

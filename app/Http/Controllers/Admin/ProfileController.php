@@ -20,12 +20,12 @@ class ProfileController extends Controller
             default => null,
         };
 
-        return view('Admin.profile.show', compact('user', 'linked'));
+        return view('admin.profile.show', compact('user', 'linked'));
     }
 
     public function editSettings()
     {
-        return view('Admin.profile.settings');
+        return view('admin.profile.settings');
     }
 
     public function updatePassword(Request $request)

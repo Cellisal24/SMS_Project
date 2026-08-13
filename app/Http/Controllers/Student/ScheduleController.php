@@ -18,6 +18,6 @@ class ScheduleController extends Controller
             ->get()
             ->groupBy('day_of_week');
 
-        return view('Student.schedule.index', compact('student', 'schedules'));
+        return view('student.schedule.index', compact('student', 'schedules'));
     }
 }

@@ -30,14 +30,14 @@ class PaymentController extends Controller
 
         $payments = $query->latest('payment_date')->paginate(15)->withQueryString();
 
-        return view('Admin.payments.index', compact('payments'));
+        return view('admin.payments.index', compact('payments'));
     }
 
     public function create()
     {
         $students = Student::orderBy('first_name')->get();
 
-        return view('Admin.payments.create', compact('students'));
+        return view('admin.payments.create', compact('students'));
     }
 
     public function store(Request $request)
@@ -56,7 +56,7 @@ class PaymentController extends Controller
     {
         $students = Student::orderBy('first_name')->get();
 
-        return view('Admin.payments.edit', compact('payment', 'students'));
+        return view('admin.payments.edit', compact('payment', 'students'));
     }
 
     public function update(Request $request, Payment $payment)

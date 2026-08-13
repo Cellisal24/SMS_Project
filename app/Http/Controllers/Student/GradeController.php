@@ -17,6 +17,6 @@ class GradeController extends Controller
             ->get()
             ->groupBy('semester');
 
-        return view('Student.grades.index', compact('student', 'grades'));
+        return view('student.grades.index', compact('student', 'grades'));
     }
 }

@@ -1,4 +1,4 @@
-@include('Admin.include.header')
+@include('admin.include.header')
 
 <main class="dashboard-content">
   <div class="container-fluid px-3 px-lg-4 py-4">
@@ -125,4 +125,4 @@
   </div>
 </main>
 
-@include('Admin.include.footer')
+@include('admin.include.footer')

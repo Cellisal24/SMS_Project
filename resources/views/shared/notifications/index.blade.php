@@ -1,15 +1,15 @@
 @php
   $headerView = match(auth()->user()->role) {
-      'teacher' => 'Teacher.include.header',
-      'student' => 'Student.include.header',
-      'parent' => 'Parent.include.header',
-      default => 'Admin.include.header',
+      'teacher' => 'teacher.include.header',
+      'student' => 'student.include.header',
+      'parent' => 'parent.include.header',
+      default => 'admin.include.header',
   };
   $footerView = match(auth()->user()->role) {
-      'teacher' => 'Teacher.include.footer',
-      'student' => 'Student.include.footer',
-      'parent' => 'Parent.include.footer',
-      default => 'Admin.include.footer',
+      'teacher' => 'teacher.include.footer',
+      'student' => 'student.include.footer',
+      'parent' => 'parent.include.footer',
+      default => 'admin.include.footer',
   };
 @endphp
 @include($headerView)

@@ -32,7 +32,7 @@ class GradeController extends Controller
         $classes = SchoolClass::orderBy('class_name')->get();
         $subjects = Subject::orderBy('subject_name')->get();
 
-        return view('Admin.grades.index', compact('grades', 'classes', 'subjects'));
+        return view('admin.grades.index', compact('grades', 'classes', 'subjects'));
     }
 
     public function create()
@@ -40,7 +40,7 @@ class GradeController extends Controller
         $classes = SchoolClass::orderBy('class_name')->get();
         $subjects = Subject::orderBy('subject_name')->get();
 
-        return view('Admin.grades.create', compact('classes', 'subjects'));
+        return view('admin.grades.create', compact('classes', 'subjects'));
     }
 
     /**
@@ -107,7 +107,7 @@ class GradeController extends Controller
 
     public function edit(Grade $grade)
     {
-        return view('Admin.grades.edit', compact('grade'));
+        return view('admin.grades.edit', compact('grade'));
     }
 
     public function update(Request $request, Grade $grade)

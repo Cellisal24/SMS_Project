@@ -19,7 +19,7 @@ class GradeController extends Controller
             ->get()
             ->unique(fn ($s) => $s->class_id . '-' . $s->subject_id);
 
-        return view('Teacher.grades.index', compact('combos'));
+        return view('teacher.grades.index', compact('combos'));
     }
 
     public function roster(Request $request)

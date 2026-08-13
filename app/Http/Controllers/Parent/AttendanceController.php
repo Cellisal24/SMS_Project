@@ -28,6 +28,7 @@ class AttendanceController extends Controller
 
         $records = $query->orderByDesc('date')->paginate(20)->withQueryString();
 
-        return view('Parent.attendance.index', compact('records', 'myChildren'));
+        return view('parent.attendance.index', compact('records', 'myChildren'));
     }
 }
+

@@ -23,6 +23,6 @@ class ExamController extends Controller
             ->get()
             ->sortByDesc(fn ($r) => $r->exam->exam_date ?? null);
 
-        return view('Student.exams.index', compact('student', 'upcomingExams', 'results'));
+        return view('student.exams.index', compact('student', 'upcomingExams', 'results'));
     }
 }

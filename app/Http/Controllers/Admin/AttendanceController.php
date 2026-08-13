@@ -29,7 +29,7 @@ class AttendanceController extends Controller
 
         $records = $query->latest('date')->paginate(20)->withQueryString();
 
-        return view('Admin.attendance.index', compact('records'));
+        return view('admin.attendance.index', compact('records'));
     }
 
     public function create()
@@ -42,7 +42,7 @@ class AttendanceController extends Controller
 
         $schedules = $schedulesQuery->orderBy('day_of_week')->get();
 
-        return view('Admin.attendance.create', compact('schedules'));
+        return view('admin.attendance.create', compact('schedules'));
     }
 
     public function roster(Request $request)
@@ -109,7 +109,7 @@ class AttendanceController extends Controller
     {
         $this->assertOwnsSchedule($attendance->schedule);
 
-        return view('Admin.attendance.edit', compact('attendance'));
+        return view('admin.attendance.edit', compact('attendance'));
     }
 
     public function update(Request $request, Attendance $attendance)

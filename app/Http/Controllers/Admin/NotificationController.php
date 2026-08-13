@@ -22,12 +22,12 @@ class NotificationController extends Controller
 
         $notifications = $query->latest('sent_at')->paginate(20)->withQueryString();
 
-        return view('Admin.notifications.index', compact('notifications'));
+        return view('admin.notifications.index', compact('notifications'));
     }
 
     public function create()
     {
-        return view('Admin.notifications.create');
+        return view('admin.notifications.create');
     }
 
     public function store(Request $request)

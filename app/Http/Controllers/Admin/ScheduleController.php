@@ -35,7 +35,7 @@ class ScheduleController extends Controller
         $classes = SchoolClass::orderBy('class_name')->get();
         $teachers = Teacher::orderBy('first_name')->get();
 
-        return view('Admin.schedules.index', compact('schedules', 'classes', 'teachers'));
+        return view('admin.schedules.index', compact('schedules', 'classes', 'teachers'));
     }
 
     public function create()
@@ -45,7 +45,7 @@ class ScheduleController extends Controller
         $teachers = Teacher::orderBy('first_name')->get();
         $days = $this->days;
 
-        return view('Admin.schedules.create', compact('classes', 'subjects', 'teachers', 'days'));
+        return view('admin.schedules.create', compact('classes', 'subjects', 'teachers', 'days'));
     }
 
     public function store(Request $request)
@@ -64,7 +64,7 @@ class ScheduleController extends Controller
         $teachers = Teacher::orderBy('first_name')->get();
         $days = $this->days;
 
-        return view('Admin.schedules.edit', compact('schedule', 'classes', 'subjects', 'teachers', 'days'));
+        return view('admin.schedules.edit', compact('schedule', 'classes', 'subjects', 'teachers', 'days'));
     }
 
     public function update(Request $request, Schedule $schedule)

@@ -26,6 +26,6 @@ class AttendanceController extends Controller
             ->groupBy('status')
             ->pluck('total', 'status');
 
-        return view('Student.attendance.index', compact('student', 'records', 'summary'));
+        return view('student.attendance.index', compact('student', 'records', 'summary'));
     }
 }

@@ -28,6 +28,6 @@ class GradeController extends Controller
 
         $grades = $query->orderByDesc('semester')->paginate(20)->withQueryString();
 
-        return view('Parent.grades.index', compact('grades', 'myChildren'));
+        return view('parent.grades.index', compact('grades', 'myChildren'));
     }
 }

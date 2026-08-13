@@ -31,7 +31,7 @@ class ChildController extends Controller
                 ];
             });
 
-        return view('Parent.children.index', compact('parent', 'children'));
+        return view('parent.children.index', compact('parent', 'children'));
     }
 
     public function show(Student $student)
@@ -60,7 +60,7 @@ class ChildController extends Controller
             ->orderByDesc('payment_date')
             ->get();
 
-        return view('Parent.children.show', compact(
+        return view('parent.children.show', compact(
             'student', 'attendanceSummary', 'grades', 'upcomingExams', 'payments'
         ));
     }

@@ -44,14 +44,14 @@ class ReportController extends Controller
         $reports = $query->orderBy('class_rank')->paginate(20)->withQueryString();
         $classes = SchoolClass::orderBy('class_name')->get();
 
-        return view('Admin.reports.index', compact('reports', 'classes'));
+        return view('admin.reports.index', compact('reports', 'classes'));
     }
 
     public function create()
     {
         $classes = SchoolClass::orderBy('class_name')->get();
 
-        return view('Admin.reports.create', compact('classes'));
+        return view('admin.reports.create', compact('classes'));
     }
 
     /**
@@ -121,7 +121,7 @@ class ReportController extends Controller
     {
         $teachers = Teacher::orderBy('first_name')->get();
 
-        return view('Admin.reports.edit', compact('report', 'teachers'));
+        return view('admin.reports.edit', compact('report', 'teachers'));
     }
 
     public function update(Request $request, Report $report)

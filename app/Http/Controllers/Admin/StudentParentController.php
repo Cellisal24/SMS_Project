@@ -30,7 +30,7 @@ class StudentParentController extends Controller
 
         $studentParents = $query->orderByDesc('id')->paginate(15)->withQueryString();
 
-        return view('Admin.student_parents.index', compact('studentParents'));
+        return view('admin.student_parents.index', compact('studentParents'));
     }
 
     public function create()
@@ -38,7 +38,7 @@ class StudentParentController extends Controller
         $students = Student::orderBy('first_name')->get();
         $parents = ParentModel::orderBy('first_name')->get();
 
-        return view('Admin.student_parents.create', compact('students', 'parents'));
+        return view('admin.student_parents.create', compact('students', 'parents'));
     }
 
     public function store(Request $request)
@@ -62,7 +62,7 @@ class StudentParentController extends Controller
         $students = Student::orderBy('first_name')->get();
         $parents = ParentModel::orderBy('first_name')->get();
 
-        return view('Admin.student_parents.edit', compact('studentParent', 'students', 'parents'));
+        return view('admin.student_parents.edit', compact('studentParent', 'students', 'parents'));
     }
 
     public function update(Request $request, StudentParent $studentParent)
