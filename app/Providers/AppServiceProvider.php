@@ -44,7 +44,7 @@ class AppServiceProvider extends ServiceProvider
         Payment::observe(ActivityLogObserver::class);
         Report::observe(ActivityLogObserver::class);
 
-        View::composer('Admin.include.header', function ($view) {
+        View::composer('admin.include.header', function ($view) {
             if (! Auth::check()) {
                 return;
             }
