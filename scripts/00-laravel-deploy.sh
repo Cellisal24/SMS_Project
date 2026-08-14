@@ -7,6 +7,10 @@ echo "Checking database configuration..."
 php artisan config:clear
 php artisan about --only=environment
 
+echo "Linking storage..."
+rm -rf public/storage
+php artisan storage:link
+
 echo "Caching config..."
 php artisan config:cache
 
